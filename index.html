@@ -1,608 +1,1582 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" data-theme="dusk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#100C29">
 <title>Мої цілі</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800;900&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0F1024;--card:#1B1D3A;--card2:#24274C;--line:rgba(255,255,255,.08);--text:#EEF0FA;--muted:#9EA2C4;
---gold:#FFC93C;--mint:#4DE3A0;--red:#FF5C6C;--violet:#8A7BFF;--orange:#FF7A2F;--r:18px}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{background:var(--bg);color:var(--text);font-family:Onest,system-ui,sans-serif;font-size:16px;min-height:100%}
-body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
-button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
-input,select,textarea{font:inherit;color:var(--text);background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
-textarea{min-height:120px;resize:vertical}
-h1,h2,.num{font-family:Unbounded,Onest,sans-serif}
-.wrap{padding:14px 14px 0;max-width:560px;margin:0 auto}
+:root{--bg:#100C29;--bg2:#1A1540;--bg3:#262058;--line:rgba(255,255,255,.07);--tx:#F4F1FF;--tx2:#ABA4D4;--tx3:#7A73A8;--amber:#FFC15E;--coral:#FF7F6E;--mint:#3FE0A0;--red:#FF5470;--ice:#8AD8FF;--crane:#FFB547;--fd:'Unbounded',system-ui,sans-serif;--fb:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif}
+[data-theme=dusk]{--s1:#0A0A28;--s2:#1D1652;--s3:#55286F;--s4:#C9566A;--s5:#F59A5E;--sun-a:#FFE3A3;--sun-b:#FFB067;--far:#2A1F5C;--near:#150F33;--win:#FFD27A;--tw:#33276C;--tw-hi:#7462D0;--lit:#FFC766;--w1:#1C1440;--w2:#0B0820;--st:.8}
+[data-theme=night]{--s1:#02030C;--s2:#060A22;--s3:#0C1440;--s4:#151D55;--s5:#1F2868;--sun-a:#EEF2FF;--sun-b:rgba(170,190,255,.35);--far:#111940;--near:#090E2A;--win:#FFE29A;--tw:#1E2760;--tw-hi:#5363B8;--lit:#FFD57A;--w1:#0A0F2B;--w2:#02030C;--st:1}
+[data-theme=dawn]{--s1:#1B2A5A;--s2:#3A4C8C;--s3:#8878B6;--s4:#F0A49E;--s5:#FFD6A6;--sun-a:#FFF6DC;--sun-b:#FFC7A0;--far:#4A4E86;--near:#2A2C5C;--win:#FFF0C8;--tw:#3B4080;--tw-hi:#8C92D6;--lit:#FFE3A6;--w1:#2A2C5C;--w2:#16183A;--st:.25}
+[data-theme=aurora]{--s1:#020814;--s2:#05152B;--s3:#0A2740;--s4:#0F334C;--s5:#163E56;--sun-a:#E8FFF6;--sun-b:rgba(120,255,210,.3);--far:#0A2133;--near:#051422;--win:#B8FFE6;--tw:#123049;--tw-hi:#3C86A6;--lit:#FFD27A;--w1:#051422;--w2:#020814;--st:1}
+[data-theme=gold]{--s1:#2A1A3A;--s2:#5A2E4A;--s3:#B4554A;--s4:#EE883E;--s5:#FFC857;--sun-a:#FFF3B8;--sun-b:#FFB13D;--far:#5A2E3E;--near:#2E1626;--win:#FFE9A8;--tw:#4A2638;--tw-hi:#C07A58;--lit:#FFE08A;--w1:#2E1626;--w2:#170A12;--st:.2}
+[data-theme=neon]{--s1:#0B0221;--s2:#1E0645;--s3:#4A0B6E;--s4:#8E1A8C;--s5:#FF3D8B;--sun-a:#FFE36E;--sun-b:#FF3D8B;--far:#2A0A52;--near:#14052E;--win:#FF6BDF;--tw:#2A0E55;--tw-hi:#B23DFF;--lit:#4DF3FF;--w1:#14052E;--w2:#07010F;--st:.7}
+[data-theme=royal]{--s1:#07030F;--s2:#170A30;--s3:#2B1153;--s4:#481B78;--s5:#68298C;--sun-a:#FFE7A6;--sun-b:rgba(255,205,110,.4);--far:#1C0E36;--near:#0E0620;--win:#F0CB6E;--tw:#24113F;--tw-hi:#D1A74E;--lit:#FFD36B;--w1:#0E0620;--w2:#050210;--st:1}
 
-/* шапка */
-.hud{background:linear-gradient(140deg,#2A2470,#1B1D3A 60%);border-radius:24px;padding:16px;position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
-.hud::after{content:"";position:absolute;width:220px;height:220px;right:-70px;top:-90px;border-radius:50%;background:radial-gradient(rgba(255,201,60,.35),transparent 65%)}
-.hud-top{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
-.lvl{width:52px;height:52px;border-radius:16px;background:conic-gradient(var(--gold) calc(var(--p)*1%),rgba(255,255,255,.12) 0);display:grid;place-items:center;flex:none}
-.lvl span{width:42px;height:42px;border-radius:12px;background:#1B1D3A;display:grid;place-items:center;font:800 18px Unbounded}
-.who b{display:block;font-size:17px}
-.who small{color:var(--muted);font-size:13px}
-.coins{margin-left:auto;text-align:right}
-.coins .num{font-size:26px;font-weight:900;color:var(--gold);display:flex;align-items:center;gap:6px;justify-content:flex-end}
-.coins small{color:var(--muted);font-size:12px}
-.coin{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFE38A,#F2A900);box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);display:inline-block}
-.hud-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;position:relative;z-index:1}
-.stat{background:rgba(0,0,0,.25);border-radius:14px;padding:10px;text-align:center}
-.stat b{display:block;font:800 17px Unbounded}
-.stat small{color:var(--muted);font-size:12px}
-.cap{margin-top:12px;position:relative;z-index:1}
-.cap .bar{height:8px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden}
-.cap .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--mint),var(--gold));border-radius:8px;transition:width .4s}
-.cap small{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:6px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg);color-scheme:dark}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--tx);font:15px/1.45 var(--fb);-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer;border:0;background:none;padding:0;text-align:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.app{max-width:520px;margin:0 auto;padding:10px 14px calc(104px + env(safe-area-inset-bottom))}
 
-/* секції */
-.sec{margin-top:18px}
-.sec-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.sec-h h2{font-size:18px;font-weight:800}
-.chip{font-size:13px;color:var(--muted)}
-.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border-radius:14px;padding:4px;gap:4px;margin-bottom:12px}
-.seg button{padding:10px;border-radius:10px;font-weight:600;color:var(--muted)}
-.seg button.on{background:var(--card2);color:#fff;box-shadow:inset 0 0 0 1px var(--line)}
-.list{display:grid;gap:8px}
-.item{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:var(--r);padding:12px 14px;box-shadow:inset 0 0 0 1px var(--line);transition:transform .15s}
-.item:active{transform:scale(.98)}
-.check{width:30px;height:30px;border-radius:10px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.25);flex:none;display:grid;place-items:center}
-.item.done .check{background:var(--mint);box-shadow:none}
-.item.done .check::after{content:"";width:12px;height:7px;border-left:3px solid #0F1024;border-bottom:3px solid #0F1024;transform:rotate(-45deg) translate(1px,-1px)}
-.item.done .t{color:var(--muted);text-decoration:line-through}
-.item.bad .check{box-shadow:inset 0 0 0 2px rgba(255,92,108,.5)}
-.item.bad.done .check{background:var(--red)}
-.item .t{flex:1;line-height:1.3}
-.item .t small{display:block;color:var(--muted);font-size:12px;text-decoration:none}
-.rew{font-weight:700;color:var(--gold);white-space:nowrap;font-size:14px}
-.rew.neg{color:var(--red)}
-.del{color:var(--muted);font-size:20px;padding:0 4px}
-.empty{color:var(--muted);text-align:center;padding:22px 10px;background:var(--card);border-radius:var(--r);font-size:15px}
-.add{display:flex;gap:8px;margin-top:10px}
-.add input{flex:1}
-.add .n{width:76px;flex:none}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;font-weight:700;background:var(--violet);color:#fff}
-.btn.gold{background:var(--gold);color:#1B1D3A}
-.btn.ghost{background:var(--card2)}
-.btn.red{background:var(--red)}
-.btn:disabled{opacity:.4}
-.btn.wide{width:100%}
+/* --- типографіка --- */
+.top{padding:4px 4px 12px}
+.top h1{font:600 20px/1.2 var(--fd);margin:0;letter-spacing:-.01em}
+.top p{margin:3px 0 0;color:var(--tx2);font-size:13.5px}
+.pg{font:600 24px/1.2 var(--fd);margin:10px 2px 16px;letter-spacing:-.01em}
+h2{font:600 15.5px/1.3 var(--fd);margin:26px 2px 10px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+h2 small{font:500 12.5px/1.3 var(--fb);color:var(--tx2);text-align:right}
+h3{font:600 19px/1.25 var(--fd);margin:4px 0 10px}
+h4{font:600 14px var(--fd);margin:20px 0 8px}
+p{margin:0 0 8px}
+.mut{color:var(--tx2);font-size:13.5px}
+.neg{color:var(--red)}.pos{color:var(--mint)}
+.empty{color:var(--tx2);font-size:14px;margin:2px 2px 10px}
+.hint{color:var(--tx3);font-size:12.5px;margin:12px 2px 10px}
+.big{font:700 24px/1.15 var(--fd);display:block}
 
-/* магазин */
-.shop{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.prize{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;gap:8px;position:relative}
-.prize .e{font-size:30px}
-.prize b{font-size:15px;line-height:1.25}
-.prize .cost{font:800 16px Unbounded;color:var(--gold);display:flex;align-items:center;gap:6px}
-.prize .cost .coin{width:16px;height:16px}
-.prize .pb{height:6px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden}
-.prize .pb i{display:block;height:100%;background:var(--gold)}
-.prize .x{position:absolute;top:8px;right:10px;color:var(--muted)}
-.req{background:var(--card);border-radius:var(--r);padding:12px 14px;display:flex;gap:10px;align-items:center;box-shadow:inset 0 0 0 1px var(--line)}
-.req .t{flex:1}
-.req small{display:block;color:var(--muted);font-size:12px}
-.tag{font-size:12px;padding:4px 8px;border-radius:8px;background:rgba(255,201,60,.15);color:var(--gold);white-space:nowrap}
-.tag.ok{background:rgba(77,227,160,.15);color:var(--mint)}
+/* --- сцена: місто і вежа --- */
+.scene{position:relative;height:262px;border-radius:26px;overflow:hidden;isolation:isolate;background:linear-gradient(180deg,var(--s1) 0%,var(--s2) 30%,var(--s3) 52%,var(--s4) 68%,var(--s5) 83%);box-shadow:0 18px 40px -20px rgba(0,0,0,.8)}
+.scene>*{position:absolute}
+.aurora{inset:4% -10% 50%;opacity:0;pointer-events:none}
+[data-theme=aurora] .aurora{opacity:1;background:radial-gradient(55% 45% at 28% 62%,rgba(61,255,176,.55),transparent 70%),radial-gradient(45% 40% at 72% 38%,rgba(41,199,255,.45),transparent 70%),radial-gradient(30% 30% at 52% 70%,rgba(160,110,255,.3),transparent 70%);filter:blur(10px);animation:aur 16s ease-in-out infinite alternate}
+@keyframes aur{0%{transform:translateX(-4%) skewX(-8deg)}100%{transform:translateX(4%) skewX(8deg)}}
+.stars{inset:0 0 42% 0;opacity:var(--st)}
+.stars i{position:absolute;border-radius:50%;background:#fff;animation:tw 5s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.25}50%{opacity:.95}}
+.sun{left:30%;bottom:38px;width:136px;height:136px;margin-left:-68px;border-radius:50%;background:radial-gradient(circle,var(--sun-a) 0%,var(--sun-b) 34%,transparent 68%)}
+[data-theme=night] .sun,[data-theme=aurora] .sun,[data-theme=royal] .sun{left:22%;bottom:auto;top:58px;width:38px;height:38px;margin-left:-19px;background:radial-gradient(circle at 42% 40%,var(--sun-a) 0 64%,transparent 68%);box-shadow:0 0 34px 10px var(--sun-b)}
+[data-theme=neon] .sun{width:112px;height:112px;margin-left:-56px;bottom:34px;background:linear-gradient(180deg,var(--sun-a),var(--sun-b) 78%);-webkit-mask:repeating-linear-gradient(180deg,#000 0 8px,transparent 8px 11px);mask:repeating-linear-gradient(180deg,#000 0 8px,transparent 8px 11px)}
+.city{left:0;right:0;bottom:44px}
+.city svg,.rc svg,.dcity svg{display:block;width:100%;height:100%}
+.far{height:112px}.near{height:70px}
+.far .b{fill:var(--far)}.near .b,.rc .b,.dcity .b{fill:var(--near)}
+.w{fill:var(--win)}
+.w.fl{animation:fl 9s steps(1) infinite}
+@keyframes fl{0%,100%{opacity:.9}40%{opacity:.1}70%{opacity:.6}}
+.tower{bottom:44px;z-index:3}
+.tower svg,.rt svg{display:block;overflow:visible}
+.tw-b{fill:var(--tw)}.tw-h{fill:var(--tw-hi)}.tw-l{fill:var(--lit)}.tw-d{fill:#0D0920;opacity:.8}.tw-m{fill:#5C1832}.tw-r{fill:var(--ice)}
+.ghost{fill:rgba(255,255,255,.03);stroke:var(--lit);stroke-opacity:.28;stroke-width:.8;stroke-dasharray:3 2.5}
+.ghl{stroke:var(--lit);stroke-opacity:.07;stroke-width:.6;fill:none}
+.scaf rect,.scaf path{fill:none;stroke:var(--lit);stroke-width:1;stroke-dasharray:2.4 1.8;opacity:.85}
+.cr{stroke:var(--crane);stroke-width:1.2;fill:none;stroke-linecap:round}
+.crf{fill:var(--crane)}
+.trol{animation:trol 10s ease-in-out infinite}
+@keyframes trol{0%,100%{transform:translateX(0)}50%{transform:translateX(22px)}}
+.beacon{fill:#FF3B4E;animation:blink 1.8s steps(1) infinite}
+@keyframes blink{0%,55%{opacity:1}56%,100%{opacity:.15}}
+.fnew{animation:fnew 1.5s linear}
+@keyframes fnew{0%{opacity:0}18%{opacity:1}28%{opacity:.25}42%{opacity:1}52%{opacity:.5}66%,100%{opacity:1}}
+.water{left:0;right:0;bottom:0;height:44px;overflow:hidden;background:linear-gradient(180deg,var(--w1),var(--w2));box-shadow:inset 0 1px 0 rgba(255,214,160,.28);z-index:2}
+.rc{position:absolute;left:0;right:0;top:0;height:70px;transform:scaleY(-1);opacity:.28}
+.rt{position:absolute;top:0;transform:scaleY(-1);opacity:.34}
+.water::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent,var(--w2) 92%);z-index:1}
+.water::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 3px,var(--w2) 3px 5px);opacity:.5;animation:wv 3.5s linear infinite;z-index:1}
+@keyframes wv{to{background-position:0 5px}}
+.hud{top:12px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;z-index:5}
+.glass{background:rgba(8,6,26,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.rank{display:flex;align-items:center;gap:9px;padding:6px 12px 7px 6px;border-radius:16px}
+.rank .re{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:19px;background:rgba(255,255,255,.08)}
+.rank b{display:block;font:600 12.5px/1.2 var(--fd)}
+.rank small{display:block;font-size:11.5px;color:rgba(244,241,255,.75);margin-top:1px}
+.xp{width:96px;height:4px;border-radius:4px;background:rgba(255,255,255,.14);margin-top:4px;overflow:hidden}
+.xp i{display:block;height:100%;background:linear-gradient(90deg,var(--coral),var(--amber));border-radius:inherit}
+.coin{font:600 15px var(--fd);padding:8px 12px;border-radius:14px;white-space:nowrap}
+.coin.neg{color:#FF9DAD;background:rgba(80,10,30,.6)}
+.hudb{left:10px;right:10px;bottom:9px;display:flex;gap:6px;z-index:5;align-items:center}
+.hudb span{font-size:12px;font-weight:500;padding:4px 9px;border-radius:99px;background:rgba(8,6,26,.55);white-space:nowrap}
+.hudb .sp{flex:1}
+.scene.hit{animation:shake .45s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px) rotate(-.6deg)}40%{transform:translateX(5px) rotate(.5deg)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
 
-/* скарбничка */
-.bank{background:linear-gradient(150deg,#0F5A48,#123A35 70%);border-radius:24px;padding:18px;box-shadow:inset 0 0 0 1px var(--line)}
-.bank small{color:#A8E6CF}
-.bank .num{font-size:32px;font-weight:900;margin:4px 0}
-.bank .bar{height:12px;border-radius:12px;background:rgba(0,0,0,.25);overflow:hidden;margin:12px 0 6px}
-.bank .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--mint),var(--gold))}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.log{display:grid;gap:6px;margin-top:10px}
-.log div{display:flex;justify-content:space-between;background:var(--card);border-radius:12px;padding:10px 12px;font-size:14px}
-.log span{color:var(--muted)}
+/* --- день --- */
+.day{display:flex;gap:12px;align-items:center;margin-top:12px;padding:12px 14px;border-radius:18px;background:var(--bg2)}
+.day .di{font-size:19px;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:rgba(255,255,255,.07)}
+.day b{display:block;font-weight:600}
+.day small{display:block;color:var(--tx2);font-size:13px;line-height:1.35}
+.day.ok{background:linear-gradient(100deg,rgba(63,224,160,.17),rgba(63,224,160,.04))}
+.day.warn{background:linear-gradient(100deg,rgba(255,193,94,.17),rgba(255,193,94,.04))}
+.day.rest{background:linear-gradient(100deg,rgba(138,216,255,.17),rgba(138,216,255,.04))}
 
-/* налаштування */
-.field{display:grid;gap:6px;margin-bottom:12px}
-.field label{font-size:14px;color:var(--muted)}
-.note{color:var(--muted);font-size:13px;line-height:1.45}
-.box{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:inset 0 0 0 1px var(--line)}
+/* --- цілі --- */
+.goal{display:flex;align-items:stretch;background:var(--bg2);border-radius:15px;margin-bottom:7px;overflow:hidden}
+.gm{flex:1;display:flex;align-items:center;gap:12px;padding:12px 14px;min-width:0;text-align:left}
+.ck{width:24px;height:24px;border-radius:50%;border:2px solid var(--tx3);flex:none;display:grid;place-items:center;transition:background .2s,border-color .2s}
+.done .ck{background:var(--mint);border-color:var(--mint)}
+.done .ck::after{content:'';width:10px;height:5px;border:2.5px solid #0A2A1C;border-top:0;border-right:0;transform:translateY(-1px) rotate(-45deg)}
+.gt{flex:1;min-width:0;overflow-wrap:anywhere}
+.gt small{display:block;color:var(--tx3);font-size:12px}
+.done .gt{color:var(--tx3);text-decoration:line-through;text-decoration-color:rgba(255,255,255,.25)}
+.gc{font:600 12.5px var(--fd);color:var(--amber);flex:none}
+.done .gc{color:var(--tx3)}
+.gx{width:44px;flex:none;color:var(--tx3);font-size:14px;display:grid;place-items:center;border-left:1px solid var(--line)}
+.add{display:flex;gap:8px;margin-top:8px}
+.add .in{flex:1;min-width:0}
+.add .in.c{flex:0 0 72px;text-align:center;padding-left:6px;padding-right:6px}
+.in{width:100%;padding:11px 14px;border-radius:13px;background:var(--bg3);border:1.5px solid transparent;outline:none;font-size:16px}
+.in::placeholder{color:var(--tx3)}
+.in:focus{border-color:rgba(255,193,94,.55)}
+textarea.in{resize:vertical;line-height:1.4;min-height:120px}
+select.in{-webkit-appearance:none;appearance:none}
+.pm{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.pmi{background:var(--bg2);border-radius:15px;padding:11px 13px;display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;text-align:left}
+.pmi span{color:var(--tx2);font-size:13px}
+.pmi b{font:600 13px var(--fd)}
+.pmi .bar{grid-column:1/-1;margin-top:6px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--bg2);border-radius:15px;padding:4px;gap:4px}
+.seg button{padding:9px 0;border-radius:11px;font-weight:600;color:var(--tx2);text-align:center;font-size:14px}
+.seg button small{font-weight:500;color:var(--tx3);font-size:12px}
+.seg button.on{background:var(--bg3);color:var(--tx)}
+.plan{display:flex;gap:12px;align-items:center;margin-top:22px}
+.plan b{display:block;font-weight:600}
+.plan p{margin:2px 0 0;color:var(--tx2);font-size:13px}
 
-/* навігація */
-nav{position:fixed;left:0;right:0;bottom:0;background:rgba(15,16,36,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:10}
-nav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--muted);font-size:11px;font-weight:600;border-radius:12px}
-nav button .i{font-size:22px;line-height:1;filter:grayscale(1);opacity:.7}
-nav button.on{color:#fff}
-nav button.on .i{filter:none;opacity:1}
-.page{display:none}
-.page.on{display:block;animation:in .25s ease}
-@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* --- звички --- */
+.habits{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hb{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:12px;background:var(--bg2);border-radius:16px;text-align:left;min-height:86px;transition:transform .12s}
+.hb:active,.bd:active,.btn:active,.gm:active{transform:scale(.97)}
+.hb .he{font-size:22px;line-height:1.1}
+.hb .hn{font-weight:500;font-size:14px;line-height:1.25}
+.hb .hc{font:600 12px var(--fd);color:var(--amber);margin-top:auto}
+.hb.on{background:linear-gradient(160deg,rgba(63,224,160,.24),rgba(63,224,160,.07));box-shadow:inset 0 0 0 1.5px rgba(63,224,160,.5)}
+.hb.on .hc{color:var(--mint)}
+.hb.on::after{content:'';position:absolute;top:13px;right:13px;width:10px;height:5px;border:2.5px solid var(--mint);border-top:0;border-right:0;transform:rotate(-45deg)}
+.bad{display:flex;flex-wrap:wrap;gap:8px}
+.bd{padding:9px 12px;border-radius:13px;background:var(--bg2);font-size:14px;display:flex;gap:7px;align-items:center;transition:transform .12s}
+.bd b{font:600 12px var(--fd);color:var(--red)}
+.bd.on{background:rgba(255,84,112,.17);box-shadow:inset 0 0 0 1.5px rgba(255,84,112,.55)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:26px}
+.stats>div{background:var(--bg2);border-radius:16px;padding:12px 10px}
+.stats b{display:block;font:700 20px/1.2 var(--fd)}
+.stats small{display:block;font-size:12px;color:var(--tx2);line-height:1.3;margin-top:3px}
+.pr{margin:12px 0 0;padding:14px 16px;border-radius:18px;background:linear-gradient(135deg,rgba(255,127,110,.15),rgba(255,193,94,.05));font-size:14.5px;line-height:1.45}
+.pr small{display:block;color:var(--coral);font-size:12px;font-weight:600;margin-bottom:3px}
 
-/* сповіщення */
-.toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-30px);opacity:0;background:#fff;color:#0F1024;font-weight:700;padding:10px 16px;border-radius:999px;z-index:50;transition:all .3s;box-shadow:0 10px 30px rgba(0,0,0,.4);max-width:90vw;text-align:center;font-size:14px}
-.toast.on{transform:translate(-50%,0);opacity:1}
-.fly{position:fixed;z-index:60;font:900 22px Unbounded;color:var(--gold);pointer-events:none;animation:fly 1s ease-out forwards;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-@keyframes fly{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-70px) scale(1.3)}}
-#fx{position:fixed;inset:0;pointer-events:none;z-index:55}
-.modal{position:fixed;inset:0;background:rgba(5,6,18,.7);z-index:40;display:none;align-items:flex-end;justify-content:center}
-.modal.on{display:flex}
-.sheet{background:var(--card);width:100%;max-width:560px;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:85vh;overflow:auto;animation:up .25s ease}
-@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
-.sheet h2{font-size:18px;margin-bottom:12px}
-.plan-item{display:flex;gap:10px;align-items:center;background:var(--card2);border-radius:14px;padding:10px 12px;margin-bottom:8px}
-.plan-item .t{flex:1;font-size:14px}
-.plan-item .t small{display:block;color:var(--muted)}
-.yn{display:flex;gap:6px}
-.yn button{width:40px;height:40px;border-radius:12px;background:var(--bg);font-size:18px}
-.yn button.on.y{background:var(--mint)}
-.yn button.on.n{background:var(--red)}
+/* --- кнопки, панелі --- */
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:14px 16px;border-radius:14px;font-weight:600;background:var(--amber);color:#2B1700;transition:transform .12s,opacity .2s;text-align:center}
+.btn.sm{width:auto;padding:9px 13px;border-radius:12px;font-size:14px;flex:none}
+.btn.ghost{background:var(--bg3);color:var(--tx)}
+.btn.red{background:var(--red);color:#fff}
+.btn.dim{background:var(--bg3);color:var(--tx2)}
+.btn+.btn{margin-top:8px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.row2 .btn+.btn{margin-top:0}
+.card{background:var(--bg2);border-radius:20px;padding:15px 16px}
+.bar{display:block;height:8px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden}
+.bar.sm{height:5px}
+.bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--coral),var(--amber))}
+
+/* --- мрії --- */
+.dream{position:relative;height:240px;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,var(--s1),var(--s3) 55%,var(--s5));display:flex;flex-direction:column;justify-content:flex-end}
+.dream.ph{background-color:var(--bg3);background-size:cover;background-position:center}
+.dream::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,12,41,0) 30%,rgba(16,12,41,.92));z-index:1}
+.dcity{position:absolute;left:0;right:0;bottom:0;height:130px}
+.addph{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:2;padding:9px 14px;border-radius:12px;font-size:14px;font-weight:500;white-space:nowrap}
+.chph{position:absolute;top:12px;right:12px;z-index:2;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:17px}
+.dc{position:relative;z-index:2;padding:16px}
+.dn{font:600 18px/1.25 var(--fd)}
+.dv{color:rgba(244,241,255,.85);font-size:14px;margin:3px 0 10px}
+.dv b{font:600 16px var(--fd);color:var(--tx)}
+.dr{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13.5px;color:var(--tx2)}
+.cd{display:flex;gap:14px;align-items:center;margin-top:10px;text-align:left;width:100%}
+.cdn{flex:none;width:84px;height:84px;border-radius:20px;background:linear-gradient(150deg,rgba(255,127,110,.28),rgba(255,193,94,.1));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px}
+.cdn b{font:700 22px/1.1 var(--fd)}
+.cdn small{font-size:11px;color:var(--tx2);text-align:center;line-height:1.2;margin-top:3px}
+.cd p{margin:0 0 4px}
+.cd .mut{margin:0}
+.jar{display:flex;gap:12px;align-items:center;width:100%;padding:13px 14px;background:var(--bg2);border-radius:16px;margin-bottom:8px;text-align:left}
+.je{font-size:23px;width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.06);display:grid;place-items:center;flex:none}
+.jm{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.jm b{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jm small{color:var(--tx2);font-size:12.5px}
+.jp{font:600 13px var(--fd);color:var(--amber);flex:none}
+.newjar{display:block;width:100%;padding:12px;border-radius:16px;border:1.5px dashed rgba(255,255,255,.14);color:var(--tx2);text-align:center;font-size:14px}
+.inc .ih{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
+.inc .ih small{display:block;color:var(--tx2);font-size:13px;margin-top:3px}
+.miles{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.miles span{font:600 12px var(--fd);padding:5px 9px;border-radius:99px;background:rgba(255,255,255,.06);color:var(--tx3)}
+.miles span.on{background:rgba(63,224,160,.16);color:var(--mint)}
+.srcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.srcs span{font-size:12.5px;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.06)}
+.chart{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:18px;align-items:end}
+.col{display:flex;flex-direction:column;align-items:center;gap:5px}
+.col small{font-size:10.5px;color:var(--tx2);min-height:13px}
+.col i{display:block;width:100%;max-width:30px;border-radius:7px 7px 3px 3px;background:rgba(255,193,94,.28)}
+.col i.cur{background:linear-gradient(180deg,var(--amber),var(--coral))}
+.col span{font-size:11px;color:var(--tx3)}
+.ach{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.a{background:var(--bg2);border-radius:16px;padding:12px 7px 11px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
+.a span{font-size:26px;line-height:1.2}
+.a b{font-size:12px;font-weight:600;line-height:1.2}
+.a small{font-size:10.5px;color:var(--tx3);line-height:1.25}
+.a.off span{filter:grayscale(1);opacity:.32}
+.a.off b{color:var(--tx3)}
+
+/* --- магазин --- */
+.bal{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;background:linear-gradient(140deg,#2E2366,#1A1540)}
+.bal small{display:block;color:var(--tx2);font-size:12.5px;margin-bottom:3px}
+.bal .big.neg{color:var(--red)}
+.bm{text-align:right}.bm b{font:600 14px var(--fd)}
+.debt{margin-top:10px;padding:12px 14px;border-radius:16px;background:rgba(255,84,112,.13);color:#FFB8C4;font-size:14px}
+.rw{display:flex;align-items:center;gap:10px;padding:10px 4px 10px 12px;background:var(--bg2);border-radius:16px;margin-bottom:8px}
+.rwe{font-size:24px;width:38px;text-align:center;flex:none}
+.rwt{flex:1;min-width:0}
+.rwt b{display:block;font-weight:600;font-size:14.5px;line-height:1.3}
+.rwt small{color:var(--tx2);font-size:12.5px}
+.rw .gx{border:0;width:34px;align-self:stretch}
+.rq{display:flex;align-items:center;gap:8px;padding:11px 12px;background:var(--bg2);border-radius:15px;margin-bottom:7px}
+.rq>div{flex:1;min-width:0}
+.rq b{display:block;font-size:14px;font-weight:600}
+.rq small{color:var(--tx2);font-size:12px}
+.rq .ok{font-size:13px;color:var(--mint);flex:none}
+
+/* --- ще --- */
+.menu{background:var(--bg2);border-radius:18px;overflow:hidden}
+.menu button{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}
+.menu button:last-child{border-bottom:0}
+.menu span{font-size:18px;width:24px;text-align:center}
+.menu i{margin-left:auto;font-style:normal;color:var(--tx3);font-size:18px}
+.menu .dang{color:#FF9DAD}
+.themes{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.th{display:flex;flex-direction:column;gap:2px;padding:7px 7px 10px;border-radius:16px;background:var(--bg2);text-align:left}
+.th .sw{height:56px;border-radius:11px;background:linear-gradient(180deg,var(--s1),var(--s3) 55%,var(--s5));margin-bottom:6px;position:relative;overflow:hidden}
+.th .sw::after{content:'';position:absolute;left:0;right:0;bottom:0;height:18px;background:var(--near);clip-path:polygon(0 40%,10% 40%,10% 0,22% 0,22% 50%,34% 50%,34% 20%,44% 20%,44% 60%,58% 60%,58% 10%,70% 10%,70% 45%,82% 45%,82% 25%,92% 25%,92% 55%,100% 55%,100% 100%,0 100%)}
+.th b{font-size:13px;font-weight:600;padding:0 3px}
+.th small{font-size:11.5px;color:var(--tx2);padding:0 3px}
+.th.on{box-shadow:inset 0 0 0 2px var(--amber)}
+.th.lock .sw{filter:grayscale(.85) brightness(.55)}
+.set{display:flex;flex-direction:column;gap:12px}
+.set label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--tx2)}
+.set label small{color:var(--tx3);font-size:12px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.r3{display:grid;grid-template-columns:74px 1fr;gap:8px}
+.ed{background:var(--bg2);border-radius:16px;overflow:hidden}
+.er{display:flex;align-items:center;gap:10px;padding-left:14px;border-bottom:1px solid var(--line);min-height:48px}
+.er:last-child{border-bottom:0}
+.er span{flex:1;font-size:14.5px;padding:8px 0}
+.er b{font:600 12.5px var(--fd);color:var(--amber)}
+.er b.neg{color:var(--red)}
+.foot{color:var(--tx3);font-size:12px;text-align:center;margin:20px 0 0}
+.ro{background:rgba(255,84,112,.15);color:#FFC2CC;padding:12px 14px;border-radius:14px;font-size:13.5px;margin-bottom:10px}
+.ro button{display:block;margin-top:8px;color:var(--amber);font-weight:600}
+
+/* --- навігація --- */
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom));width:min(500px,calc(100% - 20px));display:grid;grid-template-columns:repeat(5,1fr);background:rgba(28,22,64,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-radius:22px;padding:6px;box-shadow:0 10px 30px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.05);z-index:20}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 5px;border-radius:16px;font-size:10.5px;font-weight:500;color:var(--tx2);text-align:center}
+.nav button span{font-size:19px;line-height:1.15}
+.nav button.on{background:rgba(255,193,94,.15);color:var(--amber)}
+
+/* --- аркуш, тост, ефекти --- */
+.sheet-bg{position:fixed;inset:0;background:rgba(5,3,15,.62);opacity:0;pointer-events:none;transition:opacity .22s;z-index:40}
+.sheet-bg.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;width:min(520px,100%);transform:translate(-50%,105%);visibility:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),visibility 0s .3s;background:var(--bg2);border-radius:26px 26px 0 0;padding:10px 18px calc(22px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto;z-index:41;box-shadow:0 -10px 40px rgba(0,0,0,.4)}
+.sheet.open{transform:translate(-50%,0);visibility:visible;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.grip{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.18);margin:0 auto 14px}
+.rules p{margin:0 0 10px;font-size:14.5px;color:#DCD7F5}
+.rules b{color:var(--tx)}
+.split{background:var(--bg3);border-radius:14px;padding:2px 14px;margin:12px 0}
+.split>div{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.split>div:last-child{border-bottom:0}
+.split small{color:var(--tx3)}
+.split b{font:600 14px var(--fd);flex:none}
+.hist{background:var(--bg3);border-radius:14px;padding:2px 14px;max-height:52vh;overflow:auto}
+.hist>div{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.hist>div:last-child{border-bottom:0}
+.hist small{display:block;color:var(--tx3);font-size:11.5px}
+.hist b{font:600 13px var(--fd);flex:none}
+.mv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.mv .in{grid-column:1/-1}
+.mv .btn+.btn{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:block;padding:9px 13px;border-radius:12px;background:var(--bg3);font-size:14px;color:var(--tx)}
+.chip input:checked+span{background:rgba(255,193,94,.2);box-shadow:inset 0 0 0 1.5px var(--amber)}
+.chip input:focus-visible+span{outline:2px solid var(--amber)}
+.rep{white-space:pre-wrap;background:var(--bg3);border-radius:14px;padding:14px;font:14px/1.6 var(--fb);margin:8px 0 14px}
+.lvup{text-align:center;padding:4px 0 2px}
+.lvup .be{font-size:58px;display:block;line-height:1.1;margin-bottom:6px}
+.lvup p{color:var(--tx2)}
+.mile{background:linear-gradient(100deg,rgba(63,224,160,.22),rgba(255,193,94,.12));padding:12px 14px;border-radius:14px;font-weight:600;margin-bottom:10px}
+.lnk{display:block;margin:14px auto 0;color:var(--tx2);font-size:14px;padding:8px;text-align:center}
+.lnk.dang{color:#FF9DAD}
+.toast{visibility:hidden;position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translate(-50%,16px);opacity:0;pointer-events:none;transition:opacity .22s,transform .22s,visibility 0s .22s;background:#2E2560;color:var(--tx);padding:10px 10px 10px 16px;border-radius:15px;display:flex;gap:10px;align-items:center;z-index:60;box-shadow:0 10px 28px rgba(0,0,0,.45);max-width:calc(100% - 28px);font-size:14px;width:max-content}
+.toast.on{visibility:visible;opacity:1;transform:translate(-50%,0);pointer-events:auto;transition:opacity .22s,transform .22s}
+.sheet-open .toast{bottom:auto;top:calc(12px + env(safe-area-inset-top))}
+.toast button{color:var(--amber);font-weight:700;padding:6px 8px;flex:none}
+.flash{position:fixed;inset:0;pointer-events:none;z-index:65;opacity:0;background:radial-gradient(120% 90% at 50% 50%,transparent 45%,rgba(255,40,80,.55))}
+.flash.on{animation:flash .7s ease-out}
+@keyframes flash{0%{opacity:1}100%{opacity:0}}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:70}
+.fly{position:fixed;z-index:71;font:700 17px var(--fd);color:var(--amber);pointer-events:none;white-space:nowrap;transform:translate(-50%,-50%);animation:fly 1.15s ease-out forwards;text-shadow:0 2px 10px rgba(0,0,0,.55)}
+.fly.neg{color:var(--red)}
+@keyframes fly{0%{opacity:0;transform:translate(-50%,-30%) scale(.8)}15%{opacity:1;transform:translate(-50%,-80%) scale(1.08)}100%{opacity:0;transform:translate(-50%,-250%) scale(1)}}
+.loading{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:100}
+.spin{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,193,94,.2);border-top-color:var(--amber);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (min-width:420px){.scene{height:272px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+
 </style>
 </head>
 <body>
-<canvas id="fx"></canvas>
-<div class="toast" id="toast"></div>
-
-<div class="wrap">
-  <div class="hud">
-    <div class="hud-top">
-      <div class="lvl" id="lvlRing" style="--p:0"><span id="lvl">1</span></div>
-      <div class="who"><b id="who">Гравець</b><small id="lvlName">Новачок</small></div>
-      <div class="coins"><div class="num"><i class="coin"></i><span id="coins">0</span></div><small>монет = гривень</small></div>
-    </div>
-    <div class="hud-stats">
-      <div class="stat"><b id="streak">0</b><small>🔥 днів поспіль</small></div>
-      <div class="stat"><b id="doneToday">0</b><small>✅ сьогодні</small></div>
-      <div class="stat"><b id="saved">0</b><small>💰 відкладено</small></div>
-    </div>
-    <div class="cap"><div class="bar"><i id="capBar" style="width:0"></i></div><small><span id="capText">Зароблено цього місяця</span><span id="capLeft"></span></small></div>
-  </div>
-</div>
-
-<!-- СЬОГОДНІ -->
-<section class="page on" id="p-today"><div class="wrap">
-  <div class="sec"><div class="sec-h"><h2>Задачі на сьогодні</h2><span class="chip" id="todayDate"></span></div>
-    <div class="list" id="todayList"></div>
-    <div class="add"><input id="qTask" placeholder="Нова задача на сьогодні" maxlength="80"><input class="n" id="qTaskC" type="number" inputmode="numeric" value="10" min="0" max="1000"><button class="btn" id="qTaskAdd">+</button></div>
-  </div>
-  <div class="sec"><div class="sec-h"><h2>Звички</h2><span class="chip">відмічай щовечора</span></div>
-    <div class="list" id="habitList"></div>
-  </div>
-</div></section>
-
-<!-- ЦІЛІ -->
-<section class="page" id="p-goals"><div class="wrap">
-  <div class="sec">
-    <div class="seg" id="goalSeg"><button data-p="d" class="on">День</button><button data-p="w">Тиждень</button><button data-p="m">Місяць</button></div>
-    <div class="sec-h"><h2 id="goalTitle">Цілі на день</h2><span class="chip" id="goalPeriod"></span></div>
-    <div class="list" id="goalList"></div>
-    <div class="add"><input id="gText" placeholder="Нова ціль" maxlength="80"><input class="n" id="gCoins" type="number" inputmode="numeric" min="0" max="5000"><button class="btn" id="gAdd">+</button></div>
-    <p class="note" style="margin-top:10px">Виконану ціль не можна скасувати — монети нараховуються одразу й назавжди.</p>
-  </div>
-  <div class="sec"><button class="btn gold wide" id="openImport">📋 Вставити план від Claude</button></div>
-</div></section>
-
-<!-- МАГАЗИН -->
-<section class="page" id="p-shop"><div class="wrap">
-  <div class="sec"><div class="sec-h"><h2>Магазин нагород</h2><span class="chip">1 монета = 1 грн</span></div>
-    <div class="shop" id="shop"></div>
-    <div class="add"><input id="rText" placeholder="Нова нагорода, напр. 🎬 Кіно" maxlength="40"><input class="n" id="rCost" type="number" inputmode="numeric" value="200" min="1"><button class="btn" id="rAdd">+</button></div>
-  </div>
-  <div class="sec"><div class="sec-h"><h2>Запити хранителю</h2></div><div class="list" id="reqList"></div></div>
-</div></section>
-
-<!-- СКАРБНИЧКА -->
-<section class="page" id="p-bank"><div class="wrap">
-  <div class="sec">
-    <div class="bank">
-      <small id="bankGoalName">Ціль накопичення</small>
-      <div class="num" id="bankTotal">0 грн</div>
-      <div class="bar"><i id="bankBar" style="width:0"></i></div>
-      <small id="bankLeft"></small>
+<div class="loading" id="loading"><div class="spin"></div></div>
+<main class="app">
+  <div class="ro" id="ro" hidden></div>
+  <div id="todayTop">
+    <header class="top"><h1 id="hello">Привіт</h1><p id="todayD"></p></header>
+    <div class="scene" id="scene">
+      <div class="aurora"></div>
+      <div class="stars" id="stars"></div>
+      <div class="sun"></div>
+      <div class="city far" id="cityFar"></div>
+      <div class="city near" id="cityNear"></div>
+      <div class="tower" id="tower"></div>
+      <div class="water"><div class="rc" id="reflCity"></div><div class="rt" id="reflTower"></div></div>
+      <div class="hud"><div class="rank glass" id="hudRank"></div><div class="coin glass" id="hudCoins"></div></div>
+      <div class="hudb" id="hudB"></div>
     </div>
   </div>
-  <div class="sec">
-    <div class="row2"><input id="depAmount" type="number" inputmode="numeric" placeholder="Сума, грн"><input id="depNote" placeholder="Звідки (UNI, клієнт…)" maxlength="40"></div>
-    <div class="row2" style="margin-top:8px"><button class="btn gold" id="depAdd">+ Відклав</button><button class="btn ghost" id="depSub">− Зняв</button></div>
-    <div class="log" id="bankLog"></div>
-  </div>
-</div></section>
-
-<!-- ЩЕ -->
-<section class="page" id="p-more"><div class="wrap">
-  <div class="sec box">
-    <h2 style="font-size:17px;margin-bottom:12px">Хранитель</h2>
-    <div class="field"><label>Telegram-нік друга, у якого лежать гроші</label><input id="keeper" placeholder="@nickname"></div>
-    <div class="field"><label>Бюджет на місяць у хранителя, грн</label><input id="budget" type="number" inputmode="numeric" min="0"></div>
-    <p class="note">Більше бюджету за місяць заробити не можна: монет у грі не буде більше, ніж грошей у хранителя.</p>
-  </div>
-  <div class="sec box">
-    <h2 style="font-size:17px;margin-bottom:12px">Скарбничка</h2>
-    <div class="field"><label>На що збираю</label><input id="bankGoal" placeholder="BMW F30" maxlength="40"></div>
-    <div class="field"><label>Скільки треба, грн</label><input id="bankTarget" type="number" inputmode="numeric" min="0"></div>
-  </div>
-  <div class="sec box">
-    <h2 style="font-size:17px;margin-bottom:12px">Звички</h2>
-    <div class="list" id="habitEdit"></div>
-    <div class="add"><input id="hText" placeholder="Напр. 🏋️ Спорт 20 хв" maxlength="40"><input class="n" id="hCoins" type="number" inputmode="numeric" value="15"><button class="btn" id="hAdd">+</button></div>
-    <p class="note" style="margin-top:8px">Від'ємне число — шкідлива звичка, вона знімає монети. Напр. −20 за 2 години скролу.</p>
-  </div>
-  <div class="sec box">
-    <h2 style="font-size:17px;margin-bottom:12px">Резервна копія</h2>
-    <div class="row2"><button class="btn ghost" id="exportBtn">Копіювати</button><button class="btn ghost" id="importBackupBtn">Відновити</button></div>
-  </div>
-  <div class="sec"><button class="btn red wide" id="resetBtn">Скинути все</button></div>
-  <p class="note" style="text-align:center;margin:18px 0">Дані зберігаються в хмарі Telegram і доступні лише тобі.</p>
-</div></section>
-
-<nav>
-  <button data-p="today" class="on"><span class="i">⚡</span>Сьогодні</button>
-  <button data-p="goals"><span class="i">🎯</span>Цілі</button>
-  <button data-p="shop"><span class="i">🎁</span>Магазин</button>
-  <button data-p="bank"><span class="i">💰</span>Скарбничка</button>
-  <button data-p="more"><span class="i">⚙️</span>Ще</button>
+  <div id="view"></div>
+</main>
+<nav class="nav" aria-label="Розділи">
+  <button data-a="tab" data-t="today"><span>⚡</span>Сьогодні</button>
+  <button data-a="tab" data-t="goals"><span>🎯</span>Цілі</button>
+  <button data-a="tab" data-t="dreams"><span>⭐</span>Мрії</button>
+  <button data-a="tab" data-t="shop"><span>🎁</span>Магазин</button>
+  <button data-a="tab" data-t="more"><span>⚙️</span>Ще</button>
 </nav>
-
-<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
-
+<div class="sheet-bg" id="sheetBg"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="flash" id="flash"></div>
+<canvas id="fx"></canvas>
+<input type="file" id="photoIn" accept="image/*" hidden>
 <script>
-(() => {
 'use strict';
-const tg = window.Telegram && Telegram.WebApp;
+/* ================= Telegram ================= */
+const tg = window.Telegram && window.Telegram.WebApp;
 const inTg = !!(tg && tg.initData);
-if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor('#0F1024'); tg.setBackgroundColor('#0F1024'); } catch (e) {} }
-const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
-const haptic = (t = 'light') => { try { tg.HapticFeedback.impactOccurred(t); } catch (e) {} };
-const notify = t => { try { tg.HapticFeedback.notificationOccurred(t); } catch (e) {} };
-const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt = n => Math.round(n).toLocaleString('uk-UA').replace(/ /g, ' ');
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const ver = v => !!(tg && tg.isVersionAtLeast && tg.isVersionAtLeast(v));
+const BOT = 'zhenya_goals_bot';
+const LS_KEY = 'goals-app-v2', LS_PHOTO = 'goals-photo-v2', LS_V1 = 'goals-app';
+const USER = (inTg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name) || 'Женя';
 
-// ---------- дати й періоди ----------
+/* ================= утиліти ================= */
+const $ = (s, r = document) => r.querySelector(s);
 const pad = n => String(n).padStart(2, '0');
-const dayKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-const monthKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
+const dateKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const todayKey = () => dateKey(new Date());
+const monthKey = (k = todayKey()) => String(k).slice(0, 7);
+const kDate = k => new Date(k + 'T12:00:00');
+const addDaysKey = (k, n) => { const d = kDate(k); d.setDate(d.getDate() + n); return dateKey(d); };
+const daysBetween = (a, b) => Math.round((kDate(b) - kDate(a)) / 864e5);
 const weekKey = (d = new Date()) => {
   const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
   const day = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - day);
   const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
   return `${t.getUTCFullYear()}-W${pad(Math.ceil(((t - y0) / 864e5 + 1) / 7))}`;
 };
-const periodKey = p => p === 'd' ? dayKey() : p === 'w' ? weekKey() : monthKey();
-const PERIOD_NAME = {d: 'день', w: 'тиждень', m: 'місяць'};
+const periodKey = (p, k = todayKey()) => p === 'd' ? k : p === 'w' ? weekKey(kDate(k)) : monthKey(k);
+const num = v => { const n = parseFloat(String(v == null ? '' : v).replace(/[\s  ]/g, '').replace(',', '.')); return isFinite(n) ? n : 0; };
+const fmt = n => Math.round(+n || 0).toLocaleString('uk-UA');
+const fmtK = n => n >= 1000 ? String(Math.round(n / 100) / 10).replace('.', ',') + 'к' : String(Math.round(n));
+const pctFmt = p => p <= 0 ? '0%' : p < 1 ? '<1%' : p < 10 ? String(Math.floor(p * 10) / 10).replace('.', ',') + '%' : Math.floor(p) + '%';
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+let _u = 0;
+const uid = () => Date.now().toString(36) + (_u++).toString(36) + Math.random().toString(36).slice(2, 5);
+const pl = (n, a, b, c) => { n = Math.abs(Math.round(n)); const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c; };
+const MON = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
+const MON_N = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+const MON_S = ['Січ', 'Лют', 'Бер', 'Кві', 'Тра', 'Чер', 'Лип', 'Сер', 'Вер', 'Жов', 'Лис', 'Гру'];
+const WD = ['неділя', 'понеділок', 'вівторок', 'середа', 'четвер', 'пʼятниця', 'субота'];
+const WD_C = ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'Пʼятниця', 'Субота'];
+const toDate = x => typeof x === 'number' ? new Date(x) : /^\d{4}-\d{2}-\d{2}$/.test(String(x)) ? kDate(x) : new Date(x);
+const fmtDay = x => { const d = toDate(x); return isNaN(d) ? '' : `${d.getDate()} ${MON[d.getMonth()]}`; };
+const monthName = m => MON_N[+String(m).slice(5, 7) - 1] || '';
+const splitEmoji = t => { const m = String(t).match(/^(\S+)\s+(.+)$/); return m && !/[\p{L}\p{N}]/u.test(m[1]) ? [m[1], m[2]] : ['', String(t)]; };
+const sumObj = o => Object.values(o || {}).reduce((s, v) => s + (+v || 0), 0);
+const tryParse = s => { if (!s) return null; try { const o = JSON.parse(s); return o && typeof o === 'object' ? o : null; } catch (e) { return null; } };
+
+/* ================= константи ================= */
 const DEFAULT_REWARD = {d: 10, w: 100, m: 500};
+const MAXC = {d: 200, w: 1000, m: 3000};
+const PER = {d: 'День', w: 'Тиждень', m: 'Місяць'};
+const REST_PRICE = 150, STREAK_BONUS = 50, MAX_FLOORS = 16;
+const RANKS = [['🌱', 'Старт'], ['🧱', 'Фундамент'], ['🔨', 'Будівничий'], ['📈', 'Практик'], ['💼', 'Підприємець'], ['🏗️', 'Засновник'], ['🦅', 'Незалежний'], ['👑', 'Легенда']];
+const THEMES = [
+  {id: 'dusk', n: 'Захід', e: '🌆', lvl: 1}, {id: 'night', n: 'Глибока ніч', e: '🌙', lvl: 2},
+  {id: 'dawn', n: 'Світанок', e: '🌅', lvl: 3}, {id: 'aurora', n: 'Північне сяйво', e: '🌌', lvl: 4},
+  {id: 'gold', n: 'Золота година', e: '✨', lvl: 5}, {id: 'neon', n: 'Неон', e: '💜', lvl: 6},
+  {id: 'royal', n: 'Королівська ніч', e: '👑', lvl: 8}];
+const DEF_GOOD = [
+  {t: '🏋️ Спорт 20 хвилин', c: 15, k: 'спорт'}, {t: '📚 Навчання 30 хвилин', c: 15, k: 'навчан'},
+  {t: '💼 Написав 2 бізнесам', c: 20, k: 'бізнес'}, {t: '🇬🇧 Англійська 20 хвилин', c: 10, k: 'англ'},
+  {t: '😴 Ліг до 23:30', c: 10, k: 'до 23'}];
+const DEF_BAD = [
+  {t: '🍺 Алкоголь', c: 150, k: 'алкогол'}, {t: '💨 Вейп або сигарети', c: 100, k: 'вейп'},
+  {t: '🌃 Гульки до ночі', c: 50, k: 'гульк'}, {t: '💸 Імпульсивна покупка', c: 50, k: 'імпульс'},
+  {t: '📱 Скрол 2+ години', c: 30, k: 'скрол'}, {t: '🍔 Фастфуд', c: 20, k: 'фастфуд'},
+  {t: '🌙 Ліг після 01:00', c: 20, k: 'після 01'}];
+const DEF_REWARDS = [{t: "🎮 Комп'ютерний клуб", c: 300}, {t: '🎬 Кіно з друзями', c: 400}, {t: '🍔 Смачна їжа', c: 250}, {t: '🛌 День без планів', c: 500}];
+const DEF_JARS = [
+  {id: 'dream', e: '⭐', n: 'Мрія', target: 400000, pct: 30},
+  {id: 'cush', e: '🛟', n: 'Подушка безпеки', target: 30000, pct: 30},
+  {id: 'grow', e: '🛠️', n: 'Розвиток та інструменти', target: 10000, pct: 20}];
+const SOURCES = [{n: 'UNI', e: '🏗️'}, {n: "Кур'єр", e: '📦'}, {n: 'Клієнти', e: '💼'}, {n: 'Інше', e: '✨'}];
+const PRINCIPLES = [
+  'Гроші мають працювати, а не просто лежати без мети.',
+  'Навички важливіші за короткочасну мотивацію.',
+  'Невдача — привід переглянути стратегію, а не кинути проєкт.',
+  'Не витрачай гроші, щоб справити враження на інших.',
+  'Краще один робочий проєкт, ніж десять незавершених.',
+  'Кожен день має наближати до мети хоча б на 1%.',
+  'Не плутай зайнятість із продуктивністю.'];
+const PROMPT = `Склади мені план цілей для застосунку «Мої цілі».
+Формат: кожна ціль окремим рядком.
+д: текст | монети | РРРР-ММ-ДД   (ціль на день, дата необовʼязкова)
+т: текст | монети   (ціль на тиждень)
+м: текст | монети   (ціль на місяць)
+Монети: день 10–30, тиждень 100–200, місяць 300–800.
+Відповідай лише рядками плану.
+Мої цілі зараз: `;
 
-// ---------- сховище: хмара Telegram (частинами по 4000 символів) або localStorage ----------
-const CHUNK = 4000, PREFIX = 'g';
-const cloud = inTg && tg.CloudStorage && tg.isVersionAtLeast && tg.isVersionAtLeast('6.9') ? tg.CloudStorage : null;
+/* ================= стан ================= */
+let S = null, photo = '';
+
+function fresh() {
+  const t = todayKey();
+  return {
+    v: 2, coins: 0, xp: 0, budget: 3000, keeper: '', penaltyTo: 'донат на ЗСУ', penaltyDay: 50, restWd: 0, birthday: '',
+    theme: 'dusk', seen: 0, lvlSeen: 1, startDate: t, lastCheck: addDaysKey(t, -1), monthSeen: monthKey(t),
+    earned: {}, penM: {}, spentM: {}, days: {}, rest: {}, streakBonus: {}, maxStreak: 0, totalDone: 0, hTotal: 0,
+    lastBad: {}, ach: {},
+    goals: [],
+    good: DEF_GOOD.map(h => ({id: uid(), t: h.t, c: h.c})),
+    bad: DEF_BAD.map(h => ({id: uid(), t: h.t, c: h.c})),
+    hlog: {}, hgot: {},
+    rewards: DEF_REWARDS.map(r => ({id: uid(), t: r.t, c: r.c})), reqs: [],
+    jars: DEF_JARS.map(j => ({...j, total: 0, log: []})), inc: [],
+    ev: [],
+  };
+}
+
+function normalize(st) {
+  const f = fresh();
+  for (const k in f) {
+    const a = st[k], b = f[k];
+    if (a === undefined || a === null || typeof a !== typeof b || Array.isArray(a) !== Array.isArray(b)) st[k] = b;
+  }
+  st.v = 2;
+  if (!st.jars.length) st.jars = f.jars;
+  st.jars.forEach(j => { if (!Array.isArray(j.log)) j.log = []; j.total = +j.total || 0; j.target = +j.target || 1; j.pct = +j.pct || 0; });
+  return st;
+}
+
+function mergeDefs(list, defs) {
+  defs.forEach(d => { if (!list.some(h => String(h.t).toLowerCase().includes(d.k))) list.push({id: uid(), t: d.t, c: d.c}); });
+  return list;
+}
+
+// Перенесення даних першої версії (ключі g0..gN у хмарі Telegram)
+function migrate(o) {
+  const s = fresh();
+  ['coins', 'xp', 'budget', 'keeper'].forEach(k => { if (typeof o[k] === typeof s[k]) s[k] = o[k]; });
+  ['earned', 'days', 'streakBonus'].forEach(k => { if (o[k] && typeof o[k] === 'object' && !Array.isArray(o[k])) s[k] = o[k]; });
+  if (Array.isArray(o.goals)) s.goals = o.goals.filter(g => g && g.t).map(g => {
+    const p = ['d', 'w', 'm'].includes(g.p) ? g.p : 'd';
+    return {id: g.id || uid(), t: String(g.t), p, c: Math.max(0, +g.c || 0), k: g.k || periodKey(p), done: !!g.done, at: g.at, cr: g.at || Date.now()};
+  });
+  if (Array.isArray(o.rewards) && o.rewards.length) s.rewards = o.rewards.filter(r => r && r.t).map(r => ({id: r.id || uid(), t: String(r.t), c: Math.max(0, +r.c || 0)}));
+  if (Array.isArray(o.reqs)) s.reqs = o.reqs.filter(r => r && r.t).map(r => ({id: r.id || uid(), t: String(r.t), c: +r.c || 0, at: r.at || Date.now(), st: r.st === 'ok' ? 'ok' : 'wait'}));
+  if (Array.isArray(o.habits)) {
+    const good = [], bad = [];
+    o.habits.forEach(h => { if (!h || !h.t) return; const c = +h.c || 0; (c < 0 ? bad : good).push({id: h.id || uid(), t: String(h.t), c: Math.abs(c)}); });
+    s.good = mergeDefs(good, DEF_GOOD); s.bad = mergeDefs(bad, DEF_BAD);
+  }
+  if (o.hlog && typeof o.hlog === 'object') s.hlog = o.hlog;
+  const badIds = new Set(s.bad.map(h => h.id));
+  Object.keys(s.hlog).sort().forEach(d => (s.hlog[d] || []).forEach(id => { if (badIds.has(id)) s.lastBad[id] = d; }));
+  s.hTotal = Object.values(s.hlog).reduce((n, ids) => n + (ids || []).filter(id => !badIds.has(id)).length, 0);
+  if (o.bank && typeof o.bank === 'object') {
+    const j = s.jars[0];
+    if (o.bank.goal) j.n = String(o.bank.goal);
+    if (+o.bank.target > 0) j.target = +o.bank.target;
+    j.total = +o.bank.total || 0;
+    if (Array.isArray(o.bank.log)) j.log = o.bank.log.slice(-300);
+  }
+  const ds = Object.keys(s.days).filter(k => /^\d{4}-\d{2}-\d{2}$/.test(k)).sort();
+  if (ds[0] && ds[0] < s.startDate) s.startDate = ds[0];
+  s.totalDone = s.goals.filter(g => g.done).length;
+  s.lvlSeen = lvl(s.xp).L;
+  s.seen = 1;
+  s.ev.push({t: Date.now(), a: 0, n: 'Дані перенесено з першої версії'});
+  return s;
+}
+
+/* ================= хмара Telegram ================= */
+const cloud = inTg && tg.CloudStorage && ver('6.9') ? tg.CloudStorage : null;
 const cs = {
-  get: keys => new Promise(res => cloud.getItems(keys, (e, v) => res(e ? {} : v || {}))),
-  set: (k, v) => new Promise(res => cloud.setItem(k, v, e => res(!e))),
-  del: keys => new Promise(res => cloud.removeItems(keys, () => res())),
+  get: keys => new Promise((res, rej) => cloud.getItems(keys, (e, v) => e ? rej(e) : res(v || {}))),
+  set: (k, v) => new Promise((res, rej) => cloud.setItem(k, v, e => e ? rej(e) : res(true))),
+  del: keys => new Promise(res => keys.length ? cloud.removeItems(keys, () => res()) : res()),
 };
+async function csGetMany(keys) {
+  const out = {};
+  for (let i = 0; i < keys.length; i += 20) Object.assign(out, await cs.get(keys.slice(i, i + 20)));
+  return out;
+}
+// Розділи: зберігаємо тільки те, що змінилося. Ключ = розділ_номер, значення ≤ 3800 байт.
+const SECS = {goals: ['goals'], hab: ['good', 'bad', 'hlog', 'hgot'], shop: ['rewards', 'reqs'], money: ['jars', 'inc'], ev: ['ev']};
+const SEC_OF = {};
+Object.entries(SECS).forEach(([s, ks]) => ks.forEach(k => { SEC_OF[k] = s; }));
+function sections(st) {
+  const out = {core: {}};
+  Object.keys(SECS).forEach(s => { out[s] = {}; });
+  Object.keys(st).forEach(k => { out[SEC_OF[k] || 'core'][k] = st[k]; });
+  return out;
+}
+function chunk(str, max = 3800) {
+  const out = []; let cur = '', bytes = 0;
+  for (const ch of str) {
+    const cp = ch.codePointAt(0), b = cp < 0x80 ? 1 : cp < 0x800 ? 2 : cp < 0x10000 ? 3 : 4;
+    if (bytes + b > max) { out.push(cur); cur = ''; bytes = 0; }
+    cur += ch; bytes += b;
+  }
+  if (cur || !out.length) out.push(cur);
+  return out;
+}
+let lastJSON = {}, metaN = {}, photoN = 0, readOnly = false, roMsg = '', saving = Promise.resolve(), saveT = 0, saveFails = 0;
+
 async function load() {
-  try {
-    if (cloud) {
-      const meta = await cs.get([PREFIX + 'n']);
-      const n = +meta[PREFIX + 'n'] || 0;
-      if (!n) return null;
-      const keys = Array.from({length: n}, (_, i) => PREFIX + i);
-      const v = await cs.get(keys);
-      return JSON.parse(keys.map(k => v[k] || '').join(''));
+  if (!cloud) {
+    let raw = null, v1 = null;
+    try { raw = localStorage.getItem(LS_KEY); v1 = localStorage.getItem(LS_V1); photo = localStorage.getItem(LS_PHOTO) || ''; } catch (e) {}
+    const o = tryParse(raw), o1 = tryParse(v1);
+    S = o ? normalize(o) : o1 ? migrate(o1) : fresh();
+    return;
+  }
+  const head = await cs.get(['meta2', 'gn']);
+  if (head.meta2) {
+    const meta = JSON.parse(head.meta2);
+    metaN = meta.n || {}; photoN = +meta.photo || 0;
+    const keys = [];
+    for (const [sec, n] of Object.entries(metaN)) for (let i = 0; i < n; i++) keys.push(`${sec}_${i}`);
+    const vals = await csGetMany(keys);
+    const st = {}, broken = [];
+    for (const [sec, n] of Object.entries(metaN)) {
+      let str = '';
+      for (let i = 0; i < n; i++) str += vals[`${sec}_${i}`] || '';
+      let obj = tryParse(str);
+      if (!obj) obj = await recoverSec(sec, n);
+      if (!obj) { broken.push(sec); continue; }
+      Object.assign(st, obj);
+      lastJSON[sec] = JSON.stringify(obj);
     }
-    const raw = localStorage.getItem('goals-app'); return raw ? JSON.parse(raw) : null;
-  } catch (e) { return null; }
+    S = normalize(st);
+    if (broken.length) { readOnly = true; roMsg = 'Частину даних не вдалося прочитати з Telegram. Щоб нічого не зіпсувати, зміни зараз не зберігаються. Закрий і відкрий застосунок ще раз.'; }
+  } else if (head.gn) {
+    const n = parseInt(head.gn, 10) || 0;
+    const ks = Array.from({length: n}, (_, i) => 'g' + i);
+    const vals = await csGetMany(ks);
+    const old = tryParse(ks.map(k => vals[k] || '').join(''));
+    if (!old) throw new Error('v1 parse');
+    S = migrate(old);
+  } else S = fresh();
 }
-let saveT, saving = Promise.resolve(), prevChunks = 0;
-function save() {
+async function recoverSec(sec, n) {
+  const ks = Array.from({length: n + 16}, (_, i) => `${sec}_${i}`);
+  const v = await csGetMany(ks), parts = ks.map(k => v[k] || '');
+  for (let len = n + 1; len <= n + 16; len++) { const o = tryParse(parts.slice(0, len).join('')); if (o) return o; }
+  for (let len = n - 1; len >= 1; len--) { const o = tryParse(parts.slice(0, len).join('')); if (o) return o; }
+  return null;
+}
+function save() { clearTimeout(saveT); saveT = setTimeout(flush, 250); }
+function flush() {
   clearTimeout(saveT);
-  saveT = setTimeout(() => {
-    const raw = JSON.stringify(S);
-    saving = saving.then(async () => {
-      if (!cloud) { try { localStorage.setItem('goals-app', raw); } catch (e) {} return; }
-      const parts = raw.match(new RegExp(`[\\s\\S]{1,${CHUNK}}`, 'g')) || [''];
-      for (let i = 0; i < parts.length; i++) await cs.set(PREFIX + i, parts[i]);
-      await cs.set(PREFIX + 'n', String(parts.length));
-      if (prevChunks > parts.length) await cs.del(Array.from({length: prevChunks - parts.length}, (_, i) => PREFIX + (parts.length + i)));
-      prevChunks = parts.length;
-    });
-  }, 250);
+  saving = saving.then(doSave).then(() => { saveFails = 0; }).catch(e => {
+    console.warn('save failed', e); saveFails++;
+    if (saveFails === 1 && typeof toast === 'function') toast('Не вдалося зберегти в Telegram, пробую ще раз');
+    if (saveFails < 6) setTimeout(save, 4000);
+  });
+  return saving;
 }
-
-// ---------- стан ----------
-const fresh = () => ({
-  v: 1, coins: 0, xp: 0, budget: 3000, keeper: '',
-  earned: {}, // {'2026-11': 450}
-  goals: [], // {id,t,p,c,k,done,at}
-  habits: [
-    {id: uid(), t: '🏋️ Спорт 20 хвилин', c: 15},
-    {id: uid(), t: '📚 Навчання 30 хвилин', c: 15},
-    {id: uid(), t: '😴 Ліг спати до 23:30', c: 10},
-    {id: uid(), t: '📱 Скролив більше 2 годин', c: -20},
-  ],
-  hlog: {}, // {'2026-11-17': [habitId]}
-  rewards: [
-    {id: uid(), t: '🎮 Комп\'ютерний клуб', c: 300},
-    {id: uid(), t: '🎬 Кіно з друзями', c: 400},
-    {id: uid(), t: '🍔 Смачна їжа', c: 250},
-    {id: uid(), t: '🛌 День без планів', c: 500},
-  ],
-  reqs: [], // {id,t,c,at,st:'wait'|'ok'}
-  bank: {goal: 'BMW F30', target: 400000, total: 0, log: []},
-  days: {}, // {'2026-11-17': кількість виконаних}
-  streakBonus: {},
-});
-let S = fresh();
-
-// ---------- рівні ----------
-const LEVELS = ['Новачок', 'Учень', 'Практик', 'Майстер', 'Профі', 'Машина', 'Легенда'];
-const lvlFor = xp => { let l = 1, need = 200, acc = 0; while (xp >= acc + need) { acc += need; l++; need = Math.round(need * 1.35); } return {l, p: (xp - acc) / need * 100}; };
-
-// ---------- нарахування ----------
-const earnedThisMonth = () => S.earned[monthKey()] || 0;
-function award(amount, x, y) {
-  if (amount > 0) {
-    const room = Math.max(0, (+S.budget || 0) - earnedThisMonth());
-    const got = Math.min(amount, room);
-    if (got <= 0) { say('Ліміт місяця вичерпано — монети не нараховано'); return 0; }
-    S.coins += got; S.xp += got; S.earned[monthKey()] = earnedThisMonth() + got;
-    flyText(`+${got}`, x, y); if (got < amount) say(`Нараховано ${got}: досягнуто ліміт місяця`);
-    return got;
+async function doSave() {
+  if (readOnly || !S) return;
+  prune();
+  if (!cloud) { try { localStorage.setItem(LS_KEY, JSON.stringify(S)); } catch (e) {} return; }
+  const secs = sections(S), newN = {...metaN}, writes = [], dels = [], done = {};
+  for (const [sec, obj] of Object.entries(secs)) {
+    const json = JSON.stringify(obj);
+    if (json === lastJSON[sec]) continue;
+    const parts = chunk(json);
+    parts.forEach((p, i) => writes.push([`${sec}_${i}`, p]));
+    for (let i = parts.length; i < (metaN[sec] || 0); i++) dels.push(`${sec}_${i}`);
+    newN[sec] = parts.length; done[sec] = json;
   }
-  if (amount < 0) {
-    const lost = Math.min(-amount, S.coins);
-    S.coins -= lost; S.earned[monthKey()] = Math.max(0, earnedThisMonth() - lost);
-    flyText(`−${-amount}`, x, y, true); return -lost;
+  if (!writes.length) return;
+  await Promise.all(writes.map(([k, v]) => cs.set(k, v)));
+  if (JSON.stringify(newN) !== JSON.stringify(metaN)) await cs.set('meta2', JSON.stringify({v: 2, n: newN, photo: photoN}));
+  metaN = newN; Object.assign(lastJSON, done);
+  if (dels.length) await cs.del(dels);
+}
+function savePhoto(url) {
+  const p = saving.then(() => doPhoto(url));
+  saving = p.catch(() => {});
+  return p;
+}
+async function doPhoto(url) {
+  if (!cloud) {
+    try { if (url) localStorage.setItem(LS_PHOTO, url); else localStorage.removeItem(LS_PHOTO); return true; } catch (e) { return false; }
   }
-  return 0;
-}
-function markDay() {
-  const k = dayKey(); S.days[k] = (S.days[k] || 0) + 1;
-  const st = streak();
-  if (st > 0 && st % 7 === 0 && !S.streakBonus[k]) { S.streakBonus[k] = 1; const g = award(50, innerWidth / 2, 120); if (g) say(`🔥 ${st} днів поспіль! Бонус +${g}`); burst(innerWidth / 2, 160, 70); }
-}
-function streak() {
-  let n = 0; const d = new Date();
-  if (!S.days[dayKey(d)]) d.setDate(d.getDate() - 1);
-  while (S.days[dayKey(d)]) { n++; d.setDate(d.getDate() - 1); }
-  return n;
-}
-
-// ---------- рендер ----------
-function render() {
-  const user = inTg && tg.initDataUnsafe && tg.initDataUnsafe.user;
-  $('#who').textContent = user ? user.first_name : 'Гравець';
-  const L = lvlFor(S.xp);
-  $('#lvl').textContent = L.l; $('#lvlRing').style.setProperty('--p', L.p.toFixed(0));
-  $('#lvlName').textContent = `${LEVELS[Math.min(L.l - 1, LEVELS.length - 1)]} · ${fmt(S.xp)} XP`;
-  $('#coins').textContent = fmt(S.coins);
-  $('#streak').textContent = streak();
-  $('#doneToday').textContent = S.days[dayKey()] || 0;
-  $('#saved').textContent = fmt(S.bank.total);
-  const e = earnedThisMonth(), b = +S.budget || 0;
-  $('#capBar').style.width = (b ? Math.min(100, e / b * 100) : 0) + '%';
-  $('#capText').textContent = `Зароблено за місяць: ${fmt(e)} з ${fmt(b)}`;
-  $('#capLeft').textContent = b ? `ще ${fmt(Math.max(0, b - e))}` : 'бюджет не задано';
-  renderToday(); renderGoals(); renderShop(); renderBank(); renderMore();
-}
-
-function goalRow(g, overdue) {
-  return `<div class="item ${g.done ? 'done' : ''}" data-goal="${g.id}"><div class="check"></div>
-    <div class="t">${esc(g.t)}${overdue ? '<small>з минулого періоду</small>' : ''}</div>
-    <span class="rew">+${fmt(g.c)}</span>${g.done ? '' : `<button class="del" data-delgoal="${g.id}" aria-label="Видалити">×</button>`}</div>`;
-}
-function renderToday() {
-  const k = dayKey();
-  $('#todayDate').textContent = new Date().toLocaleDateString('uk-UA', {weekday: 'long', day: 'numeric', month: 'long'});
-  const today = S.goals.filter(g => g.p === 'd' && g.k === k);
-  const old = S.goals.filter(g => g.p === 'd' && g.k < k && !g.done);
-  $('#todayList').innerHTML = (today.length || old.length) ? old.map(g => goalRow(g, true)).join('') + today.map(g => goalRow(g)).join('')
-    : '<div class="empty">Додай першу задачу на сьогодні або встав план від Claude у вкладці «Цілі»</div>';
-  const done = S.hlog[k] || [];
-  $('#habitList').innerHTML = S.habits.length ? S.habits.map(h => `<div class="item ${h.c < 0 ? 'bad' : ''} ${done.includes(h.id) ? 'done' : ''}" data-habit="${h.id}"><div class="check"></div><div class="t">${esc(h.t)}</div><span class="rew ${h.c < 0 ? 'neg' : ''}">${h.c > 0 ? '+' : '−'}${fmt(Math.abs(h.c))}</span></div>`).join('')
-    : '<div class="empty">Додай звички у вкладці «Ще»</div>';
-}
-let gp = 'd';
-function renderGoals() {
-  $$('#goalSeg button').forEach(b => b.classList.toggle('on', b.dataset.p === gp));
-  $('#goalTitle').textContent = `Цілі на ${PERIOD_NAME[gp]}`;
-  const k = periodKey(gp);
-  $('#goalPeriod').textContent = gp === 'w' ? `тиждень ${k.split('-W')[1]}` : gp === 'm' ? new Date().toLocaleDateString('uk-UA', {month: 'long'}) : '';
-  const list = S.goals.filter(g => g.p === gp && (g.k === k || (!g.done && g.k < k)));
-  $('#goalList').innerHTML = list.length ? list.map(g => goalRow(g, g.k < k)).join('') : `<div class="empty">Цілей на ${PERIOD_NAME[gp]} ще немає</div>`;
-  $('#gCoins').value = $('#gCoins').dataset.touched ? $('#gCoins').value : DEFAULT_REWARD[gp];
-}
-function renderShop() {
-  $('#shop').innerHTML = S.rewards.map(r => {
-    const p = Math.min(100, S.coins / r.c * 100), ok = S.coins >= r.c;
-    const [emoji, ...rest] = splitEmoji(r.t);
-    return `<div class="prize"><button class="x" data-delrew="${r.id}" aria-label="Видалити">×</button><div class="e">${esc(emoji || '🎁')}</div><b>${esc(rest || r.t)}</b>
-      <div class="cost"><i class="coin"></i>${fmt(r.c)}</div><div class="pb"><i style="width:${p}%"></i></div>
-      <button class="btn ${ok ? 'gold' : 'ghost'}" data-buy="${r.id}" ${ok ? '' : 'disabled'}>${ok ? 'Обміняти' : `ще ${fmt(r.c - S.coins)}`}</button></div>`;
-  }).join('') || '<div class="empty" style="grid-column:1/-1">Додай нагороди нижче</div>';
-  const reqs = S.reqs.slice(-15).reverse();
-  $('#reqList').innerHTML = reqs.length ? reqs.map(q => `<div class="req"><div class="t">${esc(q.t)}<small>${new Date(q.at).toLocaleDateString('uk-UA')} · ${fmt(q.c)} грн</small></div>
-    ${q.st === 'ok' ? '<span class="tag ok">отримано</span>' : `<button class="tag" data-gotreq="${q.id}">чекаю · отримав?</button>`}</div>`).join('')
-    : '<div class="empty">Коли обміняєш монети, тут з\'явиться запит</div>';
-}
-function splitEmoji(t) {
-  const m = t.match(/^(\p{Extended_Pictographic}(?:️|‍\p{Extended_Pictographic})*)\s*(.*)$/u);
-  return m ? [m[1], m[2]] : ['', t];
-}
-function renderBank() {
-  const b = S.bank, p = b.target ? Math.min(100, b.total / b.target * 100) : 0;
-  $('#bankGoalName').textContent = `${b.goal || 'Ціль'} · ${p.toFixed(1)}%`;
-  $('#bankTotal').textContent = `${fmt(b.total)} грн`;
-  $('#bankBar').style.width = p + '%';
-  $('#bankLeft').textContent = b.target ? `Залишилось ${fmt(Math.max(0, b.target - b.total))} з ${fmt(b.target)} грн` : 'Задай суму цілі у вкладці «Ще»';
-  const now = monthKey(), m = b.log.filter(l => l.d.startsWith(now)).reduce((s, l) => s + l.a, 0);
-  $('#bankLog').innerHTML = `<div><b>Цього місяця</b><b>${m >= 0 ? '+' : '−'}${fmt(Math.abs(m))} грн</b></div>` +
-    b.log.slice(-20).reverse().map(l => `<div>${l.a >= 0 ? '+' : '−'}${fmt(Math.abs(l.a))} грн<span>${esc(l.n || '')} ${l.d.slice(8, 10)}.${l.d.slice(5, 7)}</span></div>`).join('');
-}
-function renderMore() {
-  if (document.activeElement !== $('#keeper')) $('#keeper').value = S.keeper ? '@' + S.keeper : '';
-  if (document.activeElement !== $('#budget')) $('#budget').value = S.budget || '';
-  if (document.activeElement !== $('#bankGoal')) $('#bankGoal').value = S.bank.goal || '';
-  if (document.activeElement !== $('#bankTarget')) $('#bankTarget').value = S.bank.target || '';
-  $('#habitEdit').innerHTML = S.habits.map(h => `<div class="item"><div class="t">${esc(h.t)}</div><span class="rew ${h.c < 0 ? 'neg' : ''}">${h.c > 0 ? '+' : '−'}${fmt(Math.abs(h.c))}</span><button class="del" data-delhab="${h.id}">×</button></div>`).join('');
-}
-
-// ---------- дії ----------
-function addGoal(t, p, c, k) {
-  t = String(t || '').trim().slice(0, 80); c = Math.max(0, Math.min(5000, Math.round(+c || 0)));
-  if (!t) return false;
-  S.goals.push({id: uid(), t, p, c, k: k || periodKey(p), done: false});
+  await doSave();
+  const parts = url ? url.match(/[\s\S]{1,3800}/g) : [];
+  await Promise.all(parts.map((p, i) => cs.set(`photo_${i}`, p)));
+  const old = photoN; photoN = parts.length;
+  await cs.set('meta2', JSON.stringify({v: 2, n: metaN, photo: photoN}));
+  const dels = [];
+  for (let i = photoN; i < old; i++) dels.push(`photo_${i}`);
+  await cs.del(dels);
   return true;
 }
-document.addEventListener('click', e => {
-  const el = e.target.closest('[data-goal],[data-delgoal],[data-habit],[data-buy],[data-delrew],[data-gotreq],[data-delhab]');
-  if (!el) return;
-  const {clientX: x, clientY: y} = e;
-  if (el.dataset.delgoal) { e.stopPropagation(); S.goals = S.goals.filter(g => g.id !== el.dataset.delgoal); haptic(); save(); render(); return; }
-  if (el.dataset.goal) {
-    const g = S.goals.find(g => g.id === el.dataset.goal);
-    if (!g || g.done) { if (g) say('Виконане не скасовується 🙂'); return; }
-    g.done = true; g.at = Date.now(); notify('success');
-    award(g.c, x, y); markDay(); burst(x, y, g.p === 'm' ? 90 : g.p === 'w' ? 50 : 22);
-    save(); render(); return;
-  }
-  if (el.dataset.habit) {
-    const k = dayKey(), log = S.hlog[k] = S.hlog[k] || [], h = S.habits.find(h => h.id === el.dataset.habit);
-    if (!h) return;
-    if (log.includes(h.id)) { say('Сьогодні вже відмічено'); return; }
-    log.push(h.id); haptic(h.c < 0 ? 'heavy' : 'medium');
-    award(h.c, x, y); if (h.c > 0) { markDay(); burst(x, y, 16); }
-    save(); render(); return;
-  }
-  if (el.dataset.buy) { buy(S.rewards.find(r => r.id === el.dataset.buy)); return; }
-  if (el.dataset.delrew) { S.rewards = S.rewards.filter(r => r.id !== el.dataset.delrew); save(); render(); return; }
-  if (el.dataset.delhab) { S.habits = S.habits.filter(h => h.id !== el.dataset.delhab); save(); render(); return; }
-  if (el.dataset.gotreq) { const q = S.reqs.find(q => q.id === el.dataset.gotreq); if (q) { q.st = 'ok'; notify('success'); burst(x, y, 40); save(); render(); } }
-});
-
-function buy(r) {
-  if (!r || S.coins < r.c) return;
-  if (!S.keeper) { say('Спочатку вкажи хранителя у вкладці «Ще»'); return; }
-  const doneRecent = S.goals.filter(g => g.done && g.at && Date.now() - g.at < 7 * 864e5).slice(-6).map(g => '• ' + g.t).join('\n');
-  const text = `Привіт! Я заробив ${fmt(r.c)} монет у «Мої цілі» і обмінюю їх на: ${r.t}.\nВидай, будь ласка, ${fmt(r.c)} грн 🙏\n\nЩо я зробив за тиждень:\n${doneRecent || '• (дивись у застосунку)'}`;
-  confirmBox(`Обміняти ${fmt(r.c)} монет на «${r.t}»?`, 'Монети спишуться, а хранителю піде повідомлення з проханням видати гроші.', () => {
-    S.coins -= r.c; S.reqs.push({id: uid(), t: r.t, c: r.c, at: Date.now(), st: 'wait'});
-    notify('success'); burst(innerWidth / 2, innerHeight / 2, 80); save(); render();
-    const url = `https://t.me/share/url?url=${encodeURIComponent('https://t.me/zhenya_goals_bot')}&text=${encodeURIComponent(text)}`;
-    try { navigator.clipboard && navigator.clipboard.writeText(text); } catch (e) {}
-    if (inTg) tg.openTelegramLink(url); else window.open(url, '_blank');
-    say(`Обери чат з @${S.keeper} і надішли`);
-  });
+async function loadPhoto() {
+  if (!cloud || !photoN) return false;
+  const ks = Array.from({length: photoN}, (_, i) => 'photo_' + i);
+  const v = await csGetMany(ks), s = ks.map(k => v[k] || '').join('');
+  if (s.startsWith('data:image/')) { photo = s; return true; }
+  return false;
+}
+function prune() {
+  const now = Date.now(), t = todayKey(), d60 = addDaysKey(t, -60), d30 = addDaysKey(t, -30), d3 = addDaysKey(t, -3);
+  S.goals = S.goals.filter(g => g.done ? (g.at || now) > now - 60 * 864e5 : g.p === 'd' ? g.k >= d30 : (g.cr || g.at || now) > now - 120 * 864e5);
+  for (const k in S.hlog) if (k < d60) delete S.hlog[k];
+  for (const k in S.hgot) if (k < d3) delete S.hgot[k];
+  for (const k in S.rest) if (k < d60) delete S.rest[k];
+  for (const k in S.streakBonus) if (k < d60) delete S.streakBonus[k];
+  const dk = Object.keys(S.days).sort();
+  if (dk.length > 400) dk.slice(0, dk.length - 400).forEach(k => { delete S.days[k]; });
+  if (S.ev.length > 150) S.ev = S.ev.slice(-150);
+  if (S.inc.length > 500) S.inc = S.inc.slice(-500);
+  if (S.reqs.length > 60) S.reqs = S.reqs.slice(-60);
+  S.jars.forEach(j => { if (j.log.length > 300) j.log = j.log.slice(-300); });
+  ['earned', 'penM', 'spentM'].forEach(o => { const ks = Object.keys(S[o]).sort(); if (ks.length > 24) ks.slice(0, ks.length - 24).forEach(k => { delete S[o][k]; }); });
 }
 
-$('#qTaskAdd').onclick = () => { if (addGoal($('#qTask').value, 'd', $('#qTaskC').value)) { $('#qTask').value = ''; haptic(); save(); render(); } };
-$('#qTask').onkeydown = e => { if (e.key === 'Enter') $('#qTaskAdd').click(); };
-$('#gCoins').oninput = () => $('#gCoins').dataset.touched = 1;
-$('#gAdd').onclick = () => { if (addGoal($('#gText').value, gp, $('#gCoins').value)) { $('#gText').value = ''; haptic(); save(); render(); } };
-$('#gText').onkeydown = e => { if (e.key === 'Enter') $('#gAdd').click(); };
-$$('#goalSeg button').forEach(b => b.onclick = () => { gp = b.dataset.p; delete $('#gCoins').dataset.touched; haptic(); renderGoals(); });
-$('#rAdd').onclick = () => { const t = $('#rText').value.trim(), c = Math.round(+$('#rCost').value); if (!t || c < 1) return; S.rewards.push({id: uid(), t: t.slice(0, 40), c}); $('#rText').value = ''; save(); render(); };
-$('#hAdd').onclick = () => { const t = $('#hText').value.trim(), c = Math.round(+$('#hCoins').value); if (!t || !c) return; S.habits.push({id: uid(), t: t.slice(0, 40), c: Math.max(-500, Math.min(500, c))}); $('#hText').value = ''; save(); render(); };
-const dep = sign => { const a = Math.round(+$('#depAmount').value); if (!a || a < 0) return; S.bank.total = Math.max(0, S.bank.total + sign * a); S.bank.log.push({d: dayKey(), a: sign * a, n: $('#depNote').value.trim().slice(0, 40)}); if (S.bank.log.length > 300) S.bank.log = S.bank.log.slice(-300); $('#depAmount').value = ''; $('#depNote').value = ''; notify('success'); if (sign > 0) burst(innerWidth / 2, 160, 30); save(); render(); };
-$('#depAdd').onclick = () => dep(1); $('#depSub').onclick = () => dep(-1);
-$('#keeper').onchange = () => { S.keeper = $('#keeper').value.trim().replace(/^@/, '').replace(/[^\w]/g, '').slice(0, 32); save(); render(); };
-$('#budget').onchange = () => { S.budget = Math.max(0, Math.round(+$('#budget').value || 0)); save(); render(); };
-$('#bankGoal').onchange = () => { S.bank.goal = $('#bankGoal').value.trim().slice(0, 40); save(); render(); };
-$('#bankTarget').onchange = () => { S.bank.target = Math.max(0, Math.round(+$('#bankTarget').value || 0)); save(); render(); };
+/* ================= економіка ================= */
+function logEv(a, n) { S.ev.push({t: Date.now(), a: Math.round(a), n: String(n).slice(0, 80)}); if (S.ev.length > 160) S.ev.splice(0, S.ev.length - 150); }
+// Досвід — повністю, монети — у межах бюджету місяця
+function award(c, why) {
+  c = Math.max(0, Math.round(c)); const m = monthKey();
+  S.xp += c;
+  let got = c;
+  if (S.budget > 0) got = Math.min(c, Math.max(0, S.budget - (S.earned[m] || 0)));
+  S.earned[m] = (S.earned[m] || 0) + got;
+  S.coins += got;
+  logEv(got, why);
+  return got;
+}
+function unaward(got, x, dk, why) {
+  S.coins -= got;
+  const m = monthKey(dk); S.earned[m] = Math.max(0, (S.earned[m] || 0) - got);
+  S.xp = Math.max(0, S.xp - x);
+  if (S.days[dk] > 0) { S.days[dk]--; if (!S.days[dk]) delete S.days[dk]; }
+  logEv(-got, why);
+}
+function penalty(c, why) { c = Math.max(0, Math.round(c)); const m = monthKey(); S.coins -= c; S.penM[m] = (S.penM[m] || 0) + c; logEv(-c, why); }
+function spend(c, why, real) { S.coins -= c; if (real) { const m = monthKey(); S.spentM[m] = (S.spentM[m] || 0) + c; } logEv(-c, why); }
 
-// ---------- навігація ----------
-$$('nav button').forEach(b => b.onclick = () => {
-  $$('nav button').forEach(x => x.classList.toggle('on', x === b));
-  $$('.page').forEach(p => p.classList.toggle('on', p.id === 'p-' + b.dataset.p));
-  haptic(); scrollTo(0, 0);
-});
-
-// ---------- модальні вікна ----------
-const modal = $('#modal'), sheet = $('#sheet');
-const openSheet = html => { sheet.innerHTML = html; modal.classList.add('on'); };
-const closeSheet = () => modal.classList.remove('on');
-modal.onclick = e => { if (e.target === modal) closeSheet(); };
-function confirmBox(title, text, ok) {
-  openSheet(`<h2>${esc(title)}</h2><p class="note" style="margin-bottom:16px">${esc(text)}</p><div class="row2"><button class="btn ghost" id="cNo">Скасувати</button><button class="btn gold" id="cYes">Так</button></div>`);
-  $('#cNo').onclick = closeSheet; $('#cYes').onclick = () => { closeSheet(); ok(); };
+const isRest = k => !!(S.rest[k] || (S.restWd >= 0 && kDate(k).getDay() === S.restWd));
+const dayStatus = (k, t = todayKey()) => S.days[k] > 0 ? 'ok' : isRest(k) ? 'rest' : k === t ? 'build' : 'miss';
+function streak() {
+  let d = todayKey(), n = 0;
+  if (!(S.days[d] > 0)) d = addDaysKey(d, -1);
+  for (let i = 0; i < 800 && d >= S.startDate; i++) {
+    if (S.days[d] > 0) n++;
+    else if (!isRest(d)) break;
+    d = addDaysKey(d, -1);
+  }
+  return n;
+}
+const litDays = () => Object.keys(S.days).filter(k => k >= S.startDate && S.days[k] > 0).length;
+let fxQ = [], justLit = false;
+// Будь-яка корисна дія зараховує день
+function mark() {
+  const t = todayKey(), first = !(S.days[t] > 0);
+  S.days[t] = (S.days[t] || 0) + 1;
+  const n = streak();
+  if (n > S.maxStreak) S.maxStreak = n;
+  if (first) {
+    justLit = true;
+    fxQ.push(() => towerParty());
+    if (n > 0 && n % 7 === 0 && !S.streakBonus[t]) {
+      S.streakBonus[t] = 1;
+      const got = award(STREAK_BONUS, `Бонус: ${n} днів поспіль`);
+      fxQ.push(() => fly(innerWidth / 2, innerHeight * .3, `🔥 ${n} днів поспіль: +${got}`));
+    }
+  }
+}
+// Дні без жодної дії («у нікуди») — штраф, максимум за 7 останніх
+function processMissed() {
+  const y = addDaysKey(todayKey(), -1);
+  if (!S.lastCheck || S.lastCheck >= y) { if (!S.lastCheck) S.lastCheck = y; return null; }
+  const missed = [];
+  let d = addDaysKey(S.lastCheck, 1);
+  for (let i = 0; i < 800 && d <= y; i++) {
+    if (d >= S.startDate && !(S.days[d] > 0) && !isRest(d)) missed.push(d);
+    d = addDaysKey(d, 1);
+  }
+  S.lastCheck = y;
+  if (!missed.length) return null;
+  const charged = S.penaltyDay > 0 ? missed.slice(-7) : [];
+  charged.forEach(k => penalty(S.penaltyDay, `День у нікуди: ${fmtDay(k)}`));
+  return {missed, charged};
+}
+const alcId = () => { const h = S.bad.find(x => /алкогол|алко|пиво|бух/i.test(x.t)); return h ? h.id : ''; };
+const sinceDays = k => Math.max(0, daysBetween(k, todayKey()));
+const soberDays = () => { const id = alcId(), last = id && S.lastBad[id]; return last ? sinceDays(last) : sinceDays(S.startDate); };
+const cleanDays = () => { const ls = Object.values(S.lastBad).filter(Boolean).sort(), last = ls[ls.length - 1]; return last ? sinceDays(last) : sinceDays(S.startDate); };
+const jarsTotal = () => S.jars.reduce((s, j) => s + (+j.total || 0), 0);
+const incomeOf = m => S.inc.filter(x => String(x.d).slice(0, 7) === m).reduce((s, x) => s + (+x.a || 0), 0);
+const maxMonthInc = () => Math.max(0, ...[...new Set(S.inc.map(x => String(x.d).slice(0, 7)))].map(incomeOf));
+function lastMonths(n) {
+  const now = new Date(), out = [];
+  for (let i = n - 1; i >= 0; i--) { const x = new Date(now.getFullYear(), now.getMonth() - i, 1); out.push(`${x.getFullYear()}-${pad(x.getMonth() + 1)}`); }
+  return out;
+}
+function lvl(xp) {
+  let L = 1, base = 0, need = 300;
+  while (xp >= base + need && L < 99) { base += need; L++; need = Math.round(need * 1.45); }
+  return {L, base, need, into: xp - base, pct: Math.min(100, (xp - base) / need * 100)};
+}
+const rankOf = L => RANKS[Math.min(L, RANKS.length) - 1];
+const principle = () => { const t = new Date(), d0 = new Date(t.getFullYear(), 0, 1); return PRINCIPLES[Math.floor((t - d0) / 864e5) % PRINCIPLES.length]; };
+const dreamJar = () => S.jars[0];
+const ACH = [
+  {id: 'first', e: '🎯', t: 'Перший крок', d: 'Виконай першу ціль', ok: () => S.totalDone >= 1},
+  {id: 'w7', e: '🔥', t: 'Тиждень вогню', d: '7 днів поспіль з ділом', ok: () => S.maxStreak >= 7},
+  {id: 'm30', e: '🌋', t: 'Місяць без зупинки', d: '30 днів поспіль', ok: () => S.maxStreak >= 30},
+  {id: 'k1', e: '🪙', t: 'Перша тисяча', d: 'Заробив 1000 монет', ok: () => sumObj(S.earned) >= 1000},
+  {id: 'h100', e: '💪', t: 'Сотня звичок', d: '100 корисних звичок', ok: () => S.hTotal >= 100},
+  {id: 'clean7', e: '✨', t: 'Чистий тиждень', d: '7 днів без шкідливого', ok: () => cleanDays() >= 7},
+  {id: 'sober30', e: '🧊', t: '30 днів тверезо', d: 'Місяць без алкоголю', ok: () => !!alcId() && soberDays() >= 30},
+  {id: 'save10k', e: '🏦', t: 'Перші 10 000', d: 'Відклав 10 000 грн', ok: () => jarsTotal() >= 10000},
+  {id: 'inc10k', e: '💸', t: 'Дохід 10 000', d: '10 000 грн за місяць', ok: () => maxMonthInc() >= 10000},
+  {id: 'inc30k', e: '🚀', t: 'Дохід 30 000', d: '30 000 грн за місяць', ok: () => maxMonthInc() >= 30000},
+  {id: 'lvl8', e: '👑', t: 'Легенда', d: 'Досягни 8 рівня', ok: () => lvl(S.xp).L >= 8},
+  {id: 'dream', e: '⭐', t: 'Мрія здійснена', d: 'Зібрав повну суму на мрію', ok: () => !!dreamJar() && dreamJar().target > 0 && dreamJar().total >= dreamJar().target}];
+function checkAch() {
+  const out = [];
+  ACH.forEach(a => { if (S.ach[a.id]) return; let ok = false; try { ok = a.ok(); } catch (e) {} if (ok) { S.ach[a.id] = todayKey(); out.push(a); } });
+  return out;
 }
 
-// ---------- план від Claude ----------
-// Формат: рядки «д|т|м: текст | монети [| 2026-11-18]» або JSON {"plan":[{"t":"…","p":"d","c":10,"date":"2026-11-18"}]}
+/* ================= план від Claude ================= */
 function parsePlan(raw) {
-  raw = String(raw || '').trim();
-  const P = {'д': 'd', 'd': 'd', 'день': 'd', 'т': 'w', 'w': 'w', 'тиждень': 'w', 'м': 'm', 'm': 'm', 'місяць': 'm'};
-  try {
-    const j = JSON.parse(raw.replace(/^```(?:json)?|```$/g, '').trim());
-    const arr = Array.isArray(j) ? j : j.plan || [];
-    return arr.map(x => ({t: String(x.t || x.text || '').slice(0, 80), p: P[String(x.p || x.period || 'd').toLowerCase()] || 'd', c: Math.round(+x.c || +x.coins || 0), date: x.date || ''})).filter(x => x.t);
-  } catch (e) {}
-  return raw.split('\n').map(l => l.trim().replace(/^[-•*\d.)\s]+/, '')).filter(Boolean).map(l => {
-    const m = l.match(/^(д|т|м|d|w|m|день|тиждень|місяць)\s*[:：]\s*(.+)$/i);
-    const p = m ? P[m[1].toLowerCase()] : 'd';
-    const parts = (m ? m[2] : l).split('|').map(s => s.trim());
-    return {t: parts[0].slice(0, 80), p, c: Math.round(+parts[1]) || DEFAULT_REWARD[p], date: parts[2] || ''};
-  }).filter(x => x.t);
+  const P = {'д': 'd', 'день': 'd', 'd': 'd', 'т': 'w', 'тиждень': 'w', 'w': 'w', 'м': 'm', 'місяць': 'm', 'm': 'm'};
+  const out = [];
+  const txt = String(raw || '').trim().replace(/^```[a-z]*\s*|```$/gi, '').trim();
+  const j = tryParse(txt);
+  if (j) {
+    (Array.isArray(j) ? j : j.plan || []).forEach(x => {
+      if (!x || !x.t) return;
+      const p = P[String(x.p || 'd').toLowerCase()] || 'd';
+      out.push({t: String(x.t).slice(0, 140), p, c: Math.round(num(x.c)) || DEFAULT_REWARD[p], date: /^\d{4}-\d{2}-\d{2}$/.test(x.date || '') ? x.date : null});
+    });
+    return out;
+  }
+  txt.split('\n').forEach(line => {
+    const m = line.trim().replace(/^[-•*]\s*|^\d+[.)]\s*/, '').match(/^(д|т|м|день|тиждень|місяць|d|w|m)\s*[:：]\s*(.+)$/i);
+    if (!m) return;
+    const p = P[m[1].toLowerCase()], parts = m[2].split('|').map(s => s.trim());
+    if (!parts[0]) return;
+    out.push({t: parts[0].slice(0, 140), p, c: Math.round(num(parts[1])) || DEFAULT_REWARD[p], date: /^\d{4}-\d{2}-\d{2}$/.test(parts[2] || '') ? parts[2] : null});
+  });
+  return out;
 }
-$('#openImport').onclick = () => {
-  openSheet(`<h2>План від Claude</h2><p class="note" style="margin-bottom:10px">Попроси Claude: «склади план на тиждень для застосунку». Скопіюй його відповідь сюди.</p>
-    <textarea id="planRaw" placeholder="д: Надіслати 2 відео бізнесам | 20&#10;т: Отримати першого клієнта | 300&#10;м: Заробити 10 000 грн | 1000"></textarea>
-    <button class="btn gold wide" id="planParse" style="margin-top:10px">Показати план</button>`);
-  $('#planParse').onclick = () => {
-    const items = parsePlan($('#planRaw').value);
-    if (!items.length) { say('Не бачу пунктів плану — перевір формат'); return; }
-    const pick = items.map(() => true);
-    const draw = () => {
-      openSheet(`<h2>Приймаєш план?</h2>${items.map((it, i) => `<div class="plan-item"><div class="t">${esc(it.t)}<small>${PERIOD_NAME[it.p]} · +${fmt(it.c)}${it.date ? ' · ' + esc(it.date) : ''}</small></div>
-        <div class="yn"><button class="y ${pick[i] ? 'on' : ''}" data-i="${i}" data-v="1">✓</button><button class="n ${pick[i] ? '' : 'on'}" data-i="${i}" data-v="0">✕</button></div></div>`).join('')}
-        <button class="btn gold wide" id="planOk" style="margin-top:8px">Додати прийняті (${pick.filter(Boolean).length})</button>`);
-      sheet.querySelectorAll('.yn button').forEach(b => b.onclick = () => { pick[+b.dataset.i] = b.dataset.v === '1'; haptic(); draw(); });
-      $('#planOk').onclick = () => {
-        let n = 0;
-        items.forEach((it, i) => { if (!pick[i]) return; let k; if (it.date && /^\d{4}-\d{2}-\d{2}$/.test(it.date)) { const d = new Date(it.date + 'T12:00'); k = it.p === 'd' ? dayKey(d) : it.p === 'w' ? weekKey(d) : monthKey(d); } if (addGoal(it.t, it.p, it.c, k)) n++; });
-        closeSheet(); notify('success'); burst(innerWidth / 2, innerHeight / 2, 50); save(); render(); say(`Додано ${n} пунктів плану`);
-      };
-    };
-    draw();
-  };
+const clampC = (c, p) => Math.max(1, Math.min(MAXC[p] || 200, Math.round(c) || DEFAULT_REWARD[p]));
+
+/* ================= сцена: місто над річкою і вежа ================= */
+function mulberry32(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function hash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+
+function skyline(seed, h, dens, gap) {
+  const r = mulberry32(seed); let x = -3, s = '';
+  while (x < 403) {
+    const w = 13 + r() * 25;
+    if (gap && x + w > gap[0] && x < gap[1]) { x += w; continue; }
+    const bh = h * (.3 + r() * .7), y0 = h - bh;
+    s += `<rect class="b" x="${x.toFixed(1)}" y="${y0.toFixed(1)}" width="${(w - 1.4).toFixed(1)}" height="${(bh + 1).toFixed(1)}"/>`;
+    if (r() < .2) s += `<rect class="b" x="${(x + w / 2 - .7).toFixed(1)}" y="${(y0 - 7).toFixed(1)}" width="1.4" height="7.5"/>`;
+    for (let wy = y0 + 5; wy < h - 5; wy += 7) for (let wx = x + 3; wx < x + w - 5; wx += 5.4) {
+      if (r() >= dens) continue;
+      const f = r() < .05;
+      s += `<rect class="w${f ? ' fl' : ''}" x="${wx.toFixed(1)}" y="${wy.toFixed(1)}" width="2.2" height="3" opacity="${(.3 + r() * .65).toFixed(2)}"${f ? ` style="animation-delay:-${(r() * 9).toFixed(1)}s"` : ''}/>`;
+    }
+    x += w;
+  }
+  return `<svg viewBox="0 0 400 ${h}" preserveAspectRatio="none" aria-hidden="true">${s}</svg>`;
+}
+function starsHTML() {
+  const r = mulberry32(7);
+  return Array.from({length: 44}, () => {
+    const z = r() < .2 ? 2.3 : r() < .5 ? 1.7 : 1.2;
+    return `<i style="left:${(r() * 100).toFixed(1)}%;top:${(r() * 100).toFixed(1)}%;width:${z}px;height:${z}px;animation-delay:-${(r() * 5).toFixed(1)}s;animation-duration:${(3 + r() * 4).toFixed(1)}s"></i>`;
+  }).join('');
+}
+// Вежа: кожен день — поверх. Світлий — день із ділом, темний — у нікуди, блакитний — вихідний.
+// Поруч баштовий кран: гак опускається до поверху, який будується сьогодні.
+function towerSVG(fl, u, flash) {
+  const FH = 7, W = 58, X = 20, n = fl.length, HB = MAX_FLOORS * FH, H = HB + 50, VW = X + W + 46, top = H - n * FH;
+  const topBuild = n > 0 && fl[n - 1].st === 'build', builtTop = top + (topBuild ? FH : 0);
+  let ghost = '', body = '', glow = '';
+  if (n < MAX_FLOORS) {
+    const gy = H - HB;
+    let lines = '';
+    for (let y = gy + FH; y < top; y += FH) lines += `M${X} ${y}H${X + W}`;
+    ghost = `<rect class="ghost" x="${X + .5}" y="${gy + .5}" width="${W - 1}" height="${top - gy - 1}"/>${lines ? `<path class="ghl" d="${lines}"/>` : ''}`;
+  }
+  fl.forEach((f, i) => {
+    const y = H - (i + 1) * FH;
+    if (f.st === 'build') {
+      body += `<g class="scaf"><rect x="${X + .5}" y="${y + .5}" width="${W - 1}" height="${FH - 1}"/><path d="M${X + .5} ${y + FH - .5}L${X + W / 2} ${y + .5}L${X + W - .5} ${y + FH - .5}"/></g>`;
+      return;
+    }
+    let fh = `<rect class="tw-b" x="${X}" y="${y}" width="${W}" height="${FH}"/><rect x="${X}" y="${(y + FH - .7).toFixed(1)}" width="${W}" height=".7" fill="#000" opacity=".3"/>`;
+    const r = mulberry32(hash(f.k)), ord = [0, 1, 2, 3, 4, 5];
+    for (let j = 5; j > 0; j--) { const q = Math.floor(r() * (j + 1)); [ord[j], ord[q]] = [ord[q], ord[j]]; }
+    const nLit = f.st === 'ok' ? Math.min(6, 1 + f.n * 2) : f.st === 'rest' ? 4 : 0;
+    let g = '';
+    for (let j = 0; j < 6; j++) {
+      const lit = ord.indexOf(j) < nLit, wx = (X + 3.7 + j * 9).toFixed(1), wy = (y + 1.8).toFixed(1);
+      const cls = lit ? (f.st === 'rest' ? 'tw-r' : 'tw-l') : f.st === 'miss' ? 'tw-m' : 'tw-d';
+      fh += `<rect class="${cls}" x="${wx}" y="${wy}" width="5.6" height="3.4" rx=".6"/>`;
+      if (lit) g += `<rect class="${cls}" x="${wx}" y="${wy}" width="5.6" height="3.4"/>`;
+    }
+    const isNew = flash && i === n - 1;
+    body += isNew ? `<g class="fnew">${fh}</g>` : fh;
+    glow += isNew ? `<g class="fnew">${g}</g>` : g;
+  });
+  let deco = '';
+  if (H - builtTop > 0) deco += `<rect x="${X + W - 10}" y="${builtTop}" width="10" height="${H - builtTop}" fill="#000" opacity=".2"/><rect class="tw-h" x="${X}" y="${builtTop}" width="1.5" height="${H - builtTop}" opacity=".85"/>`;
+  deco += `<rect class="tw-h" x="${X - 2}" y="${builtTop - 2}" width="${W + 4}" height="2.2"/>`;
+  // кран
+  const mx = X + W + 14, mt = 14, jy = mt + 4, hx = X + 12, hy = Math.max(jy + 12, top - 10);
+  let lat = '';
+  for (let y = H; y > mt + 4; y -= 5) lat += `M${mx - 2.4} ${y}L${mx + 2.4} ${y - 2.5}L${mx - 2.4} ${y - 5}`;
+  const crane = `<path class="cr" d="M${mx - 2.4} ${H}V${mt}M${mx + 2.4} ${H}V${mt}${lat}" stroke-width="1"/>
+    <path class="cr" d="M${mx} ${mt - 8}V${jy}M${mx} ${mt - 8}L${mx - 76} ${jy}M${mx} ${mt - 8}L${mx + 26} ${jy}M${mx - 80} ${jy}H${mx + 30}M${mx - 80} ${jy + 2.6}H${mx + 30}"/>
+    <rect class="crf" x="${mx - 4}" y="${jy + 2.6}" width="8" height="6" rx="1" opacity=".9"/>
+    <rect class="crf" x="${mx + 19}" y="${jy + 2.6}" width="10" height="7" rx="1"/>
+    <g class="trol"><rect class="crf" x="${hx - 3}" y="${jy + 2}" width="6" height="2.6"/><path class="cr" d="M${hx} ${jy + 4.6}V${hy}" stroke-width=".8"/><rect class="crf" x="${hx - 2}" y="${hy}" width="4" height="3"/>${topBuild ? `<path class="cr" d="M${hx} ${hy + 3}L${hx - 8} ${hy + 4.5}M${hx} ${hy + 3}L${hx + 8} ${hy + 4.5}" stroke-width=".7"/><rect class="tw-l" x="${hx - 9}" y="${hy + 4.5}" width="18" height="2.6" rx=".5"/>` : ''}</g>
+    <circle class="beacon" cx="${mx}" cy="${mt - 9}" r="1.7"/>`;
+  const svg = `<svg width="${VW}" height="${H}" viewBox="0 0 ${VW} ${H}" aria-hidden="true"><defs><filter id="tg${u}" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="1.8"/></filter></defs>${ghost}${body}${deco}<g filter="url(#tg${u})" opacity=".75">${glow}</g>${crane}</svg>`;
+  return {svg, cx: X + W / 2, topY: top};
+}
+let DREAM_CITY = '', towerSig = '';
+function buildStatic() {
+  $('#stars').innerHTML = starsHTML();
+  $('#cityFar').innerHTML = skyline(3, 112, .16);
+  const near = skyline(11, 70, .26, [214, 312]);
+  $('#cityNear').innerHTML = near;
+  $('#reflCity').innerHTML = near;
+  DREAM_CITY = skyline(5, 130, .2);
+}
+function towerFloors() {
+  const t = todayKey(), out = [];
+  let k = t;
+  for (let i = 0; i < MAX_FLOORS && k >= S.startDate; i++) { out.unshift({k, st: dayStatus(k, t), n: S.days[k] || 0}); k = addDaysKey(k, -1); }
+  return out;
+}
+function renderScene() {
+  document.documentElement.dataset.theme = S.theme;
+  const lv = lvl(S.xp), rk = rankOf(lv.L);
+  $('#hudRank').innerHTML = `<span class="re">${rk[0]}</span><div><b>${rk[1]}</b><small>Рівень ${lv.L}</small><div class="xp"><i style="width:${lv.pct.toFixed(1)}%"></i></div></div>`;
+  const co = $('#hudCoins');
+  co.textContent = `🪙 ${fmt(S.coins)}`;
+  co.classList.toggle('neg', S.coins < 0);
+  const fl = towerFloors(), sig = JSON.stringify(fl) + (justLit ? '!' : '');
+  if (sig !== towerSig) {
+    towerSig = sig;
+    const a = towerSVG(fl, 't', justLit), b = towerSVG(fl, 'r', false);
+    const tw = $('#tower'), rt = $('#reflTower');
+    tw.innerHTML = a.svg; tw.style.left = `calc(64% - ${a.cx}px)`; tw.dataset.top = a.topY;
+    rt.innerHTML = b.svg; rt.style.left = `calc(64% - ${b.cx}px)`;
+    justLit = false;
+  }
+  const t = todayKey(), st = dayStatus(t), fnum = daysBetween(S.startDate, t) + 1, dj = dreamJar();
+  const dp = dj && dj.target ? Math.min(100, dj.total / dj.target * 100) : 0;
+  const label = st === 'build' ? `🏗️ Поверх ${fnum} будується` : st === 'rest' ? `🧊 Поверх ${fnum}: вихідний` : `💡 Поверх ${fnum} світиться`;
+  $('#hudB').innerHTML = `<span>${label}</span><span>🔥 ${streak()}</span><i class="sp"></i><span>⭐ ${pctFmt(dp)}</span>`;
+}
+
+/* ================= ефекти ================= */
+function hap(t) {
+  try {
+    const H = tg && tg.HapticFeedback; if (!H || !ver('6.1')) return;
+    if (t === 'ok') H.notificationOccurred('success'); else if (t === 'err') H.notificationOccurred('error'); else if (t === 'warn') H.notificationOccurred('warning'); else H.impactOccurred(t || 'light');
+  } catch (e) {}
+}
+function fly(x, y, text, neg) {
+  const el = document.createElement('div');
+  el.className = 'fly' + (neg ? ' neg' : ''); el.textContent = text;
+  el.style.left = Math.max(60, Math.min(innerWidth - 60, x)) + 'px'; el.style.top = y + 'px';
+  document.body.appendChild(el); setTimeout(() => el.remove(), 1250);
+}
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cv, cx2, parts = [], raf = 0;
+function sizeFx() { const d = devicePixelRatio || 1; cv.width = innerWidth * d; cv.height = innerHeight * d; cx2.setTransform(d, 0, 0, d, 0, 0); }
+function burst(x, y, n = 36, colors = ['#FFC15E', '#FF7F6E', '#3FE0A0', '#8AD8FF', '#F4F1FF']) {
+  if (reduced || !cx2) return;
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = 2 + Math.random() * 5;
+    parts.push({x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 3, s: 3 + Math.random() * 4, c: colors[i % colors.length], r: Math.random() * 6, vr: (Math.random() - .5) * .4, life: 55 + Math.random() * 35});
+  }
+  if (!raf) raf = requestAnimationFrame(step);
+}
+function step() {
+  cx2.clearRect(0, 0, innerWidth, innerHeight);
+  parts = parts.filter(p => p.life-- > 0);
+  parts.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += .18; p.vx *= .985; p.r += p.vr;
+    cx2.save(); cx2.translate(p.x, p.y); cx2.rotate(p.r); cx2.globalAlpha = Math.min(1, p.life / 25); cx2.fillStyle = p.c; cx2.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * .66); cx2.restore();
+  });
+  raf = parts.length ? requestAnimationFrame(step) : 0;
+  if (!raf) cx2.clearRect(0, 0, innerWidth, innerHeight);
+}
+function hit() {
+  const f = $('#flash'); f.classList.remove('on'); void f.offsetWidth; f.classList.add('on');
+  const sc = $('#scene'); sc.classList.remove('hit'); void sc.offsetWidth; sc.classList.add('hit');
+}
+function towerParty() {
+  if (tab !== 'today') return;
+  const tw = $('#tower'), r = tw && tw.getBoundingClientRect();
+  if (!r || r.bottom < 0 || r.top > innerHeight) return;
+  const x = r.left + r.width * .55, y = r.top + (+tw.dataset.top || 40);
+  burst(x, y, 44, ['#FFC766', '#FFE29A', '#FF7F6E', '#F4F1FF']);
+  setTimeout(() => fly(x, y - 18, '💡 Новий поверх'), 120);
+  hap('ok');
+}
+function fxGain(r, got, x) {
+  const px = r.left + r.width / 2, py = r.top + r.height / 2;
+  fly(px, py, got > 0 ? `+${got} 🪙` : `+${x} XP`);
+  burst(px, py, 16); hap('light');
+}
+
+/* ================= тост і аркуші ================= */
+let toastT = 0;
+function toast(msg, undo) {
+  const el = $('#toast');
+  el.innerHTML = `<span>${esc(msg)}</span>${undo ? '<button type="button" id="undoBtn">Скасувати</button>' : ''}`;
+  el.classList.add('on');
+  if (undo) $('#undoBtn').onclick = () => { el.classList.remove('on'); clearTimeout(toastT); undo(); };
+  clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('on'), undo ? 7000 : 2600);
+}
+const BB = tg && tg.BackButton && ver('6.1') ? tg.BackButton : null;
+const sheetQ = [];
+let sheetOpen = false;
+function openSheet(html) {
+  const sh = $('#sheet');
+  sh.innerHTML = `<div class="grip"></div>${html}`;
+  sh.scrollTop = 0; sheetOpen = true;
+  document.body.classList.add('sheet-open');
+  $('#sheetBg').classList.add('open'); sh.classList.add('open');
+  if (BB) BB.show();
+}
+function queueSheet(html) { if (sheetOpen) sheetQ.push(html); else openSheet(html); }
+function closeSheet() {
+  if (!sheetOpen) return;
+  sheetOpen = false;
+  document.body.classList.remove('sheet-open');
+  $('#sheetBg').classList.remove('open'); $('#sheet').classList.remove('open');
+  if (BB) BB.hide();
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  if (sheetQ.length) setTimeout(() => { if (!sheetOpen && sheetQ.length) openSheet(sheetQ.shift()); }, 340);
+}
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+  try { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;top:0;opacity:0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok; } catch (e) { return false; }
+}
+function share(text) {
+  copy(text);
+  const url = `https://t.me/share/url?url=${encodeURIComponent('https://t.me/' + BOT)}&text=${encodeURIComponent(text)}`;
+  if (inTg && tg.openTelegramLink) { try { tg.openTelegramLink(url); return; } catch (e) {} }
+  window.open(url, '_blank');
+}
+
+/* ================= екрани ================= */
+let tab = 'today', gPer = 'd';
+const R = {};
+const leftToday = () => { const n = new Date(), m = new Date(n.getFullYear(), n.getMonth(), n.getDate() + 1) - n, h = Math.floor(m / 36e5), mi = Math.floor(m % 36e5 / 6e4); return h ? `${h} год ${mi} хв` : `${mi} хв`; };
+function goalRow(g, o = {}) {
+  return `<div class="goal${g.done ? ' done' : ''}"><button class="gm" data-a="goal" data-id="${g.id}"><span class="ck"></span><span class="gt">${esc(g.t)}${o.date ? `<small>${o.date}</small>` : ''}</span><span class="gc">+${g.c}</span></button>${o.move ? `<button class="gx" data-a="moveGoal" data-id="${g.id}" aria-label="Перенести на сьогодні">↪</button>` : ''}${o.del ? `<button class="gx" data-a="delGoal" data-id="${g.id}" aria-label="Видалити">✕</button>` : ''}</div>`;
+}
+const addForm = (p, ph) => `<form class="add" data-f="addGoal" data-p="${p}"><input class="in" name="t" placeholder="${ph}" maxlength="140" autocomplete="off" enterkeyhint="done"><input class="in c" name="c" type="number" inputmode="numeric" placeholder="${DEFAULT_REWARD[p]}" min="1" max="${MAXC[p]}" aria-label="Монети"><button class="btn sm" type="submit">Додати</button></form>`;
+const periodGoals = p => S.goals.filter(g => g.p === p && g.k === periodKey(p));
+
+R.today = () => {
+  const t = todayKey(), st = dayStatus(t), goals = periodGoals('d'), done = goals.filter(g => g.done).length, hl = S.hlog[t] || [];
+  let h = '';
+  if (st === 'ok') h += `<div class="day ok"><span class="di">✅</span><div><b>День зараховано</b><small>${S.days[t]} ${pl(S.days[t], 'дія', 'дії', 'дій')} сьогодні, поверх світиться</small></div></div>`;
+  else if (st === 'rest') h += `<div class="day rest"><span class="di">🧊</span><div><b>Сьогодні вихідний</b><small>За порожній день штрафу не буде</small></div></div>`;
+  else h += `<div class="day warn"><span class="di">⏳</span><div><b>Ще жодної дії</b><small>${S.penaltyDay > 0 ? `Через <span id="leftT">${leftToday()}</span> день піде в нікуди: −${S.penaltyDay} 🪙` : 'Зроби хоча б одну справу, щоб поверх засвітився'}</small></div></div>`;
+  h += `<h2>Цілі на сьогодні <small>${done} з ${goals.length}</small></h2>`;
+  h += goals.length ? goals.map(g => goalRow(g, {del: 1})).join('') : `<p class="empty">Додай 1–3 цілі, які реально зробиш сьогодні.</p>`;
+  h += addForm('d', 'Нова ціль на сьогодні');
+  h += `<div class="pm">${['w', 'm'].map(p => { const gs = periodGoals(p), dn = gs.filter(g => g.done).length; return `<button class="pmi" data-a="openPer" data-p="${p}"><span>${p === 'w' ? 'Тиждень' : 'Місяць'}</span><b>${dn} з ${gs.length}</b><span class="bar sm"><i style="width:${gs.length ? dn / gs.length * 100 : 0}%"></i></span></button>`; }).join('')}</div>`;
+  h += `<h2>Корисне <small>монети й досвід</small></h2><div class="habits">${S.good.map(x => { const on = hl.includes(x.id), [e, n] = splitEmoji(x.t); return `<button class="hb${on ? ' on' : ''}" data-a="hab" data-id="${x.id}" aria-pressed="${on}"><span class="he">${e || '✨'}</span><span class="hn">${esc(n)}</span><span class="hc">+${x.c}</span></button>`; }).join('')}</div>`;
+  h += `<h2>Шкідливе <small>штрафи: ${esc(S.penaltyTo)}</small></h2><div class="bad">${S.bad.map(x => { const on = hl.includes(x.id); return `<button class="bd${on ? ' on' : ''}" data-a="bad" data-id="${x.id}">${esc(x.t)} <b>${on ? 'було' : '−' + x.c}</b></button>`; }).join('')}</div>`;
+  const sk = streak(), hasAlc = !!alcId(), sob = hasAlc ? soberDays() : cleanDays(), m = monthKey();
+  h += `<div class="stats"><div><b>${sk}</b><small>${pl(sk, 'день', 'дні', 'днів')} поспіль 🔥</small></div><div><b>${sob}</b><small>${pl(sob, 'день', 'дні', 'днів')} ${hasAlc ? 'без алкоголю' : 'без шкідливого'}</small></div><div><b>${fmt(S.earned[m] || 0)}</b><small>з ${S.budget ? fmt(S.budget) : '∞'} 🪙 за місяць</small></div></div>`;
+  h += `<blockquote class="pr"><small>Принцип дня</small>${esc(principle())}</blockquote>`;
+  return h;
 };
 
-// ---------- резервна копія ----------
-$('#exportBtn').onclick = async () => { try { await navigator.clipboard.writeText(JSON.stringify(S)); say('Копію скопійовано — збережи її в Обраному'); } catch (e) { openSheet(`<h2>Резервна копія</h2><textarea readonly>${esc(JSON.stringify(S))}</textarea>`); } };
-$('#importBackupBtn').onclick = () => {
-  openSheet(`<h2>Відновити з копії</h2><textarea id="bk" placeholder="Встав скопійований текст"></textarea><button class="btn gold wide" id="bkOk" style="margin-top:10px">Відновити</button>`);
-  $('#bkOk').onclick = () => { try { const d = JSON.parse($('#bk').value); if (!d || d.v !== 1) throw 0; S = Object.assign(fresh(), d); save(); render(); closeSheet(); say('Відновлено'); } catch (e) { say('Це не схоже на копію з застосунку'); } };
+function weekRange() {
+  const t = kDate(todayKey()), mon = new Date(t); mon.setDate(t.getDate() - (t.getDay() + 6) % 7);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  return mon.getMonth() === sun.getMonth() ? `${mon.getDate()}–${sun.getDate()} ${MON[sun.getMonth()]}` : `${mon.getDate()} ${MON[mon.getMonth()]} – ${sun.getDate()} ${MON[sun.getMonth()]}`;
+}
+R.goals = () => {
+  const t = todayKey();
+  let h = `<h1 class="pg">Цілі</h1><div class="seg" role="tablist">${['d', 'w', 'm'].map(p => { const gs = periodGoals(p); return `<button class="${gPer === p ? 'on' : ''}" data-a="per" data-p="${p}" role="tab" aria-selected="${gPer === p}">${PER[p]} <small>${gs.filter(g => g.done).length}/${gs.length}</small></button>`; }).join('')}</div>`;
+  const cur = periodGoals(gPer);
+  h += `<p class="hint">${gPer === 'd' ? `Сьогодні, ${fmtDay(t)}` : gPer === 'w' ? `Тиждень: ${weekRange()}` : `${monthName(monthKey())}`}. За ціль ${DEFAULT_REWARD[gPer]} 🪙, якщо не вказати інше.</p>`;
+  h += cur.length ? cur.map(g => goalRow(g, {del: 1})).join('') : `<p class="empty">${gPer === 'd' ? 'На сьогодні цілей немає.' : gPer === 'w' ? 'Що має бути зроблено до неділі?' : 'Яка велика ціль на цей місяць?'}</p>`;
+  h += addForm(gPer, gPer === 'd' ? 'Ціль на сьогодні' : gPer === 'w' ? 'Ціль на тиждень' : 'Ціль на місяць');
+  if (gPer === 'd') {
+    const past = S.goals.filter(g => g.p === 'd' && !g.done && g.k < t && g.k >= addDaysKey(t, -7)).sort((a, b) => a.k < b.k ? 1 : -1);
+    const fut = S.goals.filter(g => g.p === 'd' && !g.done && g.k > t).sort((a, b) => a.k < b.k ? -1 : 1);
+    if (past.length) h += `<h2>Не виконано раніше <small>${past.length}</small></h2>${past.map(g => goalRow(g, {del: 1, move: 1, date: fmtDay(g.k)})).join('')}`;
+    if (fut.length) h += `<h2>Заплановано <small>${fut.length}</small></h2>${fut.slice(0, 20).map(g => goalRow(g, {del: 1, date: fmtDay(g.k)})).join('')}`;
+  }
+  h += `<div class="card plan"><div><b>План від Claude</b><p>Попроси Claude скласти план і встав відповідь: цілі додадуться самі.</p></div><button class="btn sm" data-a="plan">Вставити</button></div>`;
+  return h;
 };
-$('#resetBtn').onclick = () => confirmBox('Скинути все?', 'Цілі, монети, нагороди й скарбничка будуть видалені назавжди.', () => { S = fresh(); save(); render(); say('Почнемо з чистого аркуша'); });
 
-// ---------- ефекти ----------
-const toastEl = $('#toast'); let tt;
-function say(t) { toastEl.textContent = t; toastEl.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('on'), 2400); }
-function flyText(t, x, y, bad) { const d = document.createElement('div'); d.className = 'fly'; if (bad) d.style.color = 'var(--red)'; d.textContent = t; d.style.left = (x || innerWidth / 2) - 20 + 'px'; d.style.top = (y || 200) - 30 + 'px'; document.body.appendChild(d); setTimeout(() => d.remove(), 1000); }
-const cv = $('#fx'), cx = cv.getContext('2d'); let parts = [], run = false;
-const size = () => { const r = devicePixelRatio || 1; cv.width = innerWidth * r; cv.height = innerHeight * r; cx.setTransform(r, 0, 0, r, 0, 0); };
-size(); addEventListener('resize', size);
-const COLS = ['#FFC93C', '#4DE3A0', '#8A7BFF', '#FF7A2F', '#ffffff'];
-function burst(x, y, n = 24) {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, s = 3 + Math.random() * 6; parts.push({x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 4, r: 2 + Math.random() * 3, c: COLS[i % COLS.length], l: 1, sq: Math.random() > .5}); }
-  if (!run) { run = true; requestAnimationFrame(tick); }
+function countdownCard() {
+  if (!S.birthday) return `<button class="card cd" data-a="tab" data-t="more"><span class="cdn"><b>18</b><small>років</small></span><span><p>Скільки лишилось до 18?</p><span class="mut">Вкажи дату народження в «Ще» — порахую дні й суму, яку треба відкладати щомісяця.</span></span></button>`;
+  const now = new Date(), b = kDate(S.birthday), d18 = new Date(b); d18.setFullYear(b.getFullYear() + 18);
+  const k18 = dateKey(d18), t = todayKey();
+  if (k18 <= t) return `<div class="card cd"><span class="cdn"><b>18+</b></span><p>Тобі вже 18. Тепер — до наступної мети.</p></div>`;
+  const days = daysBetween(t, k18);
+  let months = (d18.getFullYear() - now.getFullYear()) * 12 + d18.getMonth() - now.getMonth();
+  if (d18.getDate() < now.getDate()) months--;
+  months = Math.max(0, months);
+  const y = Math.floor(months / 12), mo = months % 12, dj = dreamJar(), left = dj ? Math.max(0, dj.target - dj.total) : 0, perM = Math.ceil(left / Math.max(1, months));
+  return `<div class="card cd"><span class="cdn"><b>${days}</b><small>${pl(days, 'день', 'дні', 'днів')} до 18</small></span><div><p>${y ? `${y} ${pl(y, 'рік', 'роки', 'років')} ` : ''}${mo} ${pl(mo, 'місяць', 'місяці', 'місяців')}</p>${dj && left ? `<p class="mut">Щоб зібрати на «${esc(dj.n)}» до 18, відкладай <b>${fmt(perM)} грн</b> на місяць</p>` : ''}</div></div>`;
+}
+const jarRow = j => { const p = j.target ? Math.min(100, j.total / j.target * 100) : 0; return `<button class="jar" data-a="jar" data-id="${j.id}"><span class="je">${esc(j.e || '💰')}</span><span class="jm"><b>${esc(j.n)}</b><span class="bar sm"><i style="width:${p}%"></i></span><small>${fmt(j.total)} з ${fmt(j.target)} грн${j.pct ? `, ${j.pct}% доходу` : ''}</small></span><span class="jp">${pctFmt(p)}</span></button>`; };
+const srcEmoji = s => (SOURCES.find(x => x.n === s) || {e: '✨'}).e;
+function incomeCard() {
+  const m = monthKey(), cur = incomeOf(m), ms = [10000, 30000, 100000], next = ms.find(x => cur < x);
+  const months = lastMonths(6), vals = months.map(incomeOf), mx = Math.max(1, ...vals);
+  const bySrc = {};
+  S.inc.filter(x => String(x.d).slice(0, 7) === m).forEach(x => { bySrc[x.s] = (bySrc[x.s] || 0) + x.a; });
+  return `<h2>Дохід <small>${monthName(m)}</small></h2><div class="card inc">
+    <div class="ih"><div><b class="big">${fmt(cur)} грн</b><small>${next ? `До ${fmt(next)}: ще ${fmt(next - cur)}` : 'Усі рубежі взято'}</small></div><button class="btn sm" data-a="incAdd">+ Дохід</button></div>
+    <span class="bar"><i style="width:${next ? cur / next * 100 : 100}%"></i></span>
+    <div class="miles">${ms.map(x => `<span class="${cur >= x ? 'on' : ''}">${cur >= x ? '✓ ' : ''}${fmt(x / 1000)} тис.</span>`).join('')}</div>
+    ${Object.keys(bySrc).length ? `<div class="srcs">${Object.entries(bySrc).map(([s, a]) => `<span>${srcEmoji(s)} ${esc(s)}: ${fmt(a)}</span>`).join('')}</div>` : ''}
+    <div class="chart">${months.map((mm, i) => `<div class="col"><small>${vals[i] ? fmtK(vals[i]) : ''}</small><i${mm === m ? ' class="cur"' : ''} style="height:${Math.max(3, Math.round(vals[i] / mx * 76))}px"></i><span>${MON_S[+mm.slice(5) - 1]}</span></div>`).join('')}</div>
+  </div>`;
+}
+R.dreams = () => {
+  const dj = dreamJar();
+  let h = `<h1 class="pg">Мрії</h1>`;
+  if (dj) {
+    const p = dj.target ? Math.min(100, dj.total / dj.target * 100) : 0;
+    h += `<div class="dream${photo ? ' ph' : ''}">${photo ? `<button class="chph glass" data-a="photoMenu" aria-label="Змінити фото">📷</button>` : `<div class="dcity">${DREAM_CITY}</div><button class="addph glass" data-a="photo">📷 Постав фото своєї мрії</button>`}
+      <div class="dc"><div class="dn">${esc(dj.e || '⭐')} ${esc(dj.n)}</div><div class="dv"><b>${fmt(dj.total)}</b> з ${fmt(dj.target)} грн</div><span class="bar"><i style="width:${p}%"></i></span><div class="dr"><span>${pctFmt(p)} шляху</span><button class="btn sm" data-a="jar" data-id="${dj.id}">+ Відклав</button></div></div></div>`;
+  }
+  h += countdownCard();
+  h += `<h2>Скарбнички <small>разом ${fmt(jarsTotal())} грн</small></h2>${S.jars.map(jarRow).join('')}<button class="newjar" data-a="newJar">+ Нова скарбничка</button>`;
+  h += incomeCard();
+  h += `<h2>Досягнення <small>${Object.keys(S.ach).filter(k => ACH.some(a => a.id === k)).length} з ${ACH.length}</small></h2><div class="ach">${ACH.map(a => `<div class="a${S.ach[a.id] ? '' : ' off'}"><span>${a.e}</span><b>${a.t}</b><small>${a.d}</small></div>`).join('')}</div>`;
+  return h;
+};
+
+R.shop = () => {
+  const m = monthKey();
+  let h = `<h1 class="pg">Магазин</h1><div class="card bal"><div><small>Баланс</small><b class="big${S.coins < 0 ? ' neg' : ''}">🪙 ${fmt(S.coins)}</b></div><div class="bm"><small>Зароблено за ${monthName(m).toLowerCase()}</small><b>${fmt(S.earned[m] || 0)} з ${S.budget ? fmt(S.budget) : '∞'}</b></div></div>`;
+  if (S.coins < 0) h += `<div class="debt">🔒 Борг ${fmt(-S.coins)} 🪙. Нагороди відкриються, коли відпрацюєш його цілями й звичками.</div>`;
+  h += `<h2>Відпочинок</h2><div class="rw"><span class="rwe">🧊</span><div class="rwt"><b>Позаплановий вихідний</b><small>День без штрафу за бездіяльність</small></div><button class="btn sm${S.coins < REST_PRICE ? ' dim' : ''}" data-a="rest">${REST_PRICE} 🪙</button><span style="width:6px"></span></div>`;
+  h += `<h2>Нагороди <small>1 🪙 = 1 грн</small></h2>`;
+  h += S.rewards.map(r => { const [e, n] = splitEmoji(r.t), lack = r.c - S.coins, off = S.coins < 0 || lack > 0; return `<div class="rw"><span class="rwe">${e || '🎁'}</span><div class="rwt"><b>${esc(n)}</b><small>${S.coins < 0 ? 'Закрито боргом' : lack > 0 ? `Ще ${fmt(lack)} 🪙` : 'Можна брати'}</small></div><button class="btn sm${off ? ' dim' : ''}" data-a="buy" data-id="${r.id}">${fmt(r.c)} 🪙</button><button class="gx" data-a="delReward" data-id="${r.id}" aria-label="Видалити">✕</button></div>`; }).join('');
+  h += `<form class="add" data-f="addReward"><input class="in" name="t" placeholder="🎧 Нова нагорода" maxlength="80" autocomplete="off"><input class="in c" name="c" type="number" inputmode="numeric" placeholder="грн" min="1" aria-label="Ціна"><button class="btn sm" type="submit">Додати</button></form>`;
+  const rq = S.reqs.slice().reverse().slice(0, 15);
+  if (rq.length) h += `<h2>Запити хранителю</h2>${rq.map(r => `<div class="rq"><div><b>${esc(r.t)}</b><small>${fmtDay(r.at)}, ${fmt(r.c)} грн</small></div>${r.st === 'ok' ? '<span class="ok">✅ Отримав</span>' : `<button class="btn sm ghost" data-a="reqRe" data-id="${r.id}">Нагадати</button><button class="btn sm" data-a="reqOk" data-id="${r.id}">Отримав</button>`}</div>`).join('')}`;
+  return h;
+};
+
+R.more = () => {
+  const L = lvl(S.xp).L;
+  const wdOpts = [[-1, 'Без вихідного'], [1, 'Понеділок'], [2, 'Вівторок'], [3, 'Середа'], [4, 'Четвер'], [5, 'Пʼятниця'], [6, 'Субота'], [0, 'Неділя']];
+  let h = `<h1 class="pg">Ще</h1><div class="menu">
+    <button data-a="rules"><span>📖</span>Як це працює<i>›</i></button>
+    <button data-a="report"><span>📊</span>Звіт за місяць<i>›</i></button>
+    <button data-a="history"><span>🧾</span>Історія монет<i>›</i></button></div>`;
+  h += `<h2>Небо над містом <small>нові відкриваються рівнями</small></h2><div class="themes">${THEMES.map(th => { const open = L >= th.lvl, on = S.theme === th.id; return `<button class="th${on ? ' on' : ''}${open ? '' : ' lock'}" data-a="theme" data-id="${th.id}" data-theme="${th.id}" aria-pressed="${on}"><span class="sw"></span><b>${th.e} ${th.n}</b><small>${open ? (on ? 'Увімкнено' : 'Відкрито') : `🔒 Рівень ${th.lvl}`}</small></button>`; }).join('')}</div>`;
+  h += `<h2>Налаштування</h2><form class="card set" data-f="settings">
+    <label>Хранитель нагород<input class="in" name="keeper" value="${esc(S.keeper ? '@' + S.keeper : '')}" placeholder="@username друга" autocomplete="off"><small>Йому підуть запити на нагороди</small></label>
+    <label>Бюджет нагород на місяць, грн<input class="in" name="budget" type="number" inputmode="numeric" value="${S.budget}"><small>Більше за місяць не заробиш. 0 — без ліміту</small></label>
+    <label>Куди йдуть штрафи<input class="in" name="penaltyTo" value="${esc(S.penaltyTo)}" maxlength="60"></label>
+    <div class="r2"><label>Штраф за день у нікуди<input class="in" name="penaltyDay" type="number" inputmode="numeric" value="${S.penaltyDay}"></label>
+    <label>Вихідний день<select class="in" name="restWd">${wdOpts.map(([v, n]) => `<option value="${v}"${S.restWd === v ? ' selected' : ''}>${n}</option>`).join('')}</select></label></div>
+    <label>Дата народження<input class="in" name="birthday" type="date" value="${esc(S.birthday)}"></label>
+    <button class="btn" type="submit">Зберегти</button></form>`;
+  h += `<h2>Корисні звички</h2><div class="ed">${S.good.map(x => `<div class="er"><span>${esc(x.t)}</span><b>+${x.c}</b><button class="gx" data-a="delGood" data-id="${x.id}" aria-label="Видалити">✕</button></div>`).join('')}</div>
+    <form class="add" data-f="addGood"><input class="in" name="t" placeholder="🏃 Нова звичка" maxlength="60" autocomplete="off"><input class="in c" name="c" type="number" inputmode="numeric" placeholder="10" min="1" max="200" aria-label="Монети"><button class="btn sm" type="submit">Додати</button></form>`;
+  h += `<h2>Шкідливі звички</h2><div class="ed">${S.bad.map(x => `<div class="er"><span>${esc(x.t)}</span><b class="neg">−${x.c}</b><button class="gx" data-a="delBad" data-id="${x.id}" aria-label="Видалити">✕</button></div>`).join('')}</div>
+    <form class="add" data-f="addBad"><input class="in" name="t" placeholder="🎰 Що ще штрафувати" maxlength="60" autocomplete="off"><input class="in c" name="c" type="number" inputmode="numeric" placeholder="50" min="1" max="2000" aria-label="Штраф"><button class="btn sm" type="submit">Додати</button></form>`;
+  h += `<h2>Дані</h2><div class="menu">
+    <button data-a="backup"><span>💾</span>Скопіювати резервну копію<i>›</i></button>
+    <button data-a="restore"><span>♻️</span>Відновити з копії<i>›</i></button>
+    <button data-a="reset" class="dang"><span>🧨</span>Почати з нуля<i>›</i></button></div>
+    <p class="foot">Дані зберігаються у твоєму Telegram і видно їх тільки тобі. Версія 2.0</p>`;
+  return h;
+};
+
+function render() {
+  if (!S) return;
+  document.documentElement.dataset.theme = S.theme;
+  $('#todayTop').hidden = tab !== 'today';
+  if (tab === 'today') {
+    const d = new Date();
+    $('#hello').textContent = `Привіт, ${USER}`;
+    $('#todayD').textContent = `${WD[d.getDay()]}, ${d.getDate()} ${MON[d.getMonth()]}`;
+    renderScene();
+  }
+  $('#view').innerHTML = R[tab]();
+  if (tab === 'dreams' && photo) { const el = $('.dream'); if (el) el.style.backgroundImage = `url("${photo}")`; }
+  document.querySelectorAll('.nav button').forEach(b => { const on = b.dataset.t === tab; b.classList.toggle('on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); });
+}
+
+/* ================= тексти аркушів ================= */
+const restText = () => S.restWd >= 0 ? `${WD_C[S.restWd]} — вихідний, за неї штрафу немає` : 'Вихідного дня немає';
+const rulesHTML = () => `<h3>Як це працює</h3><div class="rules">
+  <p><b>🪙 Монета = 1 грн</b> з бюджету нагород${S.budget ? ` (${fmt(S.budget)} грн на місяць). Більше за місяць не заробиш` : ''}.</p>
+  <p><b>✅ Цілі й корисні звички</b> дають монети й досвід. Досвід піднімає рівень і відкриває нове небо над містом.</p>
+  <p><b>🏙️ Кожен день — поверх твоєї вежі.</b> Зробив хоч одну справу — поверх світиться. Ні — лишається темним.</p>
+  <p><b>🕳️ День у нікуди</b> (жодної справи) коштує ${S.penaltyDay} 🪙. ${restText()}. Позаплановий вихідний є в магазині.</p>
+  <p><b>🍺 Шкідливе</b> штрафується. Штрафні гривні йдуть: ${esc(S.penaltyTo)}.</p>
+  <p><b>🔒 Мінус на балансі</b> — це борг: нагороди закриті, поки не відпрацюєш.</p>
+  <p><b>🎁 Нагорода</b> — це запит хранителю${S.keeper ? ` @${esc(S.keeper)}` : ''}. Він видає гроші.</p>
+  <p><b>💰 Невикористаний бюджет</b> у кінці місяця переходить у скарбничку.</p>
+  <p><b>↩️ Помилився?</b> Після кожної дії є кнопка «Скасувати».</p></div>
+  <button class="btn" data-a="close">Зрозуміло</button>`;
+const whatsNewHTML = () => `<h3>Нова версія</h3><p class="mut">Твої монети, цілі, звички й скарбничку перенесено.</p><div class="rules">
+  <p><b>🏙️ Твоя вежа в нічному місті.</b> Кожен день із ділом — світлий поверх, день у нікуди — темний.</p>
+  <p><b>🍺 Штрафи за шкідливе:</b> алкоголь −150, вейп −100, гульки до ночі −50 та інше. Суми змінюються в «Ще».</p>
+  <p><b>🕳️ День без жодної дії = −${S.penaltyDay} 🪙.</b> ${restText()}.</p>
+  <p><b>⭐ Мрії:</b> фото мрії, скарбнички, облік доходу, відлік до 18.</p>
+  <p><b>🏆 Рівні й досягнення,</b> нові кольори неба.</p>
+  <p><b>↩️ Скасування</b> будь-якої дії.</p></div>
+  <button class="btn" data-a="close">Погнали</button>`;
+function missedHTML(r) {
+  const n = r.missed.length, sum = r.charged.length * S.penaltyDay;
+  const dates = r.missed.slice(-7).map(fmtDay).join(', ') + (n > 7 ? ' та інші' : '');
+  return `<h3>🕳️ ${n} ${pl(n, 'день', 'дні', 'днів')} у нікуди</h3><p>${esc(dates)}: жодної справи.</p>
+  ${sum ? `<p>Штраф <b class="neg">−${fmt(sum)} 🪙</b>, ці гроші йдуть: ${esc(S.penaltyTo)}.${n > r.charged.length ? ' Нараховано лише за останні 7 днів.' : ''}</p>` : ''}
+  <p class="mut">Щоб день зарахувався, вистачить однієї цілі або корисної звички.</p><button class="btn" data-a="close">Зрозуміло</button>`;
+}
+function reportText(m) {
+  const dj = dreamJar(), earned = S.earned[m] || 0;
+  const doneN = S.goals.filter(g => g.done && String(g.dk || (g.at ? dateKey(new Date(g.at)) : '')).slice(0, 7) === m).length;
+  return [`📊 ${USER}: підсумок за ${monthName(m).toLowerCase()} ${m.slice(0, 4)}`,
+    `✅ Виконано цілей: ${doneN}`,
+    `🪙 Зароблено: ${fmt(earned)}${S.budget ? ` з ${fmt(S.budget)}` : ''}`,
+    `💸 Штрафи: ${fmt(S.penM[m] || 0)} грн (${S.penaltyTo})`,
+    `🎁 Нагороди: ${fmt(S.spentM[m] || 0)} грн`,
+    `💼 Дохід: ${fmt(incomeOf(m))} грн`,
+    dj ? `⭐ ${dj.n}: ${fmt(dj.total)} з ${fmt(dj.target)} грн` : '',
+    `🔥 Серія: ${streak()}, рекорд ${S.maxStreak}`].filter(Boolean).join('\n');
+}
+function monthHTML(m) {
+  const earned = S.earned[m] || 0, unearned = S.budget > 0 ? Math.max(0, S.budget - earned) : 0, dj = dreamJar();
+  const doneN = S.goals.filter(g => g.done && String(g.dk || (g.at ? dateKey(new Date(g.at)) : '')).slice(0, 7) === m).length;
+  return `<h3>Підсумок: ${monthName(m).toLowerCase()}</h3><div class="split">
+    <div><span>✅ Виконано цілей</span><b>${doneN}</b></div>
+    <div><span>🪙 Зароблено</span><b>${fmt(earned)}${S.budget ? ` з ${fmt(S.budget)}` : ''}</b></div>
+    <div><span>💸 Штрафи <small>${esc(S.penaltyTo)}</small></span><b>${fmt(S.penM[m] || 0)} грн</b></div>
+    <div><span>🎁 Нагороди</span><b>${fmt(S.spentM[m] || 0)} грн</b></div>
+    <div><span>💼 Дохід</span><b>${fmt(incomeOf(m))} грн</b></div></div>
+    ${unearned > 0 && dj ? `<p class="mut">Невикористано ${fmt(unearned)} грн бюджету нагород. Переклади їх у скарбничку.</p><button class="btn" data-a="unearned" data-amt="${unearned}" data-m="${m}">Записати ${fmt(unearned)} грн у «${esc(dj.n)}»</button>` : ''}
+    <button class="btn ghost" data-a="shareReport" data-m="${m}">Надіслати звіт хранителю</button>`;
+}
+function levelHTML(L) {
+  const rk = rankOf(L), th = THEMES.find(x => x.lvl === L);
+  return `<div class="lvup"><span class="be">${rk[0]}</span><h3>Рівень ${L}</h3><p>Тепер ти: <b>${rk[1]}</b></p>${th ? `<p>Відкрито небо «${th.e} ${th.n}»</p><button class="btn" data-a="themeOn" data-id="${th.id}">Увімкнути</button>` : ''}<button class="btn ghost" data-a="close">Далі</button></div>`;
+}
+const achHTML = a => `<div class="lvup"><span class="be">${a.e}</span><h3>${a.t}</h3><p>${a.d}</p><button class="btn" data-a="close">Круто</button></div>`;
+function splitHTML(a, src, crossed) {
+  const rows = S.jars.filter(j => j.pct > 0).map(j => ({j, v: Math.round(a * j.pct / 100)}));
+  const usedPct = rows.reduce((s, r) => s + r.j.pct, 0), rest = a - rows.reduce((s, r) => s + r.v, 0);
+  return `${crossed ? `<div class="mile">🚀 Рубіж ${fmt(crossed)} грн за місяць узято</div>` : ''}<h3>Як розкласти ${fmt(a)} грн</h3><p class="mut">Твій план розподілу. Відсотки змінюються в кожній скарбничці.</p>
+    <div class="split">${rows.map(r => `<div><span>${esc(r.j.e)} ${esc(r.j.n)} <small>${r.j.pct}%</small></span><b>${fmt(r.v)}</b></div>`).join('')}<div><span>🎉 Особисте <small>${100 - usedPct}%</small></span><b>${fmt(rest)}</b></div></div>
+    ${rows.length ? `<div class="row2"><button class="btn ghost" data-a="close">Пізніше</button><button class="btn" data-a="splitYes" data-amt="${a}" data-src="${esc(src)}">Розкласти</button></div>` : '<button class="btn" data-a="close">Готово</button>'}`;
+}
+const reqText = r => `🎁 ${USER} заробив нагороду: ${r.t}\nСума: ${fmt(r.c)} грн\nЗалишок: ${fmt(S.coins)} 🪙${S.keeper ? `\n@${S.keeper}, видай, будь ласка 🙌` : ''}`;
+
+/* ================= дії ================= */
+// act: знімок стану → дія → збереження → тост із «Скасувати»
+function act(fn) {
+  const snap = JSON.stringify(S);
+  let msg;
+  try { msg = fn(); } catch (e) { console.error(e); S = JSON.parse(snap); fxQ = []; toast('Щось пішло не так: ' + e.message); return false; }
+  if (msg === false) { fxQ = []; return false; }
+  const newAch = checkAch(), L = lvl(S.xp).L, up = L > (S.lvlSeen || 1);
+  if (up) S.lvlSeen = L;
+  save(); render();
+  if (msg) toast(msg, () => { S = JSON.parse(snap); towerSig = ''; save(); render(); toast('Скасовано'); hap('light'); });
+  const q = fxQ; fxQ = []; q.forEach(f => { try { f(); } catch (e) {} });
+  if (up) setTimeout(() => { queueSheet(levelHTML(L)); burst(innerWidth / 2, innerHeight * .35, 90); hap('ok'); }, 650);
+  newAch.forEach((a, i) => setTimeout(() => { queueSheet(achHTML(a)); burst(innerWidth / 2, innerHeight * .4, 60); }, 900 + i * 60));
+  return true;
+}
+const findIn = (arr, id) => arr.find(x => x.id === id);
+const A = {}, F = {};
+A.close = () => closeSheet();
+A.tab = d => { tab = d.t; render(); window.scrollTo(0, 0); hap('light'); };
+A.openPer = d => { gPer = d.p; tab = 'goals'; render(); window.scrollTo(0, 0); };
+A.per = d => { gPer = d.p; render(); };
+
+A.goal = (d, el) => {
+  const g = findIn(S.goals, d.id); if (!g) return;
+  const r = el.getBoundingClientRect();
+  if (g.done) {
+    act(() => {
+      const got = g.got != null ? g.got : g.c, x = g.x != null ? g.x : g.c, dk = g.dk || (g.at ? dateKey(new Date(g.at)) : todayKey());
+      unaward(got, x, dk, 'Скасовано: ' + g.t);
+      g.done = false; delete g.got; delete g.x; delete g.dk;
+      S.totalDone = Math.max(0, S.totalDone - 1);
+      return 'Повернуто в невиконані';
+    });
+    return;
+  }
+  let got = 0;
+  const ok = act(() => {
+    g.done = true; g.at = Date.now(); g.dk = todayKey();
+    got = award(g.c, g.t); g.got = got; g.x = g.c;
+    S.totalDone++; mark();
+    return got < g.c ? `Виконано. +${g.c} XP, монети: ліміт місяця` : `Виконано: +${got} 🪙`;
+  });
+  if (ok) fxGain(r, got, g.c);
+};
+A.delGoal = d => act(() => { const g = findIn(S.goals, d.id); if (!g) return false; S.goals = S.goals.filter(x => x !== g); return 'Ціль видалено'; });
+A.moveGoal = d => act(() => { const g = findIn(S.goals, d.id); if (!g) return false; g.p = 'd'; g.k = todayKey(); return 'Перенесено на сьогодні'; });
+F.addGoal = f => {
+  const t = f.elements.t.value.trim(), p = f.dataset.p || 'd';
+  if (!t) { f.elements.t.focus(); return; }
+  const c = clampC(num(f.elements.c.value) || DEFAULT_REWARD[p], p);
+  act(() => { S.goals.push({id: uid(), t: t.slice(0, 140), p, c, k: periodKey(p), done: false, cr: Date.now()}); return `Додано: ${t.slice(0, 40)}`; });
+};
+
+A.hab = (d, el) => {
+  const h = findIn(S.good, d.id); if (!h) return;
+  const t = todayKey(), on = (S.hlog[t] || []).includes(h.id), r = el.getBoundingClientRect();
+  if (on) {
+    act(() => {
+      const g = (S.hgot[t] || {})[h.id] || [h.c, h.c];
+      S.hlog[t] = S.hlog[t].filter(x => x !== h.id);
+      unaward(g[0], g[1], t, 'Скасовано: ' + h.t);
+      S.hTotal = Math.max(0, S.hTotal - 1);
+      if (S.hgot[t]) delete S.hgot[t][h.id];
+      return 'Звичку знято';
+    });
+    return;
+  }
+  let got = 0;
+  const ok = act(() => {
+    (S.hlog[t] = S.hlog[t] || []).push(h.id);
+    got = award(h.c, h.t); S.hTotal++;
+    (S.hgot[t] = S.hgot[t] || {})[h.id] = [got, h.c];
+    mark();
+    return got < h.c ? `+${h.c} XP, монети: ліміт місяця` : `${h.t}: +${got} 🪙`;
+  });
+  if (ok) fxGain(r, got, h.c);
+};
+A.bad = d => {
+  const h = findIn(S.bad, d.id); if (!h) return;
+  if ((S.hlog[todayKey()] || []).includes(h.id)) {
+    openSheet(`<h3>${esc(h.t)}</h3><p>Сьогодні вже записано: −${h.c} 🪙. Записав помилково?</p><div class="row2"><button class="btn ghost" data-a="close">Залишити</button><button class="btn" data-a="badUndo" data-id="${h.id}">Скасувати штраф</button></div>`);
+    return;
+  }
+  openSheet(`<h3>${esc(h.t)}</h3><p>Було сьогодні? Штраф <b class="neg">−${h.c} 🪙</b>, ці гроші йдуть: ${esc(S.penaltyTo)}.</p><div class="row2"><button class="btn ghost" data-a="close">Ні, не було</button><button class="btn red" data-a="badYes" data-id="${h.id}">Так, було</button></div>`);
+  hap('warn');
+};
+A.badYes = d => {
+  const h = findIn(S.bad, d.id); closeSheet(); if (!h) return;
+  const t = todayKey();
+  act(() => {
+    (S.hlog[t] = S.hlog[t] || []).push(h.id);
+    const prev = S.lastBad[h.id] || '';
+    penalty(h.c, h.t);
+    (S.hgot[t] = S.hgot[t] || {})[h.id] = [-h.c, 0, prev];
+    S.lastBad[h.id] = t;
+    return `${h.t}: −${h.c} 🪙`;
+  });
+  setTimeout(() => { hit(); hap('err'); }, 80);
+};
+A.badUndo = d => {
+  const h = findIn(S.bad, d.id); closeSheet(); if (!h) return;
+  const t = todayKey();
+  act(() => {
+    const g = (S.hgot[t] || {})[h.id] || [-h.c, 0, ''];
+    S.hlog[t] = (S.hlog[t] || []).filter(x => x !== h.id);
+    S.coins -= g[0];
+    const m = monthKey(); S.penM[m] = Math.max(0, (S.penM[m] || 0) + g[0]);
+    if (g[2]) S.lastBad[h.id] = g[2]; else delete S.lastBad[h.id];
+    if (S.hgot[t]) delete S.hgot[t][h.id];
+    logEv(-g[0], 'Скасовано штраф: ' + h.t);
+    return 'Штраф скасовано';
+  });
+};
+
+A.rest = () => {
+  if (S.coins < 0) return toast('Спочатку закрий борг');
+  if (S.coins < REST_PRICE) return toast(`Не вистачає ${fmt(REST_PRICE - S.coins)} 🪙`);
+  const t = todayKey(), tm = addDaysKey(t, 1), canT = !(S.days[t] > 0) && !isRest(t), canTm = !isRest(tm);
+  if (!canT && !canTm) return toast('Сьогодні й завтра вже без штрафу');
+  openSheet(`<h3>🧊 Позаплановий вихідний</h3><p>${REST_PRICE} 🪙. У цей день штрафу за бездіяльність не буде, серія не перерветься.</p><div class="row2">${canT ? `<button class="btn ghost" data-a="restBuy" data-day="${t}">Сьогодні</button>` : ''}${canTm ? `<button class="btn" data-a="restBuy" data-day="${tm}">Завтра, ${fmtDay(tm)}</button>` : ''}</div>`);
+};
+A.restBuy = d => {
+  closeSheet();
+  if (S.coins < REST_PRICE) return toast(`Не вистачає ${fmt(REST_PRICE - S.coins)} 🪙`);
+  act(() => { S.rest[d.day] = 1; spend(REST_PRICE, `Вихідний: ${fmtDay(d.day)}`, false); return `Вихідний ${fmtDay(d.day)} куплено`; });
+};
+A.buy = d => {
+  const r = findIn(S.rewards, d.id); if (!r) return;
+  if (S.coins < 0) return toast('Спочатку закрий борг');
+  if (S.coins < r.c) return toast(`Не вистачає ${fmt(r.c - S.coins)} 🪙`);
+  openSheet(`<h3>${esc(r.t)}</h3><p>Спишемо ${fmt(r.c)} 🪙. ${S.keeper ? `Запит піде хранителю @${esc(S.keeper)}` : 'Відкриється Telegram — обери, кому надіслати запит'}: він видасть ${fmt(r.c)} грн.</p><div class="row2"><button class="btn ghost" data-a="close">Ні</button><button class="btn" data-a="buyYes" data-id="${r.id}">Купити</button></div>`);
+};
+A.buyYes = d => {
+  const r = findIn(S.rewards, d.id); closeSheet();
+  if (!r || S.coins < r.c) return;
+  const ok = act(() => { spend(r.c, r.t, true); S.reqs.push({id: uid(), t: r.t, c: r.c, at: Date.now(), st: 'wait'}); return `Куплено: ${r.t}`; });
+  if (!ok) return;
+  burst(innerWidth / 2, innerHeight * .4, 70); hap('ok');
+  setTimeout(() => share(reqText(r)), 450);
+};
+A.reqOk = d => act(() => { const q = findIn(S.reqs, d.id); if (!q) return false; q.st = 'ok'; return 'Позначено: отримав'; });
+A.reqRe = d => { const q = findIn(S.reqs, d.id); if (q) share(`⏰ Нагадування: ${q.t}, ${fmt(q.c)} грн.${S.keeper ? ` @${S.keeper}` : ''}`); };
+A.delReward = d => act(() => { const r = findIn(S.rewards, d.id); if (!r) return false; S.rewards = S.rewards.filter(x => x !== r); return 'Нагороду видалено'; });
+F.addReward = f => {
+  const t = f.elements.t.value.trim(), c = Math.round(num(f.elements.c.value));
+  if (!t) return f.elements.t.focus();
+  if (!(c > 0)) return toast('Вкажи ціну в гривнях');
+  act(() => { S.rewards.push({id: uid(), t: t.slice(0, 80), c}); return 'Нагороду додано'; });
+};
+
+A.jar = d => {
+  const j = findIn(S.jars, d.id); if (!j) return;
+  const p = j.target ? Math.min(100, j.total / j.target * 100) : 0, isDream = dreamJar() === j;
+  openSheet(`<h3>${esc(j.e || '💰')} ${esc(j.n)}</h3><p><b class="big">${fmt(j.total)} грн</b></p><p class="mut">з ${fmt(j.target)} грн, ${pctFmt(p)}</p><span class="bar"><i style="width:${p}%"></i></span>
+    <div class="mv"><input class="in" id="jarAmt" type="number" inputmode="numeric" placeholder="Сума, грн" min="1"><button class="btn" data-a="jarMv" data-id="${j.id}" data-dir="1">+ Відклав</button><button class="btn ghost" data-a="jarMv" data-id="${j.id}" data-dir="-1">− Зняв</button></div>
+    ${j.log.length ? `<h4>Історія</h4><div class="hist">${j.log.slice(-12).reverse().map(l => `<div><span>${fmtDay(l.d)}${l.n ? `<small>${esc(l.n)}</small>` : ''}</span><b class="${l.a < 0 ? 'neg' : 'pos'}">${l.a > 0 ? '+' : ''}${fmt(l.a)}</b></div>`).join('')}</div>` : ''}
+    <h4>Налаштування</h4><form class="set" data-f="jarEdit" data-id="${j.id}">
+      <div class="r3"><label>Емодзі<input class="in" name="e" value="${esc(j.e || '')}" maxlength="8"></label><label>Назва<input class="in" name="n" value="${esc(j.n)}" maxlength="40"></label></div>
+      <div class="r2"><label>Ціль, грн<input class="in" name="target" type="number" inputmode="numeric" value="${j.target}"></label><label>% від доходу<input class="in" name="pct" type="number" inputmode="numeric" value="${j.pct || 0}" min="0" max="100"></label></div>
+      <button class="btn ghost" type="submit">Зберегти</button></form>
+    ${isDream ? '' : `<button class="lnk dang" data-a="jarDel" data-id="${j.id}">Видалити скарбничку</button>`}`);
+};
+A.jarMv = d => {
+  const j = findIn(S.jars, d.id), a = Math.round(num(($('#jarAmt') || {}).value)), dir = +d.dir;
+  if (!j || !(a > 0)) return toast('Вкажи суму');
+  if (dir < 0 && a > j.total) return toast('Стільки там немає');
+  closeSheet();
+  act(() => { j.total += dir * a; j.log.push({d: todayKey(), a: dir * a, n: dir > 0 ? 'відклав' : 'зняв'}); return `${j.n}: ${dir > 0 ? '+' : '−'}${fmt(a)} грн`; });
+  if (dir > 0) { burst(innerWidth / 2, innerHeight * .35, 50, ['#FFC15E', '#FFE29A', '#3FE0A0']); hap('ok'); }
+};
+F.jarEdit = f => {
+  const j = findIn(S.jars, f.dataset.id); if (!j) return;
+  const v = n => f.elements[n].value, pct = Math.max(0, Math.min(100, Math.round(num(v('pct'))))), others = S.jars.filter(x => x !== j).reduce((s, x) => s + (x.pct || 0), 0);
+  if (pct + others > 100) return toast(`Разом з іншими скарбничками ${pct + others}%, а максимум 100%`);
+  closeSheet();
+  act(() => { j.e = v('e').trim().slice(0, 8) || j.e; j.n = v('n').trim().slice(0, 40) || j.n; j.target = Math.max(1, Math.round(num(v('target')))) || j.target; j.pct = pct; return 'Скарбничку оновлено'; });
+};
+A.jarDel = d => { closeSheet(); act(() => { const j = findIn(S.jars, d.id); if (!j || j === dreamJar()) return false; S.jars = S.jars.filter(x => x !== j); return 'Скарбничку видалено'; }); };
+A.newJar = () => openSheet(`<h3>Нова скарбничка</h3><form class="set" data-f="newJar"><div class="r3"><label>Емодзі<input class="in" name="e" value="💰" maxlength="8"></label><label>Назва<input class="in" name="n" placeholder="Напр. Ноутбук" maxlength="40" required></label></div><div class="r2"><label>Ціль, грн<input class="in" name="target" type="number" inputmode="numeric" placeholder="20000" required></label><label>% від доходу<input class="in" name="pct" type="number" inputmode="numeric" value="0" min="0" max="100"></label></div><button class="btn" type="submit">Створити</button></form>`);
+F.newJar = f => {
+  const v = n => f.elements[n].value, n = v('n').trim(), target = Math.round(num(v('target'))), pct = Math.max(0, Math.min(100, Math.round(num(v('pct')))));
+  if (!n || !(target > 0)) return toast('Вкажи назву і ціль');
+  if (pct + S.jars.reduce((s, x) => s + (x.pct || 0), 0) > 100) return toast('Сума відсотків більша за 100%');
+  closeSheet();
+  act(() => { S.jars.push({id: uid(), e: v('e').trim().slice(0, 8) || '💰', n: n.slice(0, 40), target, pct, total: 0, log: []}); return 'Скарбничку створено'; });
+};
+
+A.incAdd = () => openSheet(`<h3>Новий дохід</h3><form class="set" data-f="incAdd"><label>Сума, грн<input class="in" name="a" type="number" inputmode="numeric" placeholder="Напр. 4000" min="1"></label><div class="chips">${SOURCES.map((s, i) => `<label class="chip"><input type="radio" name="s" value="${esc(s.n)}"${i === 0 ? ' checked' : ''}><span>${s.e} ${esc(s.n)}</span></label>`).join('')}</div><button class="btn" type="submit">Записати</button></form>`);
+F.incAdd = f => {
+  const a = Math.round(num(f.elements.a.value)); if (!(a > 0)) return toast('Вкажи суму');
+  const sel = f.querySelector('input[name=s]:checked'), s = sel ? sel.value : 'Інше', m = monthKey(), before = incomeOf(m);
+  closeSheet();
+  act(() => { S.inc.push({d: todayKey(), a, s}); return `Дохід: +${fmt(a)} грн`; });
+  const after = incomeOf(m), crossed = [10000, 30000, 100000].filter(x => before < x && after >= x).pop();
+  if (crossed) { burst(innerWidth / 2, innerHeight * .35, 110); hap('ok'); }
+  setTimeout(() => openSheet(splitHTML(a, s, crossed)), 380);
+};
+A.splitYes = d => {
+  const a = +d.amt; closeSheet();
+  act(() => { S.jars.forEach(j => { if (j.pct > 0) { const v = Math.round(a * j.pct / 100); if (v > 0) { j.total += v; j.log.push({d: todayKey(), a: v, n: 'з доходу: ' + d.src}); } } }); return 'Розкладено по скарбничках'; });
+  burst(innerWidth / 2, innerHeight * .4, 50, ['#FFC15E', '#FFE29A', '#3FE0A0']); hap('ok');
+};
+A.unearned = d => { const a = +d.amt; closeSheet(); act(() => { const j = dreamJar(); j.total += a; j.log.push({d: todayKey(), a, n: 'бюджет нагород: ' + monthName(d.m).toLowerCase()}); return `+${fmt(a)} грн у «${j.n}»`; }); };
+
+A.photo = () => { closeSheet(); $('#photoIn').click(); };
+A.photoMenu = () => openSheet(`<h3>Фото мрії</h3><div class="row2"><button class="btn ghost" data-a="photoDel">Прибрати</button><button class="btn" data-a="photo">Змінити</button></div>`);
+A.photoDel = async () => { closeSheet(); photo = ''; render(); try { await savePhoto(''); toast('Фото прибрано'); } catch (e) { toast('Не вдалося прибрати фото'); } };
+async function shrink(file) {
+  const src = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+    for (const [max, q] of [[720, .72], [720, .55], [560, .5], [420, .45]]) {
+      const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight)), c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      const url = c.toDataURL('image/jpeg', q);
+      if (url.length <= 140000) return url;
+    }
+    throw new Error('too big');
+  } finally { URL.revokeObjectURL(src); }
+}
+async function onPhoto(e) {
+  const file = e.target.files && e.target.files[0]; e.target.value = '';
+  if (!file) return;
+  toast('Обробляю фото…');
+  try {
+    const url = await shrink(file);
+    photo = url; render();
+    const ok = await savePhoto(url);
+    toast(ok ? 'Фото мрії збережено' : 'Фото показано, але не збережено');
+  } catch (err) { console.warn(err); toast('Не вдалося обробити це фото'); }
+}
+
+A.theme = d => {
+  const th = THEMES.find(x => x.id === d.id); if (!th) return;
+  if (lvl(S.xp).L < th.lvl) return toast(`Відкриється на рівні ${th.lvl}`);
+  act(() => { S.theme = th.id; return ''; }); hap('light');
+};
+A.themeOn = d => { closeSheet(); act(() => { S.theme = d.id; return ''; }); tab = 'today'; render(); window.scrollTo(0, 0); };
+F.settings = f => {
+  const v = n => f.elements[n].value, kp = v('keeper').trim().replace(/^https?:\/\/t\.me\//i, '').replace(/^@/, '').replace(/[^\w]/g, '');
+  let wd = parseInt(v('restWd'), 10); if (!(wd >= -1 && wd <= 6)) wd = 0;
+  act(() => {
+    S.keeper = kp.slice(0, 40);
+    S.budget = Math.max(0, Math.round(num(v('budget'))));
+    S.penaltyTo = v('penaltyTo').trim().slice(0, 60) || 'донат на ЗСУ';
+    S.penaltyDay = Math.max(0, Math.round(num(v('penaltyDay'))));
+    S.restWd = wd;
+    S.birthday = /^\d{4}-\d{2}-\d{2}$/.test(v('birthday')) ? v('birthday') : '';
+    return 'Налаштування збережено';
+  });
+};
+F.addGood = f => {
+  const t = f.elements.t.value.trim(), c = Math.max(1, Math.min(200, Math.round(num(f.elements.c.value)) || 10));
+  if (!t) return f.elements.t.focus();
+  act(() => { S.good.push({id: uid(), t: t.slice(0, 60), c}); return 'Звичку додано'; });
+};
+F.addBad = f => {
+  const t = f.elements.t.value.trim(), c = Math.max(1, Math.min(2000, Math.round(num(f.elements.c.value)) || 50));
+  if (!t) return f.elements.t.focus();
+  act(() => { S.bad.push({id: uid(), t: t.slice(0, 60), c}); return 'Додано до шкідливих'; });
+};
+A.delGood = d => act(() => { if (!findIn(S.good, d.id)) return false; S.good = S.good.filter(x => x.id !== d.id); return 'Звичку видалено'; });
+A.delBad = d => act(() => { if (!findIn(S.bad, d.id)) return false; S.bad = S.bad.filter(x => x.id !== d.id); return 'Видалено'; });
+
+A.plan = () => openSheet(`<h3>План від Claude</h3><p class="mut">Скопіюй запит, допиши свої цілі й надішли Claude. Його відповідь встав нижче.</p><button class="btn ghost" data-a="copyPrompt">📋 Скопіювати запит</button><form class="set" data-f="plan" style="margin-top:12px"><textarea class="in" name="raw" rows="7" placeholder="д: Написати 3 бізнесам | 20&#10;т: Зняти 5 шортсів | 150&#10;м: Дохід 10 000 грн | 500"></textarea><button class="btn" type="submit">Додати цілі</button></form>`);
+A.copyPrompt = async () => { const ok = await copy(PROMPT); toast(ok ? 'Скопійовано. Встав у чат із Claude' : 'Не вдалося скопіювати'); };
+F.plan = f => {
+  const items = parsePlan(f.elements.raw.value);
+  if (!items.length) return toast('Не знайшов цілей. Формат: «д: текст | монети»');
+  closeSheet();
+  act(() => { items.forEach(x => S.goals.push({id: uid(), t: x.t, p: x.p, c: clampC(x.c, x.p), k: x.date ? periodKey(x.p, x.date) : periodKey(x.p), done: false, cr: Date.now()})); return `Додано ${items.length} ${pl(items.length, 'ціль', 'цілі', 'цілей')}`; });
+};
+
+A.rules = () => openSheet(rulesHTML());
+A.report = () => { const m = monthKey(); openSheet(`<h3>Звіт за ${monthName(m).toLowerCase()}</h3><div class="rep">${esc(reportText(m))}</div><button class="btn" data-a="shareReport" data-m="${m}">Надіслати в Telegram</button>`); };
+A.shareReport = d => { closeSheet(); share(reportText(d.m || monthKey())); };
+A.history = () => openSheet(`<h3>Історія монет</h3>${S.ev.length ? `<div class="hist">${S.ev.slice().reverse().map(e => { const d = new Date(e.t); return `<div><span><small>${pad(d.getDate())}.${pad(d.getMonth() + 1)} ${pad(d.getHours())}:${pad(d.getMinutes())}</small>${esc(e.n)}</span><b class="${e.a < 0 ? 'neg' : e.a > 0 ? 'pos' : ''}">${e.a > 0 ? '+' : ''}${fmt(e.a)}</b></div>`; }).join('')}</div>` : '<p class="empty">Поки порожньо</p>'}`);
+A.backup = async () => { const ok = await copy(JSON.stringify(S)); toast(ok ? 'Копію скопійовано. Збережи її в «Збережене» Telegram' : 'Не вдалося скопіювати'); };
+A.restore = () => openSheet(`<h3>Відновити з копії</h3><p class="mut">Встав текст резервної копії. Поточні дані буде замінено.</p><form class="set" data-f="restore"><textarea class="in" name="raw" rows="6"></textarea><button class="btn" type="submit">Відновити</button></form>`);
+F.restore = f => {
+  const o = tryParse(f.elements.raw.value.trim());
+  if (!o || !(o.v === 2 || o.habits || o.goals || o.bank)) return toast('Це не схоже на резервну копію');
+  const st = o.v === 2 ? normalize(o) : migrate(o); st.seen = 2;
+  closeSheet(); towerSig = '';
+  act(() => { S = st; return 'Дані відновлено'; });
+};
+A.reset = () => openSheet(`<h3>Почати з нуля?</h3><p>Зникнуть монети, цілі, звички, скарбнички й історія. Скасувати можна буде лише кілька секунд.</p><div class="row2"><button class="btn ghost" data-a="close">Ні</button><button class="btn red" data-a="resetYes">Стерти все</button></div>`);
+A.resetYes = () => { closeSheet(); towerSig = ''; act(() => { S = fresh(); S.seen = 2; return 'Усе стерто'; }); };
+
+/* ================= запуск ================= */
+let curDay = '';
+function monthCheck() {
+  const m = monthKey();
+  if (S.monthSeen === m) return;
+  const prev = S.monthSeen; S.monthSeen = m; save();
+  if (prev && prev < m) queueSheet(monthHTML(prev));
 }
 function tick() {
-  cx.clearRect(0, 0, innerWidth, innerHeight);
-  parts = parts.filter(p => p.l > 0);
-  for (const p of parts) { p.x += p.vx; p.y += p.vy; p.vy += .25; p.vx *= .985; p.l -= .018; cx.globalAlpha = Math.max(0, p.l); cx.fillStyle = p.c; if (p.sq) cx.fillRect(p.x, p.y, p.r * 1.6, p.r * 1.6); else { cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 7); cx.fill(); } }
-  if (parts.length) requestAnimationFrame(tick); else { run = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
+  if (!S) return;
+  const t = todayKey();
+  if (t !== curDay) {
+    curDay = t;
+    if (!readOnly) { const r = processMissed(); if (r) { save(); queueSheet(missedHTML(r)); } monthCheck(); }
+    towerSig = ''; render();
+  } else { const el = $('#leftT'); if (el) el.textContent = leftToday(); }
 }
-
-// ---------- старт ----------
-(async () => {
-  const d = await load();
-  if (d && d.v === 1) S = Object.assign(fresh(), d);
-  prevChunks = cloud ? +((await cs.get([PREFIX + 'n']))[PREFIX + 'n'] || 0) : 0;
+async function boot() {
+  if (tg) { try { tg.ready(); tg.expand(); if (ver('6.1')) { tg.setHeaderColor('#100C29'); tg.setBackgroundColor('#100C29'); } if (ver('7.7') && tg.disableVerticalSwipes) tg.disableVerticalSwipes(); } catch (e) {} }
+  cv = $('#fx'); cx2 = cv.getContext('2d'); sizeFx(); addEventListener('resize', sizeFx);
+  buildStatic();
+  try { await load(); } catch (e) {
+    console.error(e); S = fresh(); readOnly = true;
+    roMsg = 'Не вдалося завантажити дані з Telegram. Щоб нічого не зіпсувати, зміни зараз не зберігаються. Закрий і відкрий застосунок ще раз.';
+  }
+  curDay = todayKey();
+  let missed = null;
+  if (!readOnly) {
+    missed = processMissed();
+    if (streak() > S.maxStreak) S.maxStreak = streak();
+    checkAch();
+    const L = lvl(S.xp).L; if (L > S.lvlSeen) S.lvlSeen = L;
+    save();
+  } else { const ro = $('#ro'); ro.hidden = false; ro.textContent = roMsg; }
   render();
-  if (!d) { save(); setTimeout(() => say('Вітаю! Виконуй цілі — отримуй монети 🪙'), 400); }
-  // оновлення дати, якщо застосунок відкритий опівночі
-  let today = dayKey(); setInterval(() => { if (dayKey() !== today) { today = dayKey(); render(); } }, 30000);
-})();
-})();
+  $('#loading').remove();
+  if (!readOnly) {
+    if (S.seen < 2) { queueSheet(S.seen === 1 ? whatsNewHTML() : rulesHTML()); S.seen = 2; save(); }
+    if (missed) queueSheet(missedHTML(missed));
+    monthCheck();
+  }
+  setInterval(tick, 30000);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) flush(); else tick(); });
+  addEventListener('pagehide', () => flush());
+  try { if (await loadPhoto() && tab === 'dreams') render(); } catch (e) {}
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a]'); if (!b) return;
+  const fn = A[b.dataset.a]; if (!fn) return;
+  e.preventDefault(); fn(b.dataset, b, e);
+});
+document.addEventListener('submit', e => { const f = e.target, fn = F[f.dataset.f]; if (!fn) return; e.preventDefault(); fn(f); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+$('#sheetBg').addEventListener('click', closeSheet);
+$('#photoIn').addEventListener('change', onPhoto);
+if (BB) BB.onClick(closeSheet);
+window.App = {state: () => S, save, flush, render, tick};
+boot();
+
 </script>
 </body>
 </html>
