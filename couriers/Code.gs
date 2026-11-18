@@ -1,5 +1,5 @@
 /**
- * Команда курʼєрів — сервер у Google Таблиці.
+ * Команда курʼєрів — сервер у Google Таблиці (таблиця створюється сама).
  * 1) Встав токен бота і свій Telegram ID нижче.
  * 2) Розгорнути → Нове розгортання → Вебзастосунок → Виконувати від: Мене, Доступ: Усі.
  */
@@ -65,7 +65,18 @@ function verify(initData) {
 function hex(bytes) { return bytes.map(function (b) { return ((b + 256) % 256).toString(16).padStart(2, '0'); }).join(''); }
 
 /* ---------- таблиця ---------- */
-function ss() { return SpreadsheetApp.getActive(); }
+let _ss = null;
+// Працює і з таблиці, і як окремий проєкт: тоді таблиця створюється сама
+function ss() {
+  if (_ss) return _ss;
+  _ss = SpreadsheetApp.getActive();
+  if (_ss) return _ss;
+  const props = PropertiesService.getScriptProperties(), id = props.getProperty('SHEET_ID');
+  if (id) return (_ss = SpreadsheetApp.openById(id));
+  _ss = SpreadsheetApp.create('Команда курʼєрів');
+  props.setProperty('SHEET_ID', _ss.getId());
+  return _ss;
+}
 function sheet(n) { return ss().getSheetByName(n); }
 function ensure() {
   Object.keys(SHEETS).forEach(function (n) {
