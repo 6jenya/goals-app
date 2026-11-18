@@ -320,8 +320,8 @@ function countUp() {
 let firstPaint = true;
 function tierHTML(s) {
   const c = cfg();
-  if (s.gross >= c.threshold) return `<div class="tier"><span class="badge hi">${c.rateHigh}%</span> ставка замість ${c.rate}% до кінця місяця 🔥</div>`;
-  return `<div class="tier">До ставки <b>${c.rateHigh}%</b> ще ${fmt(c.threshold - s.gross)} грн</div>`;
+  if (s.gross >= c.threshold) return `<div class="tier">Тепер ти отримуєш <b>${100 - c.rateHigh}%</b> замість ${100 - c.rate}% за весь місяць 🔥</div>`;
+  return `<div class="tier">До <b>${100 - c.rateHigh}%</b> собі ще ${fmt(c.threshold - s.gross)} грн</div>`;
 }
 
 /* ---------- екрани ---------- */
@@ -337,14 +337,14 @@ function render() {
 }
 
 function registerHTML() {
-  return `<div class="welcome"><span class="e">🚲</span><h1>Вітаю в команді</h1><p>Заповни один раз. Далі після кожної зміни вписуєш, скільки заробив, і бачиш свої гроші, прогноз і ставку.</p></div>
+  return `<div class="welcome"><span class="e">🚲</span><h1>Вітаю в команді</h1><p>Заповни один раз. Далі після кожної зміни вписуєш, скільки заробив, і бачиш свої гроші й прогноз.</p></div>
   <form class="card form" data-f="register">
     <label class="w">Імʼя<input class="in" name="name" value="${esc(D.me.name)}" maxlength="40" required></label>
     <label class="w">Робочі дні<div class="days">${WDS.map((w, i) => `<button type="button" data-a="regDay" data-d="${i + 1}" class="${regDays.includes(i + 1) ? 'on' : ''}" aria-pressed="${regDays.includes(i + 1)}">${w}</button>`).join('')}</div></label>
     <label class="w">Годин за зміну<input class="in" name="hours" type="number" inputmode="decimal" min="1" max="16" value="4"></label>
     <button class="btn w" type="submit">Почати</button>
   </form>
-  <p class="mut center-t">Ставка ${cfg().rate}% від заробленого. Від ${fmt(cfg().threshold)} грн за місяць — ${cfg().rateHigh}%.</p>`;
+  <p class="mut center-t">Ти отримуєш ${100 - cfg().rate}% від заробленого. Від ${fmt(cfg().threshold)} грн за місяць — ${100 - cfg().rateHigh}%.</p>`;
 }
 
 function courierHTML() {
@@ -353,11 +353,11 @@ function courierHTML() {
   const best = s.es.reduce((b, e) => (e.earned > (b ? b.earned : 0) ? e : b), null);
   let h = `<div class="top"><div><h1>Привіт, ${esc(c.name)} 👋</h1><p>${c.days.length ? `${c.days.map(d => WDS[d - 1]).join(', ')}, по ${c.hours} год` : 'Графік не вказано'}</p></div>${monBar()}</div>`;
   if (D.owner) h += `<button class="lnk" data-a="view" data-v="team">← До команди</button>`;
-  h += `<div class="hero rowh">${ring(s.gross / cf.threshold, hi ? `${cf.rateHigh}%` : `${Math.floor(Math.min(99, s.gross / cf.threshold * 100))}%`, hi ? 'ставка' : `до ${fmt(cf.threshold / 1000)}к`, hi)}
+  h += `<div class="hero rowh">${ring(s.gross / cf.threshold, hi ? `${100 - cf.rateHigh}%` : `${Math.floor(Math.min(99, s.gross / cf.threshold * 100))}%`, hi ? 'тобі' : `до ${fmt(cf.threshold / 1000)}к`, hi)}
     <div class="hm"><small>Заробив за ${monL(month)}</small><b class="big" data-cnt="${Math.round(s.gross)}" data-suf=" грн">${fmt(s.gross)} грн</b>
     <small>${s.shifts} ${pl(s.shifts, 'зміна', 'зміни', 'змін')}, ${fmt(s.hours)} год${prev ? `, <span class="${s.gross >= prev ? 'up' : 'down'}">${sign((s.gross - prev) / prev * 100)}% до ${MON[+prevMonth(month).slice(5) - 1]}</span>` : ''}</small>${tierHTML(s)}</div></div>`;
-  if (fc) h += `<div class="fc"><span>🔮</span><div><b>Прогноз на ${monL(month)}: ~${fmt(fc.total)} грн</b><small>${fc.rem} ${pl(fc.rem, 'зміна', 'зміни', 'змін')} за графіком до кінця місяця, у середньому ${fmt(fc.avg)} грн за зміну${!hi && fc.avg > 0 ? `. До ставки ${cf.rateHigh}% потрібно ще ~${Math.ceil((cf.threshold - s.gross) / fc.avg)} ${pl(Math.ceil((cf.threshold - s.gross) / fc.avg), 'зміна', 'зміни', 'змін')}` : ''}</small></div></div>`;
-  h += `<div class="split"><div class="cell"><small>Віддаєш ${s.rate}%</small><b>${fmt(s.cut)} грн</b></div><div class="cell ok"><small>Тобі лишається</small><b>${fmt(s.keep)} грн</b></div>
+  if (fc) h += `<div class="fc"><span>🔮</span><div><b>Прогноз на ${monL(month)}: ~${fmt(fc.total)} грн</b><small>${fc.rem} ${pl(fc.rem, 'зміна', 'зміни', 'змін')} за графіком до кінця місяця, у середньому ${fmt(fc.avg)} грн за зміну${!hi && fc.avg > 0 ? `. До ${100 - cf.rateHigh}% собі потрібно ще ~${Math.ceil((cf.threshold - s.gross) / fc.avg)} ${pl(Math.ceil((cf.threshold - s.gross) / fc.avg), 'зміна', 'зміни', 'змін')}` : ''}</small></div></div>`;
+  h += `<div class="split"><div class="cell ok"><small>Тобі ${100 - s.rate}%</small><b>${fmt(s.keep)} грн</b></div><div class="cell"><small>Команді ${s.rate}%</small><b>${fmt(s.cut)} грн</b></div>
   <div class="cell"><small>Вже віддав</small><b>${fmt(s.paid)} грн</b></div><div class="cell ${s.owed ? 'warn' : 'ok'}"><small>Ще віддати</small><b>${fmt(s.owed)} грн</b></div></div>`;
   h += `<div class="chips3"><div><b>${s.hours ? fmt(s.gross / s.hours) : '—'}</b><small>грн за годину</small></div><div><b>${best ? fmt(best.earned) : '—'}</b><small>${best ? `рекорд, ${fday(best.date)}` : 'рекорд дня'}</small></div><div><b>${st}</b><small>${pl(st, 'зміна', 'зміни', 'змін')} поспіль 🔥</small></div></div>`;
   if (isCur) {
@@ -385,7 +385,7 @@ function courierHTML() {
     <label>Годин за зміну<input class="in" name="hours" type="number" inputmode="decimal" min="1" max="16" value="${c.hours}"></label>
     <label>Імʼя<input class="in" name="name" value="${esc(c.name)}" maxlength="40"></label>
     <button class="btn ghost w" type="submit">Зберегти графік</button></form>
-    <p class="mut" style="margin-top:14px">Ставка: ${cf.rate}% від заробленого. Якщо за місяць заробиш від ${fmt(cf.threshold)} грн, віддаєш лише ${cf.rateHigh}% за весь місяць.</p>`;
+    <p class="mut" style="margin-top:14px">Ти отримуєш ${100 - cf.rate}% від заробленого, ${cf.rate}% йде команді. Якщо за місяць заробиш від ${fmt(cf.threshold)} грн, отримуєш ${100 - cf.rateHigh}% за весь місяць.</p>`;
   return h;
 }
 
