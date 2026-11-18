@@ -84,7 +84,7 @@ p{margin:0 0 8px}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--bg2);border-radius:14px;padding:4px;margin-bottom:14px}
 .seg button{padding:9px 0;border-radius:11px;font-weight:600;font-size:14px;color:var(--tx2);text-align:center}
 .seg button.on{background:var(--bg3);color:var(--tx)}
-.grid7{display:flex;flex-direction:column;gap:8px}
+.grid7{display:flex;flex-direction:column;gap:8px;margin-top:10px}
 .gday{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border-radius:16px;padding:12px 14px}
 .gday.today{box-shadow:inset 0 0 0 1.5px rgba(63,224,160,.55)}
 .gday>b{font:600 14px var(--fd);width:30px;flex:none;padding-top:2px}
@@ -106,6 +106,76 @@ p{margin:0 0 8px}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,14px);opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility 0s .2s;background:#2A2F5E;padding:11px 16px;border-radius:14px;font-size:14px;z-index:60;box-shadow:0 10px 26px rgba(0,0,0,.45);max-width:calc(100% - 28px)}
 .toast.on{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .2s,transform .2s}
 .toast.err{background:#5A1C2C}
+.rowh{display:flex;gap:16px;align-items:center}
+.hm{flex:1;min-width:0}
+.hm .big{font-size:29px}
+.ring{position:relative;width:104px;height:104px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .rb{fill:none;stroke:rgba(255,255,255,.1);stroke-width:10}
+.ring .rf{fill:none;stroke:url(#rg);stroke-width:10;stroke-linecap:round;animation:ringIn 1.1s cubic-bezier(.2,.8,.2,1)}
+.ring.hi .rf{filter:drop-shadow(0 0 6px rgba(63,224,160,.7))}
+@keyframes ringIn{from{stroke-dashoffset:var(--c)}}
+.ring .rt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ring .rt b{font:700 21px/1.1 var(--fd)}
+.ring .rt small{font-size:11px;color:var(--tx2)}
+.up{color:var(--mint)}.down{color:#FF9DAD}
+.tier{margin-top:8px}
+.fc{display:flex;gap:12px;align-items:flex-start;margin-top:10px;padding:13px 14px;border-radius:18px;background:linear-gradient(110deg,rgba(127,184,255,.16),rgba(127,184,255,.04))}
+.fc>span{font-size:20px;line-height:1.2}
+.fc b{display:block;font-weight:600;font-size:14.5px}
+.fc small{display:block;color:var(--tx2);font-size:12.5px;margin-top:2px}
+.chips3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.chips3>div{background:var(--bg2);border-radius:16px;padding:11px 10px}
+.chips3 b{display:block;font:600 16px/1.2 var(--fd)}
+.chips3 small{display:block;color:var(--tx2);font-size:11.5px;margin-top:3px;line-height:1.25}
+.qh{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.qh button{padding:9px 0;border-radius:11px;background:var(--bg3);font-size:13.5px;font-weight:600;text-align:center;color:var(--tx2)}
+.qh button.on{background:rgba(63,224,160,.2);color:var(--mint)}
+.bars{display:grid;gap:3px;align-items:end;height:112px}
+.bc{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%}
+.bc i{display:block;width:100%;max-width:26px;border-radius:5px 5px 2px 2px;background:rgba(63,224,160,.32);animation:grow .7s cubic-bezier(.2,.8,.2,1) both;transform-origin:bottom}
+.bc.cur i{background:linear-gradient(180deg,#7FF5C6,var(--mint2))}
+.bc span{font-size:10.5px;color:var(--tx3);min-height:13px}
+@keyframes grow{from{transform:scaleY(0)}}
+.heat{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.heat .hh{font-size:11px;color:var(--tx3);text-align:center;padding-bottom:2px}
+.hc{aspect-ratio:1;border-radius:9px;display:grid;place-items:center;font-size:11.5px;color:var(--tx2);background:rgba(255,255,255,.04)}
+.hc.l1{background:rgba(63,224,160,.22);color:var(--tx)}.hc.l2{background:rgba(63,224,160,.42);color:var(--tx)}.hc.l3{background:rgba(63,224,160,.65);color:#062618}.hc.l4{background:var(--mint);color:#062618;font-weight:700}
+.hc.fu{opacity:.35}
+.hc.ms{box-shadow:inset 0 0 0 1.5px rgba(255,84,112,.55)}
+.hc.td{outline:2px solid var(--tx);outline-offset:1px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:11.5px;color:var(--tx2)}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.legend i.l1{background:rgba(63,224,160,.22)}.legend i.l4{background:var(--mint)}.legend i.ms{box-shadow:inset 0 0 0 1.5px rgba(255,84,112,.7)}
+.bdg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bdg>div{background:var(--bg2);border-radius:16px;padding:12px 6px;text-align:center}
+.bdg span{display:block;font-size:26px;filter:grayscale(1);opacity:.3}
+.bdg small{display:block;font-size:11px;color:var(--tx3);margin-top:4px;line-height:1.25}
+.bdg .on span{filter:none;opacity:1}.bdg .on small{color:var(--tx)}
+.mine{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.mine>div{background:rgba(0,0,0,.18);border-radius:14px;padding:10px}
+.mine small{display:block;font-size:11.5px}
+.mine b{display:block;font:600 14px/1.3 var(--fd);margin-top:2px;white-space:nowrap}
+.mine>div:first-child b{color:var(--mint)}
+.alerts{display:flex;flex-direction:column;gap:8px}
+.al{display:flex;align-items:center;gap:10px;background:rgba(255,193,94,.1);border-radius:16px;padding:10px 10px 10px 14px}
+.al span{font-size:19px}.al p{flex:1;margin:0;font-size:14px}
+.li .md{width:28px;flex:none;text-align:center;font-size:20px}
+.li .md i{font:600 13px var(--fd);font-style:normal;color:var(--tx3)}
+.li .btn.sm{flex:none}
+.gday>b small{display:block;font:500 11px var(--fb);color:var(--tx3)}
+.gday .ppl span.did{background:rgba(63,224,160,.18);color:var(--mint)}
+.gday .ppl span.no{background:rgba(255,84,112,.12);color:#FF9DAD}
+.gday.past{opacity:.85}
+.shd{display:flex;gap:14px;align-items:center;margin-bottom:6px}
+.shd .ring{width:86px;height:86px}.shd .ring .rt b{font-size:17px}
+.shd h3{margin:0 0 4px}.shd .mut{margin:0;font-size:13px}
+.sheet .card.in-sheet{background:var(--bg3)}
+.welcome{text-align:center;padding:26px 6px 18px}
+.welcome .e{font-size:54px;display:block;margin-bottom:6px}
+.welcome p{color:var(--tx2);margin:8px 0 0}
+.center-t{text-align:center;margin-top:14px}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}}
 </style>
 </head>
@@ -183,10 +253,75 @@ function weekDays() { const t = D.today, mon = addD(t, -(wdOf(t) - 1)); return A
 const monthName = m => `${MON_N[+m.slice(5) - 1]} ${m.slice(0, 4)}`;
 function months() { const out = []; let d = kdate(D.today.slice(0, 7) + '-01'); for (let i = 0; i < 4; i++) { out.unshift(dkey(d).slice(0, 7)); d.setMonth(d.getMonth() - 1); } return out; }
 function monBar() { const ms = months(), i = ms.indexOf(month); return `<div class="mon"><button data-a="mon" data-d="-1" ${i <= 0 ? 'disabled' : ''} aria-label="Попередній місяць">‹</button><span>${MON_N[+month.slice(5) - 1]}</span><button data-a="mon" data-d="1" ${i >= ms.length - 1 ? 'disabled' : ''} aria-label="Наступний місяць">›</button></div>`; }
+/* ---------- візуальні блоки ---------- */
+const sign = n => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(Math.round(n));
+const pctTxt = n => String(Math.round(n * 10) / 10).replace('.', ',');
+function ring(p, big, small, hi) {
+  const r = 46, c = +(2 * Math.PI * r).toFixed(1), q = Math.max(0, Math.min(1, p));
+  return `<div class="ring${hi ? ' hi' : ''}"><svg viewBox="0 0 110 110" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7FF5C6"/><stop offset="1" stop-color="#1FB57C"/></linearGradient></defs><circle cx="55" cy="55" r="${r}" class="rb"/><circle cx="55" cy="55" r="${r}" class="rf" stroke-dasharray="${c}" stroke-dashoffset="${(c * (1 - q)).toFixed(1)}" style="--c:${c}"/></svg><div class="rt"><b>${big}</b><small>${small}</small></div></div>`;
+}
+function daysIn(m) { const d = kdate(m + '-01'); return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate(); }
+function dayVals(id, m) { const v = {}; D.entries.filter(e => (!id || e.id === id) && e.date.slice(0, 7) === m).forEach(e => { v[e.date] = (v[e.date] || 0) + e.earned; }); return v; }
+function heat(id, m, plan) {
+  const v = dayVals(id, m), mx = Math.max(1, ...Object.values(v)), n = daysIn(m), lead = (kdate(m + '-01').getDay() + 6) % 7;
+  let h = WDS.map(w => `<span class="hh">${w}</span>`).join('') + '<span></span>'.repeat(lead);
+  for (let i = 1; i <= n; i++) {
+    const k = `${m}-${pad(i)}`, val = v[k] || 0, lvl = val ? 1 + Math.min(3, Math.floor(val / mx * 3.999)) : 0;
+    const fut = k > D.today, miss = !val && !fut && k !== D.today && plan && plan.includes(wdOf(k));
+    h += `<span class="hc l${lvl}${k === D.today ? ' td' : ''}${fut ? ' fu' : ''}${miss ? ' ms' : ''}" title="${fday(k)}${val ? `: ${fmt(val)} грн` : ''}">${i}</span>`;
+  }
+  return `<div class="heat">${h}</div><div class="legend"><span><i class="l1"></i>менше</span><span><i class="l4"></i>більше</span>${plan ? '<span><i class="ms"></i>пропуск за графіком</span>' : ''}</div>`;
+}
+function bars(vals, labels, cur) {
+  const mx = Math.max(1, ...vals);
+  return `<div class="bars" style="grid-template-columns:repeat(${vals.length},1fr)">${vals.map((v, i) => `<div class="bc${i === cur ? ' cur' : ''}"><i style="height:${Math.max(2, Math.round(v / mx * 86))}px" title="${labels[i]}: ${fmt(v)} грн"></i><span>${labels[i] || ''}</span></div>`).join('')}</div>`;
+}
+function forecast(id, plan) {
+  const m = D.today.slice(0, 7), s = stat(id, m);
+  if (!s.shifts) return null;
+  const avg = s.gross / s.shifts;
+  let rem = 0, k = addD(D.today, 1);
+  if (!D.entries.some(e => e.id === id && e.date === D.today) && plan.includes(wdOf(D.today))) rem++;
+  while (k.slice(0, 7) === m) { if (plan.includes(wdOf(k))) rem++; k = addD(k, 1); }
+  return {avg, rem, total: Math.round(s.gross + rem * avg)};
+}
+function streak(id, plan) {
+  const has = new Set(D.entries.filter(e => e.id === id && e.earned > 0).map(e => e.date));
+  let k = has.has(D.today) ? D.today : addD(D.today, -1), n = 0;
+  for (let i = 0; i < 90; i++) {
+    if (has.has(k)) n++;
+    else if (plan.includes(wdOf(k))) break;
+    k = addD(k, -1);
+  }
+  return n;
+}
+function prevMonth(m) { const d = kdate(m + '-01'); d.setMonth(d.getMonth() - 1); return dkey(d).slice(0, 7); }
+function badges(id) {
+  const es = D.entries.filter(e => e.id === id), wk = {}, mo = {};
+  es.forEach(e => { const mon = addD(e.date, -(wdOf(e.date) - 1)); wk[mon] = (wk[mon] || 0) + e.earned; mo[e.date.slice(0, 7)] = (mo[e.date.slice(0, 7)] || 0) + e.earned; });
+  const c = D.courier || D.couriers.find(x => x.id === id) || {days: []};
+  return [
+    ['🚀', 'Перша зміна', es.length > 0],
+    ['⏱️', '8 годин за день', es.some(e => e.hours >= 8)],
+    ['🔥', '1000 грн за день', es.some(e => e.earned >= 1000)],
+    ['📅', '5 змін без пропусків', streak(id, c.days) >= 5],
+    ['💸', '5000 за тиждень', Object.values(wk).some(v => v >= 5000)],
+    ['👑', `${fmt(cfg().threshold)} за місяць`, Object.values(mo).some(v => v >= cfg().threshold)],
+  ];
+}
+function countUp() {
+  document.querySelectorAll('[data-cnt]').forEach(el => {
+    const to = +el.dataset.cnt, t0 = performance.now(), suf = el.dataset.suf || '';
+    if (!to || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const step = t => { const p = Math.min(1, (t - t0) / 800), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(to * e) + suf; if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+}
+let firstPaint = true;
 function tierHTML(s) {
   const c = cfg();
-  if (s.gross >= c.threshold) return `<span class="bar"><i style="width:100%"></i></span><div class="tier">Ставка <b>${c.rateHigh}%</b> замість ${c.rate}%: ти заробив від ${fmt(c.threshold)} грн 🔥</div>`;
-  return `<span class="bar"><i style="width:${Math.min(100, s.gross / c.threshold * 100).toFixed(1)}%"></i></span><div class="tier">До ставки <b>${c.rateHigh}%</b> лишилось ${fmt(c.threshold - s.gross)} грн</div>`;
+  if (s.gross >= c.threshold) return `<div class="tier"><span class="badge hi">${c.rateHigh}%</span> ставка замість ${c.rate}% до кінця місяця 🔥</div>`;
+  return `<div class="tier">До ставки <b>${c.rateHigh}%</b> ще ${fmt(c.threshold - s.gross)} грн</div>`;
 }
 
 /* ---------- екрани ---------- */
@@ -198,41 +333,53 @@ function render() {
   else if (!D.courier) app.innerHTML = registerHTML();
   else if (!D.courier.active) app.innerHTML = `<div class="center"><span class="e">🚲</span><h3>Тебе прибрано з команди</h3><p class="mut">Якщо це помилка, напиши власнику.</p></div>`;
   else app.innerHTML = courierHTML();
+  if (firstPaint) { firstPaint = false; countUp(); }
 }
 
 function registerHTML() {
-  return `<div class="top"><div><h1>Вітаю в команді 👋</h1><p>Заповни один раз, далі тільки вписуй зміни</p></div></div>
+  return `<div class="welcome"><span class="e">🚲</span><h1>Вітаю в команді</h1><p>Заповни один раз. Далі після кожної зміни вписуєш, скільки заробив, і бачиш свої гроші, прогноз і ставку.</p></div>
   <form class="card form" data-f="register">
     <label class="w">Імʼя<input class="in" name="name" value="${esc(D.me.name)}" maxlength="40" required></label>
     <label class="w">Робочі дні<div class="days">${WDS.map((w, i) => `<button type="button" data-a="regDay" data-d="${i + 1}" class="${regDays.includes(i + 1) ? 'on' : ''}" aria-pressed="${regDays.includes(i + 1)}">${w}</button>`).join('')}</div></label>
     <label class="w">Годин за зміну<input class="in" name="hours" type="number" inputmode="decimal" min="1" max="16" value="4"></label>
     <button class="btn w" type="submit">Почати</button>
-  </form>`;
+  </form>
+  <p class="mut center-t">Ставка ${cfg().rate}% від заробленого. Від ${fmt(cfg().threshold)} грн за місяць — ${cfg().rateHigh}%.</p>`;
 }
 
 function courierHTML() {
-  const c = D.courier, s = stat(c.id, month), isCur = month === D.today.slice(0, 7), cf = cfg();
-  let h = `<div class="top"><div><h1>Привіт, ${esc(c.name)}</h1><p>${c.days.length ? `Графік: ${c.days.map(d => WDS[d - 1]).join(', ')}, по ${c.hours} год` : 'Графік не вказано'}</p></div>${monBar()}</div>`;
+  const c = D.courier, s = stat(c.id, month), isCur = month === D.today.slice(0, 7), cf = cfg(), hi = s.gross >= cf.threshold;
+  const fc = isCur ? forecast(c.id, c.days) : null, st = streak(c.id, c.days), prev = stat(c.id, prevMonth(month)).gross;
+  const best = s.es.reduce((b, e) => (e.earned > (b ? b.earned : 0) ? e : b), null);
+  let h = `<div class="top"><div><h1>Привіт, ${esc(c.name)} 👋</h1><p>${c.days.length ? `${c.days.map(d => WDS[d - 1]).join(', ')}, по ${c.hours} год` : 'Графік не вказано'}</p></div>${monBar()}</div>`;
   if (D.owner) h += `<button class="lnk" data-a="view" data-v="team">← До команди</button>`;
-  h += `<div class="hero"><small>Заробив за ${monL(month)}</small><b class="big">${fmt(s.gross)} грн</b><small>${s.shifts} ${pl(s.shifts, 'зміна', 'зміни', 'змін')}, ${fmt(s.hours)} год${s.hours ? `, ${fmt(s.gross / s.hours)} грн/год` : ''}</small>${tierHTML(s)}</div>
-  <div class="split"><div class="cell"><small>Віддаєш ${s.rate}%</small><b>${fmt(s.cut)} грн</b></div><div class="cell ok"><small>Тобі лишається</small><b>${fmt(s.keep)} грн</b></div>
+  h += `<div class="hero rowh">${ring(s.gross / cf.threshold, hi ? `${cf.rateHigh}%` : `${Math.floor(Math.min(99, s.gross / cf.threshold * 100))}%`, hi ? 'ставка' : `до ${fmt(cf.threshold / 1000)}к`, hi)}
+    <div class="hm"><small>Заробив за ${monL(month)}</small><b class="big" data-cnt="${Math.round(s.gross)}" data-suf=" грн">${fmt(s.gross)} грн</b>
+    <small>${s.shifts} ${pl(s.shifts, 'зміна', 'зміни', 'змін')}, ${fmt(s.hours)} год${prev ? `, <span class="${s.gross >= prev ? 'up' : 'down'}">${sign((s.gross - prev) / prev * 100)}% до ${MON[+prevMonth(month).slice(5) - 1]}</span>` : ''}</small>${tierHTML(s)}</div></div>`;
+  if (fc) h += `<div class="fc"><span>🔮</span><div><b>Прогноз на ${monL(month)}: ~${fmt(fc.total)} грн</b><small>${fc.rem} ${pl(fc.rem, 'зміна', 'зміни', 'змін')} за графіком до кінця місяця, у середньому ${fmt(fc.avg)} грн за зміну${!hi && fc.avg > 0 ? `. До ставки ${cf.rateHigh}% потрібно ще ~${Math.ceil((cf.threshold - s.gross) / fc.avg)} ${pl(Math.ceil((cf.threshold - s.gross) / fc.avg), 'зміна', 'зміни', 'змін')}` : ''}</small></div></div>`;
+  h += `<div class="split"><div class="cell"><small>Віддаєш ${s.rate}%</small><b>${fmt(s.cut)} грн</b></div><div class="cell ok"><small>Тобі лишається</small><b>${fmt(s.keep)} грн</b></div>
   <div class="cell"><small>Вже віддав</small><b>${fmt(s.paid)} грн</b></div><div class="cell ${s.owed ? 'warn' : 'ok'}"><small>Ще віддати</small><b>${fmt(s.owed)} грн</b></div></div>`;
+  h += `<div class="chips3"><div><b>${s.hours ? fmt(s.gross / s.hours) : '—'}</b><small>грн за годину</small></div><div><b>${best ? fmt(best.earned) : '—'}</b><small>${best ? `рекорд, ${fday(best.date)}` : 'рекорд дня'}</small></div><div><b>${st}</b><small>${pl(st, 'зміна', 'зміни', 'змін')} поспіль 🔥</small></div></div>`;
   if (isCur) {
     const d = entryDate || D.today, ex = D.entries.find(e => e.id === c.id && e.date === d);
     h += `<h2>${d === D.today ? 'Сьогоднішня зміна' : `Зміна ${fday(d)}`} <small>${ex ? 'записано, можна змінити' : 'впиши після зміни'}</small></h2>
     <form class="card form" data-f="entry">
-      <label class="w">Дата<input class="in" name="date" type="date" value="${d}" max="${D.today}" min="${addD(D.today, -62)}" data-a="pickDate"></label>
+      <label class="w">Дата<input class="in" name="date" type="date" value="${d}" max="${D.today}" min="${addD(D.today, -62)}"></label>
+      <div class="w qh">${[4, 6, 8, 10].map(x => `<button type="button" class="${ex && ex.hours === x ? 'on' : ''}" data-a="hrs" data-h="${x}">${x} год</button>`).join('')}</div>
       <label>Годин<input class="in" name="hours" type="number" inputmode="decimal" min="0" max="24" step="0.5" value="${ex ? ex.hours : ''}" placeholder="${c.hours || 4}"></label>
       <label>Заробив, грн<input class="in" name="earned" type="number" inputmode="decimal" min="0" value="${ex ? ex.earned : ''}" placeholder="800"></label>
       <label class="w">Замовлень (необовʼязково)<input class="in" name="orders" type="number" inputmode="numeric" min="0" value="${ex && ex.orders ? ex.orders : ''}"></label>
       <button class="btn w" type="submit">${ex ? 'Оновити' : 'Зберегти'}</button>
       ${ex ? `<button class="btn red w" type="button" data-a="delEntry" data-d="${d}">Видалити запис</button>` : ''}
     </form>`;
-    const wk = weekDays(), vals = wk.map(k => (D.entries.find(e => e.id === c.id && e.date === k) || {}).earned || 0), mx = Math.max(1, ...vals);
-    h += `<h2>Цей тиждень <small>${fmt(vals.reduce((a, b) => a + b, 0))} грн</small></h2><div class="card"><div class="week">${wk.map((k, i) => `<div class="wd${c.days.includes(i + 1) ? ' plan' : ''}"><small>${vals[i] ? fmt(vals[i]) : ''}</small><i class="${k === D.today ? 't' : ''}" style="height:${Math.max(3, Math.round(vals[i] / mx * 70))}px"></i><span>${WDS[i]}</span></div>`).join('')}</div></div>`;
+    const wk = weekDays(), vals = wk.map(k => (D.entries.find(e => e.id === c.id && e.date === k) || {}).earned || 0);
+    h += `<h2>Цей тиждень <small>${fmt(vals.reduce((a, b) => a + b, 0))} грн</small></h2><div class="card">${bars(vals, WDS, wk.indexOf(D.today))}</div>`;
   }
-  const list = s.es.slice().sort((a, b) => a.date < b.date ? 1 : -1);
-  h += `<h2>Зміни за ${monL(month)} <small>${list.length}</small></h2><div class="list">${list.length ? list.map(e => `<button class="li" data-a="edit" data-d="${e.date}"><span class="m"><b>${fday(e.date)}, ${WDS[wdOf(e.date) - 1]}</b><small>${e.hours} год${e.orders ? `, ${e.orders} замовл.` : ''}</small></span><span class="v">${fmt(e.earned)} грн</span></button>`).join('') : '<div class="empty">Поки немає записів</div>'}</div>`;
+  h += `<h2>Календар <small>${monL(month)}</small></h2><div class="card">${heat(c.id, month, c.days)}</div>`;
+  const bd = badges(c.id);
+  h += `<h2>Досягнення <small>${bd.filter(b => b[2]).length} з ${bd.length}</small></h2><div class="bdg">${bd.map(b => `<div class="${b[2] ? 'on' : ''}"><span>${b[0]}</span><small>${b[1]}</small></div>`).join('')}</div>`;
+  const list = s.es.slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+  h += `<h2>Зміни <small>${list.length}</small></h2><div class="list">${list.length ? list.map(e => `<button class="li" data-a="edit" data-d="${e.date}"><span class="m"><b>${fday(e.date)}, ${WDS[wdOf(e.date) - 1]}</b><small>${e.hours} год${e.orders ? `, ${e.orders} замовл.` : ''}${e.hours ? `, ${fmt(e.earned / e.hours)} грн/год` : ''}</small></span><span class="v">${fmt(e.earned)} грн</span></button>`).join('') : '<div class="empty">Поки немає записів</div>'}</div>`;
   h += `<h2>Мій графік</h2><form class="card form" data-f="schedule">
     <label class="w">Робочі дні<div class="days">${WDS.map((w, i) => `<button type="button" data-a="schDay" data-d="${i + 1}" class="${c.days.includes(i + 1) ? 'on' : ''}" aria-pressed="${c.days.includes(i + 1)}">${w}</button>`).join('')}</div></label>
     <label>Годин за зміну<input class="in" name="hours" type="number" inputmode="decimal" min="1" max="16" value="${c.hours}"></label>
@@ -242,29 +389,56 @@ function courierHTML() {
   return h;
 }
 
+function teamStats(m) {
+  const team = D.couriers.map(c => ({c, s: stat(c.id, m)}));
+  const tot = team.reduce((t, x) => { ['gross', 'cut', 'mine', 'partner', 'paid', 'owed', 'hours', 'shifts'].forEach(k => { t[k] += x.s[k]; }); return t; }, {gross: 0, cut: 0, mine: 0, partner: 0, paid: 0, owed: 0, hours: 0, shifts: 0});
+  return {team, tot};
+}
+function alertsHTML() {
+  const out = [], pm = prevMonth(D.today.slice(0, 7));
+  D.couriers.filter(c => c.active).forEach(c => {
+    const s = stat(c.id, D.today.slice(0, 7)), since = s.last || c.joined, gap = Math.round((kdate(D.today) - kdate(since)) / 864e5);
+    if (gap >= 3) out.push({i: '😶', t: `${c.name} не вписує зміни ${gap} ${pl(gap, 'день', 'дні', 'днів')}`, c, kind: 'silent'});
+    const ps = stat(c.id, pm);
+    if (ps.owed > 0) out.push({i: '💸', t: `${c.name} винен ${fmt(ps.owed)} грн за ${monL(pm)}`, c, kind: 'debt', amt: ps.owed, m: pm});
+  });
+  if (!out.length) return '';
+  return `<h2>Потребує уваги <small>${out.length}</small></h2><div class="alerts">${out.map(a => `<div class="al"><span>${a.i}</span><p>${esc(a.t)}</p><button class="btn sm ghost" data-a="${a.kind === 'debt' ? 'remind' : 'write'}" data-id="${a.c.id}"${a.amt ? ` data-amt="${a.amt}" data-m="${a.m}"` : ''}>${a.kind === 'debt' ? 'Нагадати' : 'Написати'}</button></div>`).join('')}</div>`;
+}
 function ownerHTML() {
-  const team = D.couriers.map(c => ({c, s: stat(c.id, month)})).sort((a, b) => (b.c.active - a.c.active) || (b.s.gross - a.s.gross));
-  const tot = team.reduce((t, x) => { t.gross += x.s.gross; t.cut += x.s.cut; t.mine += x.s.mine; t.partner += x.s.partner; t.paid += x.s.paid; t.owed += x.s.owed; return t; }, {gross: 0, cut: 0, mine: 0, partner: 0, paid: 0, owed: 0});
-  const active = D.couriers.filter(c => c.active).length;
+  const {team, tot} = teamStats(month), isCur = month === D.today.slice(0, 7), prev = teamStats(prevMonth(month)).tot.gross;
+  team.sort((a, b) => (b.c.active - a.c.active) || (b.s.gross - a.s.gross));
+  const active = D.couriers.filter(c => c.active).length, medals = ['🥇', '🥈', '🥉'];
+  let fcMine = 0, fcGross = 0;
+  if (isCur) team.forEach(({c, s}) => { if (!c.active) return; const f = forecast(c.id, c.days); const g = f ? f.total : s.gross; const r = g >= cfg().threshold ? cfg().rateHigh : cfg().rate; fcGross += g; fcMine += Math.round(g * (SHARE[r] != null ? SHARE[r] : r / 2) / 100); });
   let h = `<div class="top"><div><h1>Команда</h1><p>${active} ${pl(active, 'активний курʼєр', 'активні курʼєри', 'активних курʼєрів')}</p></div>${monBar()}</div>
   <div class="seg">${[['team', 'Курʼєри'], ['plan', 'Графік'], ['money', 'Оплати']].map(([v, n]) => `<button class="${view === v ? 'on' : ''}" data-a="view" data-v="${v}">${n}</button>`).join('')}</div>`;
   if (view === 'team') {
-    h += `<div class="hero"><small>Команда заробила за ${monL(month)}</small><b class="big">${fmt(tot.gross)} грн</b><small>Віддають ${fmt(tot.cut)} грн</small></div>
-    <div class="split"><div class="cell ok"><small>Твоя частка</small><b>${fmt(tot.mine)} грн</b></div><div class="cell"><small>${PARTNER}</small><b>${fmt(tot.partner)} грн</b></div></div>
-    <div class="split"><div class="cell ok"><small>Отримав</small><b>${fmt(tot.paid)} грн</b></div><div class="cell ${tot.owed ? 'warn' : 'ok'}"><small>Ще мають віддати</small><b>${fmt(tot.owed)} грн</b></div></div>
-    <h2>Курʼєри <small>за ${monL(month)}</small></h2><div class="list">${team.length ? team.map(({c, s}) => `<button class="li${c.active ? '' : ' off'}" data-a="courier" data-id="${c.id}"><span class="m"><b>${esc(c.name)}<span class="badge${s.rate === cfg().rateHigh ? ' hi' : ''}">${s.rate}%</span></b><small>${s.shifts} ${pl(s.shifts, 'зміна', 'зміни', 'змін')}${s.last ? `, остання ${fday(s.last)}` : ''}${c.active ? '' : ', не в команді'}</small><span class="bar sm"><i style="width:${Math.min(100, s.gross / cfg().threshold * 100).toFixed(1)}%"></i></span></span><span class="v">${fmt(s.gross)} грн<small>${s.owed ? `винен ${fmt(s.owed)}` : s.cut ? 'усе віддав' : ''}</small></span></button>`).join('') : '<div class="empty">Поки нікого. Скинь курʼєрам посилання на бота.</div>'}</div>`;
+    h += `<div class="hero"><small>Команда заробила за ${monL(month)}</small><b class="big" data-cnt="${Math.round(tot.gross)}" data-suf=" грн">${fmt(tot.gross)} грн</b>
+      <small>${tot.shifts} ${pl(tot.shifts, 'зміна', 'зміни', 'змін')}, ${fmt(tot.hours)} год${tot.hours ? `, ${fmt(tot.gross / tot.hours)} грн/год` : ''}${prev ? `, <span class="${tot.gross >= prev ? 'up' : 'down'}">${sign((tot.gross - prev) / prev * 100)}% до ${MON[+prevMonth(month).slice(5) - 1]}</span>` : ''}</small>
+      <div class="mine"><div><small>Твоя частка</small><b data-cnt="${tot.mine}" data-suf=" грн">${fmt(tot.mine)} грн</b></div><div><small>${PARTNER}</small><b>${fmt(tot.partner)} грн</b></div><div><small>Віддають усього</small><b>${fmt(tot.cut)} грн</b></div></div></div>`;
+    if (isCur && fcGross) h += `<div class="fc"><span>🔮</span><div><b>Прогноз: команда ~${fmt(fcGross)} грн, твоя частка ~${fmt(fcMine)} грн</b><small>Якщо всі працюватимуть за графіком у своєму середньому темпі</small></div></div>`;
+    h += `<div class="split"><div class="cell ok"><small>Отримав</small><b>${fmt(tot.paid)} грн</b></div><div class="cell ${tot.owed ? 'warn' : 'ok'}"><small>Ще мають віддати</small><b>${fmt(tot.owed)} грн</b></div></div>`;
+    if (isCur) h += alertsHTML();
+    const n = daysIn(month), dv = dayVals('', month), vals = Array.from({length: n}, (_, i) => dv[`${month}-${pad(i + 1)}`] || 0);
+    h += `<h2>Заробіток команди по днях <small>${monL(month)}</small></h2><div class="card">${bars(vals, vals.map((_, i) => ((i + 1) % 5 === 0 || i === 0 ? String(i + 1) : '')), isCur ? +D.today.slice(8) - 1 : -1)}</div>`;
+    h += `<h2>Рейтинг <small>до ${fmt(cfg().threshold)} — ставка ${cfg().rate}%</small></h2><div class="list">${team.length ? team.map(({c, s}, i) => `<button class="li${c.active ? '' : ' off'}" data-a="courier" data-id="${c.id}"><span class="md">${c.active && s.gross && i < 3 ? medals[i] : `<i>${i + 1}</i>`}</span><span class="m"><b>${esc(c.name)}<span class="badge${s.rate === cfg().rateHigh ? ' hi' : ''}">${s.rate}%</span></b><small>${s.shifts} ${pl(s.shifts, 'зміна', 'зміни', 'змін')}${s.last ? `, остання ${fday(s.last)}` : ''}${c.active ? '' : ', не в команді'}</small><span class="bar sm"><i style="width:${Math.min(100, s.gross / cfg().threshold * 100).toFixed(1)}%"></i></span></span><span class="v">${fmt(s.gross)} грн<small>${s.owed ? `винен ${fmt(s.owed)}` : s.cut ? 'усе віддав ✓' : ''}</small></span></button>`).join('') : '<div class="empty">Поки нікого. Скинь курʼєрам посилання на бота.</div>'}</div>`;
   } else if (view === 'plan') {
-    const wk = weekDays();
-    h += `<p class="mut">Хто за графіком працює цього тижня. Зелена рамка — сьогодні.</p><div class="grid7">${wk.map((k, i) => {
+    const wk = weekDays(), todayPlan = D.couriers.filter(c => c.active && c.days.includes(wdOf(D.today))), todayDone = todayPlan.filter(c => D.entries.some(e => e.id === c.id && e.date === D.today));
+    h += `<div class="fc"><span>📋</span><div><b>Сьогодні за графіком ${todayPlan.length}, вписали зміну ${todayDone.length}</b><small>${todayPlan.filter(c => !todayDone.includes(c)).map(c => c.name).join(', ') || 'Усі, хто мав працювати, уже вписали'}</small></div></div>
+    <div class="grid7">${wk.map((k, i) => {
       const ppl = D.couriers.filter(c => c.active && c.days.includes(i + 1)), hrs = ppl.reduce((s, c) => s + c.hours, 0);
-      const worked = D.entries.filter(e => e.date === k && e.earned > 0).map(e => e.id);
-      return `<div class="gday${k === D.today ? ' today' : ''}"><b>${WDS[i]}</b><div class="ppl">${ppl.length ? ppl.map(c => `<span>${worked.includes(c.id) ? '✅ ' : ''}${esc(c.name)}</span>`).join('') : '<em>нікого</em>'}</div><span class="h">${hrs ? `${fmt(hrs)} год` : ''}</span></div>`;
+      const worked = D.entries.filter(e => e.date === k && e.earned > 0), wsum = worked.reduce((s, e) => s + e.earned, 0), ids = worked.map(e => e.id);
+      return `<div class="gday${k === D.today ? ' today' : ''}${k < D.today ? ' past' : ''}"><b>${WDS[i]}<small>${+k.slice(8)}</small></b><div class="ppl">${ppl.length ? ppl.map(c => `<span class="${ids.includes(c.id) ? 'did' : k < D.today ? 'no' : ''}">${ids.includes(c.id) ? '✓ ' : ''}${esc(c.name)}</span>`).join('') : '<em>нікого</em>'}</div><span class="h">${wsum ? `${fmt(wsum)} грн` : hrs ? `${fmt(hrs)} год` : ''}</span></div>`;
     }).join('')}</div>`;
   } else {
-    const pays = D.payments.filter(p => p.date.slice(0, 7) === month).sort((a, b) => a.date < b.date ? 1 : -1);
+    const pays = D.payments.filter(p => p.date.slice(0, 7) === month).sort((a, b) => (a.date < b.date ? 1 : -1));
     const name = id => (D.couriers.find(c => c.id === id) || {}).name || 'Курʼєр';
-    h += `<div class="split" style="margin-top:0"><div class="cell ok"><small>Твоя частка</small><b>${fmt(tot.mine)} грн</b></div><div class="cell"><small>${PARTNER}</small><b>${fmt(tot.partner)} грн</b></div><div class="cell"><small>Мають віддати всього</small><b>${fmt(tot.cut)} грн</b></div><div class="cell ok"><small>Отримано</small><b>${fmt(tot.paid)} грн</b></div></div>
-    <h2>Оплати за ${monL(month)} <small>${pays.length}</small></h2><div class="list">${pays.length ? pays.map(p => `<button class="li" data-a="payMenu" data-pid="${p.pid}"><span class="m"><b>${esc(name(p.id))}</b><small>${fday(p.date)}${p.note ? `, ${esc(p.note)}` : ''}</small></span><span class="v">${fmt(p.amount)} грн</span></button>`).join('') : '<div class="empty">Оплат ще немає. Додай оплату в картці курʼєра.</div>'}</div>`;
+    const debts = team.filter(x => x.s.owed > 0).sort((a, b) => b.s.owed - a.s.owed);
+    h += `<div class="split" style="margin-top:0"><div class="cell ok"><small>Твоя частка</small><b>${fmt(tot.mine)} грн</b></div><div class="cell"><small>${PARTNER}</small><b>${fmt(tot.partner)} грн</b></div><div class="cell"><small>Мають віддати всього</small><b>${fmt(tot.cut)} грн</b></div><div class="cell ok"><small>Отримано</small><b>${fmt(tot.paid)} грн</b></div></div>`;
+    if (tot.cut) h += `<div class="card" style="margin-top:8px"><small class="mut">Зібрано ${Math.round(tot.paid / tot.cut * 100)}% від належного</small><span class="bar"><i style="width:${Math.min(100, tot.paid / tot.cut * 100)}%"></i></span></div>`;
+    if (debts.length) h += `<h2>Хто винен <small>${fmt(tot.owed)} грн</small></h2><div class="list">${debts.map(({c, s}) => `<div class="li"><span class="m"><b>${esc(c.name)}</b><small>з ${fmt(s.cut)} віддав ${fmt(s.paid)}</small></span><span class="v">${fmt(s.owed)} грн</span><button class="btn sm ghost" data-a="remind" data-id="${c.id}" data-amt="${s.owed}" data-m="${month}">Нагадати</button></div>`).join('')}</div>`;
+    h += `<h2>Оплати <small>${pays.length}</small></h2><div class="list">${pays.length ? pays.map(p => `<button class="li" data-a="payMenu" data-pid="${p.pid}"><span class="m"><b>${esc(name(p.id))}</b><small>${fday(p.date)}${p.note ? `, ${esc(p.note)}` : ''}</small></span><span class="v">${fmt(p.amount)} грн</span></button>`).join('') : '<div class="empty">Оплат ще немає. Додай оплату в картці курʼєра.</div>'}</div>`;
   }
   if (D.courier) h += `<button class="lnk" data-a="view" data-v="me">Мій кабінет курʼєра</button>`;
   if (D.sheetUrl) h += `<button class="lnk" data-a="sheet">Відкрити Google Таблицю</button>`;
@@ -273,17 +447,25 @@ function ownerHTML() {
 
 function courierSheet(id) {
   const c = D.couriers.find(x => x.id === id); if (!c) return;
-  const s = stat(id, month), list = s.es.slice().sort((a, b) => a.date < b.date ? 1 : -1);
-  const pays = D.payments.filter(p => p.id === id && p.date.slice(0, 7) === month);
-  openSheet(`<h3>${esc(c.name)}${c.username ? ` <span class="mut">@${esc(c.username)}</span>` : ''}</h3>
-    <p class="mut">${c.days.length ? `Графік: ${c.days.map(d => WDS[d - 1]).join(', ')}, по ${c.hours} год` : 'Графік не вказано'}. З нами з ${fday(c.joined)}.</p>
-    <div class="split"><div class="cell"><small>Заробив за ${monL(month)}</small><b>${fmt(s.gross)} грн</b></div><div class="cell"><small>Ставка</small><b>${s.rate}%</b></div>
-    <div class="cell ok"><small>Твоя частка ${String(s.myPct).replace('.', ',')}%</small><b>${fmt(s.mine)} грн</b></div><div class="cell"><small>${PARTNER} ${String(s.rate - s.myPct).replace('.', ',')}%</small><b>${fmt(s.partner)} грн</b></div>
+  const s = stat(id, month), list = s.es.slice().sort((a, b) => (a.date < b.date ? 1 : -1)), isCur = month === D.today.slice(0, 7);
+  const pays = D.payments.filter(p => p.id === id && p.date.slice(0, 7) === month), fc = isCur ? forecast(id, c.days) : null;
+  openSheet(`<div class="shd">${ring(s.gross / cfg().threshold, `${s.rate}%`, 'ставка', s.rate === cfg().rateHigh)}<div><h3>${esc(c.name)}</h3><p class="mut">${c.username ? `@${esc(c.username)}, ` : ''}${c.days.length ? `${c.days.map(d => WDS[d - 1]).join(', ')}, по ${c.hours} год` : 'графік не вказано'}. З нами з ${fday(c.joined)}.</p></div></div>
+    <div class="row2" style="margin-top:4px">${c.username ? `<button class="btn ghost" data-a="write" data-id="${id}">✉️ Написати</button>` : ''}${s.owed ? `<button class="btn ghost" data-a="remind" data-id="${id}" data-amt="${s.owed}" data-m="${month}">💸 Нагадати</button>` : ''}</div>
+    <div class="split"><div class="cell"><small>Заробив за ${monL(month)}</small><b>${fmt(s.gross)} грн</b></div><div class="cell"><small>Змін і годин</small><b>${s.shifts} / ${fmt(s.hours)} год</b></div>
+    <div class="cell ok"><small>Твоя частка ${pctTxt(s.myPct)}%</small><b>${fmt(s.mine)} грн</b></div><div class="cell"><small>${PARTNER} ${pctTxt(s.rate - s.myPct)}%</small><b>${fmt(s.partner)} грн</b></div>
     <div class="cell"><small>Вже віддав</small><b>${fmt(s.paid)} грн</b></div><div class="cell ${s.owed ? 'warn' : 'ok'}"><small>Ще винен</small><b>${fmt(s.owed)} грн</b></div></div>
+    ${fc ? `<div class="fc"><span>🔮</span><div><b>Прогноз: ~${fmt(fc.total)} грн за місяць</b><small>${fmt(fc.avg)} грн за зміну, ${s.hours ? `${fmt(s.gross / s.hours)} грн/год` : ''}</small></div></div>` : ''}
+    <h2>Календар</h2><div class="card in-sheet">${heat(id, month, c.days)}</div>
     <h2>Додати оплату</h2><form class="form" data-f="pay" data-id="${id}"><label>Сума, грн<input class="in" name="amount" type="number" inputmode="decimal" min="1" value="${s.owed || ''}"></label><label>Дата<input class="in" name="date" type="date" value="${D.today}" max="${D.today}"></label><label class="w">Примітка<input class="in" name="note" maxlength="80" placeholder="Напр. готівкою"></label><button class="btn w" type="submit">Записати оплату</button></form>
     ${pays.length ? `<h2>Оплати</h2><div class="list">${pays.map(p => `<div class="li"><span class="m"><b>${fday(p.date)}</b><small>${esc(p.note)}</small></span><span class="v">${fmt(p.amount)} грн</span></div>`).join('')}</div>` : ''}
     <h2>Зміни <small>${list.length}</small></h2><div class="list">${list.length ? list.map(e => `<div class="li"><span class="m"><b>${fday(e.date)}, ${WDS[wdOf(e.date) - 1]}</b><small>${e.hours} год${e.orders ? `, ${e.orders} замовл.` : ''}</small></span><span class="v">${fmt(e.earned)} грн</span></div>`).join('') : '<div class="empty">Записів немає</div>'}</div>
     <div class="row2"><button class="btn ghost" data-a="close">Закрити</button><button class="btn ${c.active ? 'red' : ''}" data-a="active" data-id="${id}" data-on="${c.active ? 0 : 1}">${c.active ? 'Прибрати з команди' : 'Повернути в команду'}</button></div>`);
+}
+async function copyText(t) { try { await navigator.clipboard.writeText(t); return true; } catch (e) { try { const a = document.createElement('textarea'); a.value = t; a.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(a); a.select(); const ok = document.execCommand('copy'); a.remove(); return ok; } catch (x) { return false; } } }
+function openChat(c, text) {
+  if (text) copyText(text).then(ok => ok && toast('Текст нагадування скопійовано, встав у чат'));
+  const url = c.username ? `https://t.me/${c.username}` : `https://t.me/share/url?url=&text=${encodeURIComponent(text || '')}`;
+  try { tg.openTelegramLink(url); } catch (e) { window.open(url, '_blank'); }
 }
 
 /* ---------- дії ---------- */
@@ -300,6 +482,9 @@ const A = {
   delPay: (d, b) => run('delPay', {pid: d.pid}, 'Оплату видалено', b),
   sheet: () => { try { tg.openLink(D.sheetUrl); } catch (e) { window.open(D.sheetUrl, '_blank'); } },
   close: () => closeSheet(),
+  hrs: (d, b) => { const f = b.closest('form'); f.elements.hours.value = d.h; f.querySelectorAll('.qh button').forEach(x => x.classList.toggle('on', x === b)); f.elements.earned.focus(); },
+  write: d => { const c = D.couriers.find(x => x.id === d.id); if (c) openChat(c, ''); },
+  remind: d => { const c = D.couriers.find(x => x.id === d.id); if (!c) return; openChat(c, `Привіт, ${c.name}! Нагадую про оплату за ${monL(d.m)}: ${fmt(+d.amt)} грн. Дякую 🙌`); },
 };
 let confirmDel = '';
 const F = {
