@@ -118,6 +118,9 @@ p{margin:0 0 8px}
 'use strict';
 // Адреса сервера (Google Apps Script). Підставляється після розгортання.
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDPWxwacgbhAgihNXb_EAJ3njk-i1oM2oToaHjY_Ci9MXFQRx0-cIi-DYLS10_e5hp/exec';
+// Розподіл ставки між тобою і засновником: ставка → твоя частка, %
+const SHARE = {30: 10, 25: 12.5};
+const PARTNER = 'Гоша';
 const API = (location.hostname === 'localhost' && new URLSearchParams(location.search).get('api')) || SCRIPT_URL;
 
 const tg = window.Telegram && window.Telegram.WebApp;
@@ -171,9 +174,10 @@ function stat(id, m) {
   const es = D.entries.filter(e => e.id === id && e.date.slice(0, 7) === m);
   const gross = es.reduce((s, e) => s + e.earned, 0), hours = es.reduce((s, e) => s + e.hours, 0);
   const rate = gross >= cfg().threshold ? cfg().rateHigh : cfg().rate, cut = Math.round(gross * rate / 100);
+  const myPct = SHARE[rate] != null ? SHARE[rate] : rate / 2, mine = Math.round(gross * myPct / 100), partner = cut - mine;
   const paid = D.payments.filter(p => p.id === id && p.date.slice(0, 7) === m).reduce((s, p) => s + p.amount, 0);
   const last = D.entries.filter(e => e.id === id).map(e => e.date).sort().pop() || '';
-  return {es, gross, hours, shifts: es.filter(e => e.earned > 0 || e.hours > 0).length, rate, cut, keep: gross - cut, paid, owed: Math.max(0, cut - paid), last};
+  return {es, myPct, mine, partner, gross, hours, shifts: es.filter(e => e.earned > 0 || e.hours > 0).length, rate, cut, keep: gross - cut, paid, owed: Math.max(0, cut - paid), last};
 }
 function weekDays() { const t = D.today, mon = addD(t, -(wdOf(t) - 1)); return Array.from({length: 7}, (_, i) => addD(mon, i)); }
 const monthName = m => `${MON_N[+m.slice(5) - 1]} ${m.slice(0, 4)}`;
@@ -240,12 +244,13 @@ function courierHTML() {
 
 function ownerHTML() {
   const team = D.couriers.map(c => ({c, s: stat(c.id, month)})).sort((a, b) => (b.c.active - a.c.active) || (b.s.gross - a.s.gross));
-  const tot = team.reduce((t, x) => { t.gross += x.s.gross; t.cut += x.s.cut; t.paid += x.s.paid; t.owed += x.s.owed; return t; }, {gross: 0, cut: 0, paid: 0, owed: 0});
+  const tot = team.reduce((t, x) => { t.gross += x.s.gross; t.cut += x.s.cut; t.mine += x.s.mine; t.partner += x.s.partner; t.paid += x.s.paid; t.owed += x.s.owed; return t; }, {gross: 0, cut: 0, mine: 0, partner: 0, paid: 0, owed: 0});
   const active = D.couriers.filter(c => c.active).length;
   let h = `<div class="top"><div><h1>Команда</h1><p>${active} ${pl(active, 'активний курʼєр', 'активні курʼєри', 'активних курʼєрів')}</p></div>${monBar()}</div>
   <div class="seg">${[['team', 'Курʼєри'], ['plan', 'Графік'], ['money', 'Оплати']].map(([v, n]) => `<button class="${view === v ? 'on' : ''}" data-a="view" data-v="${v}">${n}</button>`).join('')}</div>`;
   if (view === 'team') {
-    h += `<div class="hero"><small>Команда заробила за ${monL(month)}</small><b class="big">${fmt(tot.gross)} грн</b><small>Твоя частина ${fmt(tot.cut)} грн</small></div>
+    h += `<div class="hero"><small>Команда заробила за ${monL(month)}</small><b class="big">${fmt(tot.gross)} грн</b><small>Віддають ${fmt(tot.cut)} грн</small></div>
+    <div class="split"><div class="cell ok"><small>Твоя частка</small><b>${fmt(tot.mine)} грн</b></div><div class="cell"><small>${PARTNER}</small><b>${fmt(tot.partner)} грн</b></div></div>
     <div class="split"><div class="cell ok"><small>Отримав</small><b>${fmt(tot.paid)} грн</b></div><div class="cell ${tot.owed ? 'warn' : 'ok'}"><small>Ще мають віддати</small><b>${fmt(tot.owed)} грн</b></div></div>
     <h2>Курʼєри <small>за ${monL(month)}</small></h2><div class="list">${team.length ? team.map(({c, s}) => `<button class="li${c.active ? '' : ' off'}" data-a="courier" data-id="${c.id}"><span class="m"><b>${esc(c.name)}<span class="badge${s.rate === cfg().rateHigh ? ' hi' : ''}">${s.rate}%</span></b><small>${s.shifts} ${pl(s.shifts, 'зміна', 'зміни', 'змін')}${s.last ? `, остання ${fday(s.last)}` : ''}${c.active ? '' : ', не в команді'}</small><span class="bar sm"><i style="width:${Math.min(100, s.gross / cfg().threshold * 100).toFixed(1)}%"></i></span></span><span class="v">${fmt(s.gross)} грн<small>${s.owed ? `винен ${fmt(s.owed)}` : s.cut ? 'усе віддав' : ''}</small></span></button>`).join('') : '<div class="empty">Поки нікого. Скинь курʼєрам посилання на бота.</div>'}</div>`;
   } else if (view === 'plan') {
@@ -258,7 +263,7 @@ function ownerHTML() {
   } else {
     const pays = D.payments.filter(p => p.date.slice(0, 7) === month).sort((a, b) => a.date < b.date ? 1 : -1);
     const name = id => (D.couriers.find(c => c.id === id) || {}).name || 'Курʼєр';
-    h += `<div class="split" style="margin-top:0"><div class="cell"><small>Твоя частина</small><b>${fmt(tot.cut)} грн</b></div><div class="cell ok"><small>Отримав</small><b>${fmt(tot.paid)} грн</b></div></div>
+    h += `<div class="split" style="margin-top:0"><div class="cell ok"><small>Твоя частка</small><b>${fmt(tot.mine)} грн</b></div><div class="cell"><small>${PARTNER}</small><b>${fmt(tot.partner)} грн</b></div><div class="cell"><small>Мають віддати всього</small><b>${fmt(tot.cut)} грн</b></div><div class="cell ok"><small>Отримано</small><b>${fmt(tot.paid)} грн</b></div></div>
     <h2>Оплати за ${monL(month)} <small>${pays.length}</small></h2><div class="list">${pays.length ? pays.map(p => `<button class="li" data-a="payMenu" data-pid="${p.pid}"><span class="m"><b>${esc(name(p.id))}</b><small>${fday(p.date)}${p.note ? `, ${esc(p.note)}` : ''}</small></span><span class="v">${fmt(p.amount)} грн</span></button>`).join('') : '<div class="empty">Оплат ще немає. Додай оплату в картці курʼєра.</div>'}</div>`;
   }
   if (D.courier) h += `<button class="lnk" data-a="view" data-v="me">Мій кабінет курʼєра</button>`;
@@ -273,7 +278,8 @@ function courierSheet(id) {
   openSheet(`<h3>${esc(c.name)}${c.username ? ` <span class="mut">@${esc(c.username)}</span>` : ''}</h3>
     <p class="mut">${c.days.length ? `Графік: ${c.days.map(d => WDS[d - 1]).join(', ')}, по ${c.hours} год` : 'Графік не вказано'}. З нами з ${fday(c.joined)}.</p>
     <div class="split"><div class="cell"><small>Заробив за ${monL(month)}</small><b>${fmt(s.gross)} грн</b></div><div class="cell"><small>Ставка</small><b>${s.rate}%</b></div>
-    <div class="cell ok"><small>Твоя частина</small><b>${fmt(s.cut)} грн</b></div><div class="cell ${s.owed ? 'warn' : 'ok'}"><small>Ще винен</small><b>${fmt(s.owed)} грн</b></div></div>
+    <div class="cell ok"><small>Твоя частка ${String(s.myPct).replace('.', ',')}%</small><b>${fmt(s.mine)} грн</b></div><div class="cell"><small>${PARTNER} ${String(s.rate - s.myPct).replace('.', ',')}%</small><b>${fmt(s.partner)} грн</b></div>
+    <div class="cell"><small>Вже віддав</small><b>${fmt(s.paid)} грн</b></div><div class="cell ${s.owed ? 'warn' : 'ok'}"><small>Ще винен</small><b>${fmt(s.owed)} грн</b></div></div>
     <h2>Додати оплату</h2><form class="form" data-f="pay" data-id="${id}"><label>Сума, грн<input class="in" name="amount" type="number" inputmode="decimal" min="1" value="${s.owed || ''}"></label><label>Дата<input class="in" name="date" type="date" value="${D.today}" max="${D.today}"></label><label class="w">Примітка<input class="in" name="note" maxlength="80" placeholder="Напр. готівкою"></label><button class="btn w" type="submit">Записати оплату</button></form>
     ${pays.length ? `<h2>Оплати</h2><div class="list">${pays.map(p => `<div class="li"><span class="m"><b>${fday(p.date)}</b><small>${esc(p.note)}</small></span><span class="v">${fmt(p.amount)} грн</span></div>`).join('')}</div>` : ''}
     <h2>Зміни <small>${list.length}</small></h2><div class="list">${list.length ? list.map(e => `<div class="li"><span class="m"><b>${fday(e.date)}, ${WDS[wdOf(e.date) - 1]}</b><small>${e.hours} год${e.orders ? `, ${e.orders} замовл.` : ''}</small></span><span class="v">${fmt(e.earned)} грн</span></div>`).join('') : '<div class="empty">Записів немає</div>'}</div>
