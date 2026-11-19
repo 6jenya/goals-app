@@ -190,7 +190,8 @@ p{margin:0 0 8px}
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDPWxwacgbhAgihNXb_EAJ3njk-i1oM2oToaHjY_Ci9MXFQRx0-cIi-DYLS10_e5hp/exec';
 // Розподіл ставки між тобою і засновником: ставка → твоя частка, %
 const SHARE = {30: 10, 25: 12.5};
-const PARTNER = 'Гоша';
+const ZHENYA = '7190012846', GOSHA = '5186267799';
+let PARTNER = 'Гоша';
 const API = (location.hostname === 'localhost' && new URLSearchParams(location.search).get('api')) || SCRIPT_URL;
 
 const tg = window.Telegram && window.Telegram.WebApp;
@@ -244,7 +245,7 @@ function stat(id, m) {
   const es = D.entries.filter(e => e.id === id && e.date.slice(0, 7) === m);
   const gross = es.reduce((s, e) => s + e.earned, 0), hours = es.reduce((s, e) => s + e.hours, 0);
   const rate = gross >= cfg().threshold ? cfg().rateHigh : cfg().rate, cut = Math.round(gross * rate / 100);
-  const myPct = SHARE[rate] != null ? SHARE[rate] : rate / 2, mine = Math.round(gross * myPct / 100), partner = cut - mine;
+  const zPct = SHARE[rate] != null ? SHARE[rate] : rate / 2, myPct = D.me.id === GOSHA ? rate - zPct : zPct, mine = Math.round(gross * myPct / 100), partner = cut - mine;
   const paid = D.payments.filter(p => p.id === id && p.date.slice(0, 7) === m).reduce((s, p) => s + p.amount, 0);
   const last = D.entries.filter(e => e.id === id).map(e => e.date).sort().pop() || '';
   return {es, myPct, mine, partner, gross, hours, shifts: es.filter(e => e.earned > 0 || e.hours > 0).length, rate, cut, keep: gross - cut, paid, owed: Math.max(0, cut - paid), last};
@@ -507,7 +508,7 @@ async function boot() {
   if (!tg || !tg.initData) { $('#app').innerHTML = `<div class="center"><span class="e">🚲</span><h3>Відкрий через бота в Telegram</h3><p class="mut">Застосунок працює тільки всередині Telegram.</p></div>`; return; }
   try { tg.ready(); tg.expand(); tg.setHeaderColor('#0E1022'); tg.setBackgroundColor('#0E1022'); if (tg.BackButton) tg.BackButton.onClick(closeSheet); } catch (e) {}
   if (!/^https:\/\/script\.google\.com\//.test(API) && location.hostname !== 'localhost') { $('#app').innerHTML = `<div class="center"><span class="e">🛠️</span><h3>Сервер ще не підключено</h3><p class="mut">Застосунок запрацює, щойно власник підключить таблицю.</p></div>`; return; }
-  try { D = await api('me'); view = D.owner ? 'team' : 'me'; render(); }
+  try { D = await api('me'); if (D.me.id === GOSHA) PARTNER = 'Женя'; view = D.owner ? 'team' : 'me'; render(); }
   catch (e) { $('#app').innerHTML = `<div class="center"><span class="e">📡</span><h3>${esc(ERR[e.message] || 'Не вдалося завантажити')}</h3><p class="mut">Перевір інтернет.</p><button class="btn sm" onclick="location.reload()">Спробувати ще раз</button></div>`; }
 }
 boot();

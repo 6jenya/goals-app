@@ -4,7 +4,7 @@
  * 2) Розгорнути → Нове розгортання → Вебзастосунок → Виконувати від: Мене, Доступ: Усі.
  */
 const BOT_TOKEN = 'ВСТАВ_СЮДИ_ТОКЕН_БОТА';
-const OWNER_ID = 7190012846; // Женя
+const OWNER_IDS = ['7190012846', '5186267799']; // Женя, Гоша — бачать усю команду
 
 const RATE = 30;          // % курʼєр віддає власнику
 const RATE_HIGH = 25;     // % якщо за місяць заробив від порогу
@@ -109,7 +109,7 @@ function findCourier(id) { return rows('Couriers').filter(function (r) { return 
 
 /* ---------- дії ---------- */
 function handle(u, req) {
-  const me = String(u.id), owner = String(OWNER_ID) === me, a = req.action;
+  const me = String(u.id), owner = OWNER_IDS.indexOf(me) >= 0, a = req.action;
   const tgName = clean([u.first_name, u.last_name].filter(Boolean).join(' '), 40) || 'Курʼєр';
 
   if (a === 'register') {
