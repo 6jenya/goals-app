@@ -176,6 +176,30 @@ p{margin:0 0 8px}
 .welcome .e{font-size:54px;display:block;margin-bottom:6px}
 .welcome p{color:var(--tx2);margin:8px 0 0}
 .center-t{text-align:center;margin-top:14px}
+.lbl{display:block;font-size:12.5px;color:var(--tx2);margin-bottom:6px}
+.srcch{display:flex;flex-wrap:wrap;gap:6px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:block;padding:9px 12px;border-radius:12px;background:var(--bg3);font-size:13.5px;color:var(--tx)}
+.chip input:checked+span{background:rgba(63,224,160,.2);box-shadow:inset 0 0 0 1.5px var(--mint)}
+.okref{background:rgba(63,224,160,.12);border-radius:12px;padding:10px 12px;font-size:13.5px;margin:0}
+.inv p,.sup p{margin:0 0 12px;color:var(--tx2);font-size:14px}
+.inv p b{color:var(--mint)}
+.list.in-card{background:var(--bg3);margin-top:14px}
+.sup details{border-top:1px solid var(--line);padding:2px 0}
+.sup details:first-of-type{margin-top:14px}
+.sup summary{cursor:pointer;padding:12px 0;font-weight:600;font-size:14px;list-style:none;display:flex;justify-content:space-between}
+.sup summary::-webkit-details-marker{display:none}
+.sup summary::after{content:'+';color:var(--mint);font-weight:700}
+.sup details[open] summary::after{content:'−'}
+.sup details p{margin:0 0 12px}
+.srcs{display:flex;flex-wrap:wrap;gap:6px}
+.srcs span{font-size:13px;padding:7px 11px;border-radius:99px;background:var(--bg2)}
+.srcs b{color:var(--mint);margin-left:4px}
+.adh{display:block;font:600 15px var(--fd);margin-top:-2px}
+.info p{margin:0 0 8px;font-size:14px}
+.sheet textarea.in{resize:vertical;min-height:70px}
+.sheet .bars{height:96px}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}}
 </style>
 </head>
@@ -342,7 +366,10 @@ function registerHTML() {
   <form class="card form" data-f="register">
     <label class="w">Імʼя<input class="in" name="name" value="${esc(D.me.name)}" maxlength="40" required></label>
     <label class="w">Робочі дні<div class="days">${WDS.map((w, i) => `<button type="button" data-a="regDay" data-d="${i + 1}" class="${regDays.includes(i + 1) ? 'on' : ''}" aria-pressed="${regDays.includes(i + 1)}">${w}</button>`).join('')}</div></label>
-    <label class="w">Годин за зміну<input class="in" name="hours" type="number" inputmode="decimal" min="1" max="16" value="4"></label>
+    <label>Годин за зміну<input class="in" name="hours" type="number" inputmode="decimal" min="1" max="16" value="4"></label>
+    <label>Телефон<input class="in" name="phone" type="tel" placeholder="+380..." autocomplete="tel"></label>
+    ${startRef ? `<p class="w okref">🤝 Тебе запросив друг — він отримає бонус, коли ти відпрацюєш ${REF_DAYS} днів</p>` : `<div class="w"><span class="lbl">Звідки дізнався про нас</span><div class="srcch">${Object.entries(SRC).map(([k, v], i) => `<label class="chip"><input type="radio" name="source" value="${k}"><span>${v}</span></label>`).join('')}</div></div>
+    <label class="w" id="refBox" hidden>Хто порадив (імʼя або @нік)<input class="in" name="refName" maxlength="40" placeholder="Напр. Макс"></label>`}
     <button class="btn w" type="submit">Почати</button>
   </form>
   <p class="mut center-t">Ти отримуєш ${100 - cfg().rate}% від заробленого. Від ${fmt(cfg().threshold)} грн за місяць — ${100 - cfg().rateHigh}%.</p>`;
@@ -381,10 +408,12 @@ function courierHTML() {
   h += `<h2>Досягнення <small>${bd.filter(b => b[2]).length} з ${bd.length}</small></h2><div class="bdg">${bd.map(b => `<div class="${b[2] ? 'on' : ''}"><span>${b[0]}</span><small>${b[1]}</small></div>`).join('')}</div>`;
   const list = s.es.slice().sort((a, b) => (a.date < b.date ? 1 : -1));
   h += `<h2>Зміни <small>${list.length}</small></h2><div class="list">${list.length ? list.map(e => `<button class="li" data-a="edit" data-d="${e.date}"><span class="m"><b>${fday(e.date)}, ${WDS[wdOf(e.date) - 1]}</b><small>${e.hours} год${e.orders ? `, ${e.orders} замовл.` : ''}${e.hours ? `, ${fmt(e.earned / e.hours)} грн/год` : ''}</small></span><span class="v">${fmt(e.earned)} грн</span></button>`).join('') : '<div class="empty">Поки немає записів</div>'}</div>`;
+  h += inviteHTML(c) + supportHTML();
   h += `<h2>Мій графік</h2><form class="card form" data-f="schedule">
     <label class="w">Робочі дні<div class="days">${WDS.map((w, i) => `<button type="button" data-a="schDay" data-d="${i + 1}" class="${c.days.includes(i + 1) ? 'on' : ''}" aria-pressed="${c.days.includes(i + 1)}">${w}</button>`).join('')}</div></label>
     <label>Годин за зміну<input class="in" name="hours" type="number" inputmode="decimal" min="1" max="16" value="${c.hours}"></label>
     <label>Імʼя<input class="in" name="name" value="${esc(c.name)}" maxlength="40"></label>
+    <label class="w">Телефон<input class="in" name="phone" type="tel" value="${esc(c.phone || '')}" placeholder="+380..."></label>
     <button class="btn ghost w" type="submit">Зберегти графік</button></form>
     <p class="mut" style="margin-top:14px">Ти отримуєш ${100 - cf.rate}% від заробленого, ${cf.rate}% йде команді. Якщо за місяць заробиш від ${fmt(cf.threshold)} грн, отримуєш ${100 - cf.rateHigh}% за весь місяць.</p>`;
   return h;
@@ -423,6 +452,7 @@ function ownerHTML() {
     if (isCur) h += alertsHTML();
     const n = daysIn(month), dv = dayVals('', month), vals = Array.from({length: n}, (_, i) => dv[`${month}-${pad(i + 1)}`] || 0);
     h += `<h2>Заробіток команди по днях <small>${monL(month)}</small></h2><div class="card">${bars(vals, vals.map((_, i) => ((i + 1) % 5 === 0 || i === 0 ? String(i + 1) : '')), isCur ? +D.today.slice(8) - 1 : -1)}</div>`;
+    h += sourcesHTML();
     h += `<h2>Рейтинг <small>до ${fmt(cfg().threshold)} — ставка ${cfg().rate}%</small></h2><div class="list">${team.length ? team.map(({c, s}, i) => `<button class="li${c.active ? '' : ' off'}" data-a="courier" data-id="${c.id}"><span class="md">${c.active && s.gross && i < 3 ? medals[i] : `<i>${i + 1}</i>`}</span><span class="m"><b>${esc(c.name)}<span class="badge${s.rate === cfg().rateHigh ? ' hi' : ''}">${s.rate}%</span></b><small>${s.shifts} ${pl(s.shifts, 'зміна', 'зміни', 'змін')}${s.last ? `, остання ${fday(s.last)}` : ''}${c.active ? '' : ', не в команді'}</small><span class="bar sm"><i style="width:${Math.min(100, s.gross / cfg().threshold * 100).toFixed(1)}%"></i></span></span><span class="v">${fmt(s.gross)} грн<small>${s.owed ? `винен ${fmt(s.owed)}` : s.cut ? 'усе віддав ✓' : ''}</small></span></button>`).join('') : '<div class="empty">Поки нікого. Скинь курʼєрам посилання на бота.</div>'}</div>`;
   } else if (view === 'plan') {
     const wk = weekDays(), todayPlan = D.couriers.filter(c => c.active && c.days.includes(wdOf(D.today))), todayDone = todayPlan.filter(c => D.entries.some(e => e.id === c.id && e.date === D.today));
@@ -436,6 +466,7 @@ function ownerHTML() {
     const pays = D.payments.filter(p => p.date.slice(0, 7) === month).sort((a, b) => (a.date < b.date ? 1 : -1));
     const name = id => (D.couriers.find(c => c.id === id) || {}).name || 'Курʼєр';
     const debts = team.filter(x => x.s.owed > 0).sort((a, b) => b.s.owed - a.s.owed);
+    h += refBonusesHTML();
     h += `<div class="split" style="margin-top:0"><div class="cell ok"><small>Твоя частка</small><b>${fmt(tot.mine)} грн</b></div><div class="cell"><small>${PARTNER}</small><b>${fmt(tot.partner)} грн</b></div><div class="cell"><small>Мають віддати всього</small><b>${fmt(tot.cut)} грн</b></div><div class="cell ok"><small>Отримано</small><b>${fmt(tot.paid)} грн</b></div></div>`;
     if (tot.cut) h += `<div class="card" style="margin-top:8px"><small class="mut">Зібрано ${Math.round(tot.paid / tot.cut * 100)}% від належного</small><span class="bar"><i style="width:${Math.min(100, tot.paid / tot.cut * 100)}%"></i></span></div>`;
     if (debts.length) h += `<h2>Хто винен <small>${fmt(tot.owed)} грн</small></h2><div class="list">${debts.map(({c, s}) => `<div class="li"><span class="m"><b>${esc(c.name)}</b><small>з ${fmt(s.cut)} віддав ${fmt(s.paid)}</small></span><span class="v">${fmt(s.owed)} грн</span><button class="btn sm ghost" data-a="remind" data-id="${c.id}" data-amt="${s.owed}" data-m="${month}">Нагадати</button></div>`).join('')}</div>`;
@@ -446,22 +477,109 @@ function ownerHTML() {
   return h;
 }
 
+/* ---------- підтримка, реферали, профіль ---------- */
+const SUPPORT_TG = 'LeadForgeHQ', SUPPORT_PHONE = '+380506124886', BOT_NAME = 'statistika_bolt_bot', REF_BONUS = 500, REF_DAYS = 14;
+const SRC = {friend: '🤝 Від друга', olx: '📋 OLX', telegram: '✈️ Telegram', tiktok: '🎵 TikTok', other: '✨ Інше'};
+const startRef = (() => { try { const p = tg.initDataUnsafe && tg.initDataUnsafe.start_param; const m = /^ref_(\d{3,15})$/.exec(p || ''); return m ? m[1] : ''; } catch (e) { return ''; } })();
+const daysSince = k => Math.round((kdate(D.today) - kdate(k)) / 864e5);
+function refStatus(c) {
+  const first = D.entries.filter(e => e.id === c.id && e.earned > 0).map(e => e.date).sort()[0] || '';
+  const shifts = D.entries.filter(e => e.id === c.id && e.earned > 0).length;
+  if (c.refPaid) return {k: 'paid', t: `Бонус виплачено ${fday(c.refPaid)}`, first, shifts};
+  if (!first) return {k: 'wait', t: 'Ще не вийшов на зміну', first, shifts, p: 0};
+  const d = daysSince(first);
+  if (d >= REF_DAYS) return {k: 'due', t: `Відпрацював ${REF_DAYS} днів — бонус ${REF_BONUS} грн`, first, shifts};
+  return {k: 'wait', t: `Працює ${d} з ${REF_DAYS} днів`, first, shifts, p: d / REF_DAYS};
+}
+function supportHTML() {
+  const cf = cfg();
+  return `<h2>Підтримка</h2><div class="card sup"><p>Питання по змінах, оплаті чи велосипеду — пиши або дзвони.</p>
+    <div class="row2"><button class="btn" data-a="supTg">✈️ Написати в Telegram</button><button class="btn ghost" data-a="supCall">📞 Подзвонити</button></div>
+    <details><summary>Як рахується мій заробіток?</summary><p>Ти отримуєш ${100 - cf.rate}% від заробленого, ${cf.rate}% іде команді. Якщо за місяць заробиш від ${fmt(cf.threshold)} грн, отримуєш ${100 - cf.rateHigh}% за весь місяць.</p></details>
+    <details><summary>Коли вписувати зміну?</summary><p>Одразу після зміни: години й скільки заробив. Помилився — натисни на зміну в списку й виправ.</p></details>
+    <details><summary>Як отримати бонус за друга?</summary><p>Запроси друга кнопкою вище. Коли він відпрацює ${REF_DAYS} днів, ти отримаєш ${REF_BONUS} грн.</p></details>
+  </div>`;
+}
+function inviteHTML(c) {
+  const refs = D.myRefs || [];
+  return `<h2>Запроси друга <small>+${REF_BONUS} грн за кожного</small></h2><div class="card inv">
+    <p>Друг реєструється за твоїм посиланням і працює ${REF_DAYS} днів — ти отримуєш <b>${REF_BONUS} грн</b>.</p>
+    <button class="btn" data-a="invite">📨 Запросити друга</button>
+    ${refs.length ? `<div class="list in-card">${refs.map(r => { const d = r.first ? daysSince(r.first) : 0, st = r.paid ? '✅ Бонус виплачено' : !r.first ? 'Ще не вийшов на зміну' : d >= REF_DAYS ? `🎉 Бонус ${REF_BONUS} грн належить` : `Працює ${d} з ${REF_DAYS} днів`; return `<div class="li"><span class="m"><b>${esc(r.name)}</b><small>${st}</small>${r.first && !r.paid && d < REF_DAYS ? `<span class="bar sm"><i style="width:${Math.min(100, d / REF_DAYS * 100)}%"></i></span>` : ''}</span><span class="v">${r.shifts}<small>${pl(r.shifts, 'зміна', 'зміни', 'змін')}</small></span></div>`; }).join('')}</div>` : '<p class="mut" style="margin-top:12px">Поки ніхто не прийшов за твоїм запрошенням.</p>'}
+  </div>`;
+}
+function allTime(id) {
+  const es = D.entries.filter(e => e.id === id && (e.earned > 0 || e.hours > 0));
+  const gross = es.reduce((s, e) => s + e.earned, 0), hours = es.reduce((s, e) => s + e.hours, 0), orders = es.reduce((s, e) => s + (e.orders || 0), 0);
+  const best = es.reduce((b, e) => (!b || e.earned > b.earned ? e : b), null);
+  const wd = Array.from({length: 7}, (_, i) => { const x = es.filter(e => wdOf(e.date) === i + 1); return x.length ? x.reduce((s, e) => s + e.earned, 0) / x.length : 0; });
+  return {es, gross, hours, orders, best, wd, n: es.length};
+}
+function adherence(c, m) {
+  // скільки запланованих днів місяця (до сьогодні) курʼєр реально відпрацював
+  let planned = 0, worked = 0;
+  const n = daysIn(m);
+  for (let i = 1; i <= n; i++) {
+    const k = `${m}-${pad(i)}`;
+    if (k > D.today || k < c.joined || !c.days.includes(wdOf(k))) continue;
+    planned++;
+    if (D.entries.some(e => e.id === c.id && e.date === k && e.earned > 0)) worked++;
+  }
+  return {planned, worked, pct: planned ? Math.round(worked / planned * 100) : 0};
+}
 function courierSheet(id) {
   const c = D.couriers.find(x => x.id === id); if (!c) return;
-  const s = stat(id, month), list = s.es.slice().sort((a, b) => (a.date < b.date ? 1 : -1)), isCur = month === D.today.slice(0, 7);
+  const s = stat(id, month), at = allTime(id), isCur = month === D.today.slice(0, 7), ad = adherence(c, month);
   const pays = D.payments.filter(p => p.id === id && p.date.slice(0, 7) === month), fc = isCur ? forecast(id, c.days) : null;
-  openSheet(`<div class="shd">${ring(s.gross / cfg().threshold, `${s.rate}%`, 'ставка', s.rate === cfg().rateHigh)}<div><h3>${esc(c.name)}</h3><p class="mut">${c.username ? `@${esc(c.username)}, ` : ''}${c.days.length ? `${c.days.map(d => WDS[d - 1]).join(', ')}, по ${c.hours} год` : 'графік не вказано'}. З нами з ${fday(c.joined)}.</p></div></div>
-    <div class="row2" style="margin-top:4px">${c.username ? `<button class="btn ghost" data-a="write" data-id="${id}">✉️ Написати</button>` : ''}${s.owed ? `<button class="btn ghost" data-a="remind" data-id="${id}" data-amt="${s.owed}" data-m="${month}">💸 Нагадати</button>` : ''}</div>
-    <div class="split"><div class="cell"><small>Заробив за ${monL(month)}</small><b>${fmt(s.gross)} грн</b></div><div class="cell"><small>Змін і годин</small><b>${s.shifts} / ${fmt(s.hours)} год</b></div>
+  const refBy = c.ref ? (D.couriers.find(x => x.id === c.ref) || {}).name || c.refName : c.refName;
+  const brought = D.couriers.filter(x => x.ref === id);
+  const ms = months(), mv = ms.map(m => stat(id, m).gross);
+  const list = s.es.slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+  const rs = (c.ref || c.refName) ? refStatus(c) : null;
+  openSheet(`<div class="shd">${ring(s.gross / cfg().threshold, `${s.rate}%`, 'ставка', s.rate === cfg().rateHigh)}<div><h3>${esc(c.name)}</h3><p class="mut">${c.username ? `@${esc(c.username)}` : 'без @username'}${c.phone ? `, ${esc(c.phone)}` : ''}</p><p class="mut">${c.active ? '🟢 У команді' : '⚪ Не в команді'} з ${fday(c.joined)}, ${daysSince(c.joined)} ${pl(daysSince(c.joined), 'день', 'дні', 'днів')}</p></div></div>
+    <div class="row2">${c.username ? `<button class="btn ghost" data-a="write" data-id="${id}">✈️ Telegram</button>` : ''}${c.phone ? `<button class="btn ghost" data-a="callC" data-p="${esc(c.phone)}">📞 Подзвонити</button>` : ''}${s.owed ? `<button class="btn ghost" data-a="remind" data-id="${id}" data-amt="${s.owed}" data-m="${month}">💸 Нагадати</button>` : ''}</div>
+    <h2>${MON_N[+month.slice(5) - 1]}</h2>
+    <div class="split"><div class="cell"><small>Заробив</small><b>${fmt(s.gross)} грн</b></div><div class="cell"><small>Змін і годин</small><b>${s.shifts} / ${fmt(s.hours)} год</b></div>
     <div class="cell ok"><small>Твоя частка ${pctTxt(s.myPct)}%</small><b>${fmt(s.mine)} грн</b></div><div class="cell"><small>${PARTNER} ${pctTxt(s.rate - s.myPct)}%</small><b>${fmt(s.partner)} грн</b></div>
     <div class="cell"><small>Вже віддав</small><b>${fmt(s.paid)} грн</b></div><div class="cell ${s.owed ? 'warn' : 'ok'}"><small>Ще винен</small><b>${fmt(s.owed)} грн</b></div></div>
-    ${fc ? `<div class="fc"><span>🔮</span><div><b>Прогноз: ~${fmt(fc.total)} грн за місяць</b><small>${fmt(fc.avg)} грн за зміну, ${s.hours ? `${fmt(s.gross / s.hours)} грн/год` : ''}</small></div></div>` : ''}
+    ${ad.planned ? `<div class="card in-sheet" style="margin-top:8px"><small class="mut">Дисципліна: відпрацював ${ad.worked} з ${ad.planned} днів за графіком</small><span class="bar"><i style="width:${ad.pct}%"></i></span><b class="adh ${ad.pct >= 80 ? 'up' : ad.pct >= 50 ? '' : 'down'}">${ad.pct}%</b></div>` : ''}
+    ${fc ? `<div class="fc"><span>🔮</span><div><b>Прогноз: ~${fmt(fc.total)} грн за місяць</b><small>${fc.rem} ${pl(fc.rem, 'зміна', 'зміни', 'змін')} за графіком попереду</small></div></div>` : ''}
+    <h2>За весь час <small>останні 4 місяці</small></h2>
+    <div class="split"><div class="cell"><small>Змін</small><b>${at.n}</b></div><div class="cell"><small>Заробив</small><b>${fmt(at.gross)} грн</b></div>
+    <div class="cell"><small>Годин</small><b>${fmt(at.hours)}</b></div><div class="cell"><small>Замовлень</small><b>${fmt(at.orders)}</b></div>
+    <div class="cell"><small>Середнє за зміну</small><b>${at.n ? fmt(at.gross / at.n) : 0} грн</b></div><div class="cell"><small>Середнє за годину</small><b>${at.hours ? fmt(at.gross / at.hours) : 0} грн</b></div>
+    <div class="cell"><small>Замовлень за зміну</small><b>${at.n ? (Math.round(at.orders / at.n * 10) / 10).toString().replace('.', ',') : 0}</b></div><div class="cell"><small>Рекорд дня</small><b>${at.best ? `${fmt(at.best.earned)} грн` : '—'}</b></div></div>
+    <h2>Заробіток по місяцях</h2><div class="card in-sheet">${bars(mv, ms.map(m => MON_N[+m.slice(5) - 1].slice(0, 3)), ms.indexOf(month))}</div>
+    <h2>Середнє по днях тижня</h2><div class="card in-sheet">${bars(at.wd.map(Math.round), WDS, at.wd.indexOf(Math.max(...at.wd)))}<p class="mut" style="margin:8px 0 0">${Math.max(...at.wd) ? `Найкращий день — ${WDS[at.wd.indexOf(Math.max(...at.wd))]}, у середньому ${fmt(Math.max(...at.wd))} грн` : 'Ще мало даних'}</p></div>
     <h2>Календар</h2><div class="card in-sheet">${heat(id, month, c.days)}</div>
+    <h2>Звідки прийшов</h2><div class="card in-sheet info">
+      <p>${SRC[c.source] || '❔ Не вказано'}${refBy ? `, привів <b>${esc(refBy)}</b>` : ''}</p>
+      ${rs ? `<p class="mut">${rs.t}</p>${rs.k === 'due' ? `<button class="btn" data-a="refPaid" data-id="${id}" data-on="1">Бонус ${REF_BONUS} грн виплачено</button>` : rs.k === 'paid' ? `<button class="btn ghost" data-a="refPaid" data-id="${id}" data-on="0">Скасувати позначку</button>` : ''}` : ''}
+      ${brought.length ? `<p style="margin-top:10px">Привів у команду: ${brought.map(b => `<b>${esc(b.name)}</b>`).join(', ')}</p>` : ''}
+    </div>
+    <h2>Нотатка і дані</h2><form class="form" data-f="info" data-id="${id}">
+      <label class="w">Твоя нотатка (бачиш лише ти й ${PARTNER})<textarea class="in" name="note" rows="3" maxlength="300" placeholder="Напр. велосипед №2, сумка видана">${esc(c.note)}</textarea></label>
+      <label>Звідки<select class="in" name="source"><option value="">Не вказано</option>${Object.entries(SRC).map(([k, v]) => `<option value="${k}"${c.source === k ? ' selected' : ''}>${v}</option>`).join('')}</select></label>
+      <label>Хто привів<select class="in" name="ref"><option value="">—</option>${D.couriers.filter(x => x.id !== id).map(x => `<option value="${x.id}"${c.ref === x.id ? ' selected' : ''}>${esc(x.name)}</option>`).join('')}</select></label>
+      <label class="w">Телефон<input class="in" name="phone" type="tel" value="${esc(c.phone)}" placeholder="+380..."></label>
+      <button class="btn ghost w" type="submit">Зберегти</button></form>
     <h2>Додати оплату</h2><form class="form" data-f="pay" data-id="${id}"><label>Сума, грн<input class="in" name="amount" type="number" inputmode="decimal" min="1" value="${s.owed || ''}"></label><label>Дата<input class="in" name="date" type="date" value="${D.today}" max="${D.today}"></label><label class="w">Примітка<input class="in" name="note" maxlength="80" placeholder="Напр. готівкою"></label><button class="btn w" type="submit">Записати оплату</button></form>
     ${pays.length ? `<h2>Оплати</h2><div class="list">${pays.map(p => `<div class="li"><span class="m"><b>${fday(p.date)}</b><small>${esc(p.note)}</small></span><span class="v">${fmt(p.amount)} грн</span></div>`).join('')}</div>` : ''}
-    <h2>Зміни <small>${list.length}</small></h2><div class="list">${list.length ? list.map(e => `<div class="li"><span class="m"><b>${fday(e.date)}, ${WDS[wdOf(e.date) - 1]}</b><small>${e.hours} год${e.orders ? `, ${e.orders} замовл.` : ''}</small></span><span class="v">${fmt(e.earned)} грн</span></div>`).join('') : '<div class="empty">Записів немає</div>'}</div>
+    <h2>Зміни <small>${list.length}</small></h2><div class="list">${list.length ? list.map(e => `<div class="li"><span class="m"><b>${fday(e.date)}, ${WDS[wdOf(e.date) - 1]}</b><small>${e.hours} год${e.orders ? `, ${e.orders} замовл.` : ''}${e.hours ? `, ${fmt(e.earned / e.hours)} грн/год` : ''}</small></span><span class="v">${fmt(e.earned)} грн</span></div>`).join('') : '<div class="empty">Записів немає</div>'}</div>
     <div class="row2"><button class="btn ghost" data-a="close">Закрити</button><button class="btn ${c.active ? 'red' : ''}" data-a="active" data-id="${id}" data-on="${c.active ? 0 : 1}">${c.active ? 'Прибрати з команди' : 'Повернути в команду'}</button></div>`);
 }
+function sourcesHTML() {
+  const cnt = {};
+  D.couriers.forEach(c => { const k = c.source || 'none'; cnt[k] = (cnt[k] || 0) + 1; });
+  return `<h2>Звідки приходять <small>${D.couriers.length} ${pl(D.couriers.length, 'людина', 'людини', 'людей')}</small></h2><div class="srcs">${Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<span>${SRC[k] || '❔ Не вказано'} <b>${v}</b></span>`).join('')}</div>`;
+}
+function refBonusesHTML() {
+  const rs = D.couriers.filter(c => c.ref || c.refName).map(c => ({c, st: refStatus(c), by: c.ref ? (D.couriers.find(x => x.id === c.ref) || {}).name || c.refName : c.refName}));
+  if (!rs.length) return '';
+  const due = rs.filter(x => x.st.k === 'due').length;
+  return `<h2>Бонуси за друзів <small>${due ? `до виплати ${due} × ${REF_BONUS} грн` : 'нічого до виплати'}</small></h2><div class="list">${rs.map(({c, st, by}) => `<button class="li" data-a="courier" data-id="${c.id}"><span class="m"><b>${esc(by || '—')} → ${esc(c.name)}</b><small>${st.t}</small>${st.k === 'wait' && st.p ? `<span class="bar sm"><i style="width:${Math.min(100, st.p * 100)}%"></i></span>` : ''}</span><span class="v">${st.k === 'due' ? '🎉' : st.k === 'paid' ? '✅' : '⏳'}</span></button>`).join('')}</div>`;
+}
+
 async function copyText(t) { try { await navigator.clipboard.writeText(t); return true; } catch (e) { try { const a = document.createElement('textarea'); a.value = t; a.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(a); a.select(); const ok = document.execCommand('copy'); a.remove(); return ok; } catch (x) { return false; } } }
 function openChat(c, text) {
   if (text) copyText(text).then(ok => ok && toast('Текст нагадування скопійовано, встав у чат'));
@@ -483,14 +601,30 @@ const A = {
   delPay: (d, b) => run('delPay', {pid: d.pid}, 'Оплату видалено', b),
   sheet: () => { try { tg.openLink(D.sheetUrl); } catch (e) { window.open(D.sheetUrl, '_blank'); } },
   close: () => closeSheet(),
+  supTg: () => { try { tg.openTelegramLink(`https://t.me/${SUPPORT_TG}`); } catch (e) { window.open(`https://t.me/${SUPPORT_TG}`, '_blank'); } },
+  supCall: () => { location.href = `tel:${SUPPORT_PHONE}`; },
+  callC: d => { location.href = `tel:${d.p}`; },
+  invite: () => {
+    const link = `https://t.me/${BOT_NAME}?startapp=ref_${D.courier.id}`;
+    const text = `Привіт! Я працюю курʼєром у нашій команді: велосипед і сумку видають, графік вільний, ~800 грн за 4 години. Реєструйся за посиланням, при реєстрації вкажи, що від ${D.courier.name} 🙌`;
+    const url = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+    try { tg.openTelegramLink(url); } catch (e) { window.open(url, '_blank'); }
+  },
+  refPaid: (d, b) => run('refPaid', {for: d.id, paid: d.on === '1'}, d.on === '1' ? 'Бонус позначено виплаченим' : 'Позначку знято', b).then(() => { if (D && view !== 'me') courierSheet(d.id); }),
   hrs: (d, b) => { const f = b.closest('form'); f.elements.hours.value = d.h; f.querySelectorAll('.qh button').forEach(x => x.classList.toggle('on', x === b)); f.elements.earned.focus(); },
   write: d => { const c = D.couriers.find(x => x.id === d.id); if (c) openChat(c, ''); },
   remind: d => { const c = D.couriers.find(x => x.id === d.id); if (!c) return; openChat(c, `Привіт, ${c.name}! Нагадую про оплату за ${monL(d.m)}: ${fmt(+d.amt)} грн. Дякую 🙌`); },
 };
 let confirmDel = '';
 const F = {
-  register: f => { if (!regDays.length) return toast('Обери хоча б один робочий день', true); run('register', {name: f.elements.name.value, days: regDays, hours: f.elements.hours.value}, 'Ти в команді!', f.querySelector('[type=submit]')); },
-  schedule: f => { const ds = [...f.querySelectorAll('.days .on')].map(b => +b.dataset.d); run('schedule', {name: f.elements.name.value, days: ds, hours: f.elements.hours.value}, 'Графік збережено', f.querySelector('[type=submit]')); },
+  register: f => {
+    if (!regDays.length) return toast('Обери хоча б один робочий день', true);
+    const e = f.elements, src = startRef ? 'friend' : (f.querySelector('[name=source]:checked') || {}).value || '';
+    if (!startRef && src === 'friend' && !e.refName.value.trim()) return toast('Напиши, хто тебе порадив', true);
+    run('register', {name: e.name.value, days: regDays, hours: e.hours.value, phone: e.phone.value, source: src, ref: startRef, refName: !startRef && src === 'friend' ? e.refName.value : ''}, 'Ти в команді!', f.querySelector('[type=submit]'));
+  },
+  info: f => { const e = f.elements, ref = e.ref.value; run('info', {for: f.dataset.id, note: e.note.value, phone: e.phone.value, source: ref ? 'friend' : e.source.value, ref, refName: ''}, 'Збережено', f.querySelector('[type=submit]')).then(() => { if (D) courierSheet(f.dataset.id); }); },
+  schedule: f => { const ds = [...f.querySelectorAll('.days .on')].map(b => +b.dataset.d); run('schedule', {name: f.elements.name.value, days: ds, hours: f.elements.hours.value, phone: f.elements.phone.value}, 'Графік збережено', f.querySelector('[type=submit]')); },
   entry: f => {
     const e = f.elements, earned = num(e.earned.value), hours = num(e.hours.value || e.hours.placeholder);
     if (!e.date.value) return toast('Обери дату', true);
@@ -501,7 +635,7 @@ const F = {
 };
 document.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (!b || b.tagName === 'INPUT') return; const fn = A[b.dataset.a]; if (!fn) return; e.preventDefault(); fn(b.dataset, b); });
 document.addEventListener('submit', e => { const fn = F[e.target.dataset.f]; if (!fn) return; e.preventDefault(); fn(e.target); });
-document.addEventListener('change', e => { if (e.target.name === 'date' && e.target.closest('[data-f=entry]')) { entryDate = e.target.value || ''; render(); } });
+document.addEventListener('change', e => { if (e.target.name === 'date' && e.target.closest('[data-f=entry]')) { entryDate = e.target.value || ''; render(); } if (e.target.name === 'source') { const rb = $('#refBox'); if (rb) rb.hidden = e.target.value !== 'friend'; } });
 $('#sheetBg').addEventListener('click', closeSheet);
 
 async function boot() {
